@@ -1,0 +1,49 @@
+FROM php:8.2-apache
+
+#installation des extensions php
+RUN apt-get update && apt-get install -y \
+    git zip unzip libpng-dev \
+    libzip-dev default-mysql-client
+
+#activation de ces extensions dans php.ini au besoins 
+RUN docker-php-ext-install pdo pdo_mysql zip gd
+
+#installation du module apache pour la reecriture des url
+RUN a2enmod rewrite
+# Dossiser de travail dans le projet dockererisé (tel un cd suisvit du nom de mon dossier)
+WORKDIR /var/www
+
+# Copie des fichiers de mon projet de configuration et d'environnement dans le dossier que je viens de nommer www
+COPY . /var/www
+
+# Donner les droits d'accès pour le dossier storage 
+RUN chown -R www-data:www-data /var/www/storage
+
+# Installation de curl pour Télécharger les paquets dont on aura besoin pour le projet 
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y curl
+
+# Ajout du référentiel NodeSource: curl installe moi ceci 
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
+
+# Installation de Node.js
+RUN  apt-get install -y nodejs
+
+# ajout de composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# On utilise composer ici pour installer les dépendances de notre projet en tant que superuser(sudo)
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --optimize-autoloader --no-dev
+
+# On utilise npm ici pour installer les dépendances de nodejs
+RUN npm install
+
+# On dit que l'Image sera dispo dans le container via le port 80
+EXPOSE 80
+
+# Copier la configuration Apache personnalisée
+COPY ./docker/apache.conf /etc/apache2/sites-available/000-default.conf
+
+# On active cette config de site: après avoir fait toutes ces commandes docker va executer le fichier docker.sh suivant
+ENTRYPOINT [ "bash","./docker/docker.sh" ]
+# on demande à docker d'allumer le serveur apache 
+CMD ["apache2-foreground"]
