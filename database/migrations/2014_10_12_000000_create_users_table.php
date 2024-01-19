@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Role;
+use App\Models\Categorie;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -14,9 +16,16 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignIdFor(Role::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
+            $table->foreignIdFor(Categorie::class)->nullable()->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->integer('phone');
+            $table->string('adresse');
+            $table->boolean('is_activated')->default(0);
+            $table->string('cover')->nullable();
+            $table->string('slogan')->nullable();
             $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -30,3 +39,10 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
+// Schema::create('restaurants', function (Blueprint $table) {
+//     $table->id();
+//     $table->string('image');
+//     $table->string('slogan');
+//     $table->foreignIdFor(User::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
+//     $table->timestamps();
+// });

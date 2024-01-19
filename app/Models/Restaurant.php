@@ -9,24 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class Restaurant extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public function role()
-    {
-        return $this->belongsTo(Role::class, 'role_id');
-    }
-    
-    public function categorie()
-    {
-        return $this->belongsTo(Categorie::class, 'categorie_id');
-    }
-    
-    public function menu()
-    {
-        return $this->belongsTo(Menu::class, 'menu_id');
-    }
     
     // Rest omitted for brevity
 
@@ -49,17 +35,21 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'adresse', 'password',
+        'name',
+        'email',
+        'phone',
+        'adresse',
+        'password',
+        'image',
     ];
 
-    protected $guarded = [];
     /**
      * The attributes that should be hidden for serialization.
      *
