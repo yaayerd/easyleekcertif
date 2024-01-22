@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RestaurantController;
+use App\Http\Controllers\Api\Other\CategorieController;
+use App\Http\Controllers\Api\Other\CatégorieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,10 +45,12 @@ Route::post('/restaurant/modify/profile/{restaurant}', [UserController::class, '
 Route::post('/restaurant/logout', [UserController::class, 'restaurantLogout']);
 Route::post('/restaurant/me', [UserController::class, 'restaurantMe']);
 
-Route::group([
-    ['middleware' => 'auth:restaurant-api'],
-    'prefix' => 'auth'
-], function ($router) {
+// --------------------  Les routes liées à Catégorie 
 
-    
-});
+Route::get('/categorie/list', [CategorieController::class, 'index'] );
+Route::post('/categorie/store', [CategorieController::class, 'store'] );
+Route::put('/categorie/update/{categorie}', [CategorieController::class, 'update']);
+Route::get('/categorie/show/{id}', [CategorieController::class, 'show']);
+Route::delete('/categorie/delete/{id}', [CategorieController::class, 'destroy']);
+
+

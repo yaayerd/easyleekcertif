@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Restaurant;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Hash;
 
