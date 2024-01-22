@@ -14,18 +14,19 @@ return new class extends Migration
     {
         Schema::create('plats', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_archived')->default(0);
+            $table->foreignIdFor(Menu::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
             $table->string('libelle');
             $table->integer('prix');
             $table->string('image');
-            $table->longText('description');
-            $table->boolean('is_archived')->default(0);
+            $table->longText('descriptif');
             $table->timestamps();
         });
     }
 
     /**
-     * Reverse the migrations.
      */
+    //   Reverse the migrations.
     public function down(): void
     {
         Schema::dropIfExists('plats');

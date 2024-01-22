@@ -15,15 +15,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignIdFor(Role::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
+            $table->boolean('is_activated')->default(1);
+            $table->foreignIdFor(Role::class)->default(3)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
             $table->foreignIdFor(Categorie::class)->nullable()->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
+            $table->string('name');
             $table->string('email')->unique();
             $table->integer('phone');
             $table->string('adresse');
-            $table->boolean('is_activated')->default(0);
-            $table->string('cover')->nullable();
-            $table->string('slogan')->nullable();
+            $table->string('image')->nullable();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
@@ -39,10 +38,3 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
-// Schema::create('restaurants', function (Blueprint $table) {
-//     $table->id();
-//     $table->string('image');
-//     $table->string('slogan');
-//     $table->foreignIdFor(User::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
-//     $table->timestamps();
-// });

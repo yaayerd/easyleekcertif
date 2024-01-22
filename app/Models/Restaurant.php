@@ -47,7 +47,9 @@ class Restaurant extends Authenticatable implements JWTSubject
         'phone',
         'adresse',
         'password',
-        'image',
+        'cover',
+        'slogan',
+        'is_activated',
     ];
 
     /**

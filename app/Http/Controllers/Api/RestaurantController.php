@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Restaurant;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
-class RestaurantController extends Controller
+class RestaurantController extends UserController
 {
     public function restaurantRegister(Request $request){
 
-        $restaurant = new Restaurant();
+        $restaurant = new User();
+        $role_id_restaurant = Role::where("nom", "Restaurant")->get()->first()->id;
+        $restaurant->role_id = $role_id_restaurant;
+        $restaurant->categorie_id = $request->categorie_id;
         $restaurant->name = $request->name;
         $restaurant->email = $request->email;
         $restaurant->phone = $request->phone;
@@ -22,9 +25,8 @@ class RestaurantController extends Controller
             $file = $request->file('image');
             $filename = date('YmdHi') . $file->getClientOriginalName();
             $file->move(public_path('images'), $filename);
-            $restaurant['image'] = $filename;
+            $user['image'] = $filename;
         }
-        // dd($restaurant);
         $restaurant->save();
 
         if($restaurant){
@@ -32,7 +34,7 @@ class RestaurantController extends Controller
             'status_code' => 200,
             'status'=>true,
             'message'=> "Enrégistrement du Restaurant reussie",
-            'data'=>  $restaurant,
+            'data'=>  $restaurant
         ]);
         }else{
             return response()->json([
@@ -47,17 +49,16 @@ class RestaurantController extends Controller
     public function restaurantLogin(Request $resquest){
        
         $credentials = request(['email', 'password']);
-        if (! $token = auth('api')->guard('api')->attempt($credentials)) {
+        if (! $token = auth()->guard('user-api')->attempt($credentials)) {
             return response()->json(['error' => 'Token inexistant'], 401);
         }
         // return $token;
             
-            $restaurant = auth()->user();
-            // dd($restaurant);
+        $restaurant = auth()->guard('user-api')->user();
             return response()->json([
                 'status_code'=>200,
                 'status_message'=> "Restaurant connecté avec succès",
-                'restaurant'=> $restaurant,
+                'data'=> $restaurant,
                 'token'=> $token
             ]);
     }
@@ -65,12 +66,12 @@ class RestaurantController extends Controller
 
     public function restaurantMe()
     {
-        return response()->json(auth()->guard('restaurant-api')->user());
+        return response()->json(auth()->guard('user-api')->user());
     }
 
     public function restaurantLogout()
     {
-        auth()->guard('restaurant-api')->logout();
+        auth()->guard('user-api')->logout();
 
         return response()->json([
             'status_code'=>200,
@@ -78,60 +79,51 @@ class RestaurantController extends Controller
         ]);
     }
 
+    public function restautantModifyProfile(Request $request, User $restaurant)
+{
+    // Validation des données de la requête
+    // $request->validate([
+    //     'categorie_id' => 'required',
+    //     'name' => 'required',
+    //     'email' => 'required|email|unique:users,email,' . auth()->user()->id,
+    //     'phone' => 'required',
+    //     'adresse' => 'required',
+    //     'password' => 'nullable|min:6',
+    //     'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Ajoutez d'autres règles de validation pour l'image si nécessaire
+    // ]);
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    $restaurant = auth()->guard('user-api')->user();
+    // dd($restaurant);
+    $restaurant->categorie_id = $request->categorie_id;
+    $restaurant->name = $request->name;
+    $restaurant->email = $request->email;
+    $restaurant->phone = $request->phone;
+    $restaurant->adresse = $request->adresse;
+
+    // Mise à jour du mot de passe si fourni
+    // if ($request->filled('password')) {
+    //     $restaurant->password = Hash::make($request->password);
+    // }
+
+    // Traitement de la nouvelle image si fournie
+    if ($request->file('image')) {
+        $file = $request->file('image');
+        $filename = date('YmdHi') . $file->getClientOriginalName();
+        $file->move(public_path('images'), $filename);
+        $restaurant->image = $filename;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    // Enregistrement des modifications
+    $restaurant->save();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    // Retourner une réponse en fonction du résultat de la modification
+    return response()->json([
+        'status_code' => 200,
+        'status' => true,
+        'message' => "Profil du restaurant modifié avec succès",
+        'data' => $restaurant
+    ]);
+}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

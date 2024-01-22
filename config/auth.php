@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'api',
+        'guard' => 'user-api',
         'passwords' => 'users',
     ],
 
@@ -36,25 +36,29 @@ return [
     */
 
     'guards' => [
-        // 'web' => [
-        //     'driver' => 'session',
+        'web' => [
+            'driver' => 'session ',
+            'provider' => 'users',
+        ],
+        // 'api' => [
+        //     'driver' => 'jwt ',
         //     'provider' => 'users',
         // ],
-        'api' => [
-            'driver' => 'jwt',
-            'provider' => 'users', 
-        ],
         
-        // 'user-api' => [
+        'user-api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
+        // 'restaurant-api' => [
         //     'driver' => 'jwt',
         //     'provider' => 'restaurants',
         // ],
-        'restaurant' => [
-            'driver' => 'jwt',
-            'provider' => 'restaurants',
-        ],
     ],
-
+    
+    // 'api' => [
+    //     'driver' => 'jwt',
+    //     'provider' => 'users', 
+    // ],
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -77,10 +81,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-        'restaurants' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Restaurant::class,
-        ],
+        // 'restaurants' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\Restaurant::class,
+        // ],
 
         // 'users' => [
         //     'driver' => 'database',
