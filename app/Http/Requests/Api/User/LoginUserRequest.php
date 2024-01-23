@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Api\Menu;
+namespace App\Http\Requests\Api\User;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateMenuRequest extends FormRequest
+class LoginUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,12 @@ class CreateMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "titre" => 'required|min:5|max:30|unique'
+            'email' => 'required|email',
+            'password' => 'required|min:8',
         ];
     }
 
-    public function failedValidation(Validator $validator) 
+    public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
             'success'   => false,
@@ -42,10 +43,13 @@ class CreateMenuRequest extends FormRequest
     public function messages()
     {
         return [
-            'titre.required' => 'Le titre du menu est obligatoire, veuillez le renseigner.',
-            'titre.min' => 'Le titre du menu ne peut pas contenir moins de 5 caractères.',
-            'titre.max' => 'Le titre du menu ne peut pas dépasser 30 caractères.',
-            'titre.unique' => 'Le titre du menu doit être unique.',
-            ];
+           
+            'email.required' => 'L\'dresse email est obligatoire.',
+            'email.email' => 'Veuillez fournir une adresse email valide.',
+           
+            'password.required' => 'Le mot de passe est obligatoire.',
+            'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',
+            
+        ];
     }
 }

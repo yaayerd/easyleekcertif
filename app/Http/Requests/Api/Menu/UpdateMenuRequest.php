@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Api\Menu;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateMenuRequest extends FormRequest
 {
@@ -22,7 +24,28 @@ class UpdateMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "titre" => 'required|min:5|max:30|unique'
         ];
+    }
+
+    public function failedValidation(Validator $validator) 
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'error'   => true,
+            'message'   => 'Erreur de validation',
+            'errorLists'  => $validator->errors()
+
+        ]));
+    }
+
+    public function messages()
+    {
+        return [
+            'titre.required' => 'Le titre du menu est obligatoire, veuillez le renseigner.',
+            'titre.min' => 'Le titre du menu ne peut pas contenir moins de 5 caractères.',
+            'titre.max' => 'Le titre du menu ne peut pas dépasser 30 caractères.',
+            'titre.unique' => 'Le titre du menu doit être unique.',
+            ];
     }
 }
