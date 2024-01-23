@@ -24,7 +24,7 @@ class CreateMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "titre" => 'required|min:5|max:30|unique'
+            "titre" => 'required|min:5|max:30'
         ];
     }
 
@@ -45,7 +45,7 @@ class CreateMenuRequest extends FormRequest
             'titre.required' => 'Le titre du menu est obligatoire, veuillez le renseigner.',
             'titre.min' => 'Le titre du menu ne peut pas contenir moins de 5 caractères.',
             'titre.max' => 'Le titre du menu ne peut pas dépasser 30 caractères.',
-            'titre.unique' => 'Le titre du menu doit être unique.',
+            // 'titre.unique' => 'Le titre du menu doit être unique.',
             ];
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\Other\CategorieController;
 use App\Http\Controllers\Api\Other\CatégorieController;
+use App\Http\Controllers\Api\Other\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,8 +50,17 @@ Route::post('/restaurant/me', [UserController::class, 'restaurantMe']);
 
 Route::get('/categorie/list', [CategorieController::class, 'index'] );
 Route::post('/categorie/store', [CategorieController::class, 'store'] );
-Route::put('/categorie/update/{categorie}', [CategorieController::class, 'update']);
+Route::put('/categorie/update/{id}', [CategorieController::class, 'update']);
 Route::get('/categorie/show/{id}', [CategorieController::class, 'show']);
 Route::delete('/categorie/delete/{id}', [CategorieController::class, 'destroy']);
+
+
+// --------------------  Les routes liées au Menu 
+
+Route::get('/menu/list', [MenuController::class, 'index'] );
+Route::post('/menu/store', [MenuController::class, 'store'] );
+Route::put('/menu/update/{id}', [MenuController::class, 'update']);
+Route::get('/menu/show/{id}', [MenuController::class, 'show']);
+Route::delete('/menu/delete/{id}', [MenuController::class, 'destroy']);
 
 

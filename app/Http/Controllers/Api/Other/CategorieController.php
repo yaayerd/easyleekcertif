@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Other;
 use Exception;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Catch_;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Categorie\CreateCategorieRequest;
 use App\Http\Requests\Api\Categorie\UpdateCategorieRequest;
@@ -42,9 +41,25 @@ class CategorieController extends Controller
      */
     public function store(CreateCategorieRequest $request)
     {
-        $categorie = new Categorie();
-        $categorie->type = $request->type;
-        $categorie->save();
+        try {
+            $categorie = new Categorie();
+            $categorie->type = $request->type;
+            $categorie->save();
+
+            return response()->json([
+                'status' => true,
+                'statut code' => 200,
+                'message' => "Catégorie enrégistrée avec succès",
+                'data'  => $categorie,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                    "status" => false,
+                    "statut_code" => 401,
+                    "message" => "Vous n'êtes pas autorisé à accéder à cette ressource."
+                
+            ]);
+        }
     }
 
     /**
@@ -53,7 +68,7 @@ class CategorieController extends Controller
     public function show($id)
     {
         try {
-            $categorie = Categorie::findOrFail($id);
+            $categorie = Categorie::find($id);
             // dd($categorie);
             return response()->json([
                 'status' => true,
@@ -81,9 +96,18 @@ class CategorieController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategorieRequest $request, Categorie $categorie)
+    public function update(UpdateCategorieRequest $request, $id)
     {
         try {
+            $categorie = Categorie::find($id);
+            if ($categorie === null) {
+                return response()->json([
+                    "status" => false,
+                    "statut_code" => 404,
+                    "message" => "Cette categorie n'existe pas.",
+                ]);
+            } else {
+            $categorie = Categorie::find($id);
             // dd($request);
             $categorie->type = $request->type;
             $categorie->update();
@@ -93,13 +117,13 @@ class CategorieController extends Controller
                 'statut_message' => 'Le type de categorie a été modifié avec succès',
                 'data' => $categorie,
             ]);
+            }
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'statut_code' => 403,
+                'statut_code' => 401,
                 'message' => "Vous n'êtes pas autorisé à modifier cette catégorie."
             ]);
-            
         }
     }
 
