@@ -16,4 +16,9 @@ class Plat extends Model
     public function commandes() {
         return $this->belongsTo(Commande::class);
         }
+
+        protected $fillable = [
+            'libelle', 'descriptif', 'prix', 'menu_id', 'is_archived',
+        ];
+        
 }

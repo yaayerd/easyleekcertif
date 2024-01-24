@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\Other\CategorieController;
 use App\Http\Controllers\Api\Other\CatégorieController;
 use App\Http\Controllers\Api\Other\MenuController;
+use App\Http\Controllers\Api\Other\PlatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,5 +63,16 @@ Route::post('/menu/store', [MenuController::class, 'store'] );
 Route::put('/menu/update/{id}', [MenuController::class, 'update']);
 Route::get('/menu/show/{id}', [MenuController::class, 'show']);
 Route::delete('/menu/delete/{id}', [MenuController::class, 'destroy']);
+
+
+// --------------------  Les routes liées au Plat 
+
+Route::get('/plat/list', [PlatController::class, 'index'] );
+Route::post('/plat/store', [PlatController::class, 'store'] );
+Route::put('/plat/update/{id}', [PlatController::class, 'update']);
+Route::patch('/plat/archiver/{id}', [PlatController::class, 'archiver']);
+Route::patch('/plat/desarchiver/{id}', [PlatController::class, 'desarchiver']);
+Route::get('/plat/show/{id}', [PlatController::class, 'show']);
+Route::delete('/plat/delete/{id}', [PlatController::class, 'destroy']);
 
 

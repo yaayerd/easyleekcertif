@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Http\Requests\Api\Plat;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class UpdatePlatRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules()
+    {
+        return [
+            'libelle' => 'required|string|min:3|max:50',
+            'prix' => 'required|numeric|min:100',
+            'descriptif' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+        ];
+    }
+    
+    public function messages()
+    {
+        return [
+            'libelle.required' => 'Le Libellé du plat est obligatoire.',
+            'libelle.string' => 'Le Libellé du plat doit être une chaîne de caractères.',
+            'libelle.min' => 'Le  Libellé du plat ne peut pas dépasser 3 caractères.',
+            'libelle.max' => 'Le  Libellé du plat ne peut pas dépasser 50 caractères.',
+    
+            'prix.required' => 'Le prix du plat est obligatoire.',
+            'prix.numeric' => 'Le  prix du plat doit être un nombre.',
+            'prix.min' => 'Le prix du plat ne peut pas être inférieur à 100 Francs.',
+    
+            'descriptif.required' => 'Le descriptif du plat est obligatoire.',
+            'descriptif.string' => 'Le descriptif du plat doit être une chaîne de caractères.',
+    
+            'image.image' => 'L\'image du plat doit être une image valide.',
+            'image.mimes' => 'L\'image du plat doit être un fichier de type jpeg, png ou jpg.',
+            'image.max' => 'L\'image du plat ne peut pas dépasser 2048 ko.',
+        ];
+    }
+}

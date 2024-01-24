@@ -113,8 +113,6 @@ class MenuController extends Controller
     public function update(UpdateMenuRequest $request, $id)
     {
         try {
-
-
             $lemenu = Menu::find($id);
             // dd($lemenu);
 
@@ -157,7 +155,7 @@ class MenuController extends Controller
             return response()->json([
                 'status' => false,
                 'statut_code' => 404,
-                'statut_message' => 'Ce type de categorie n\'existe pas',
+                'statut_message' => 'Ce menu n\'existe pas',
             ]);
         } else {
 
@@ -166,7 +164,7 @@ class MenuController extends Controller
             return response()->json([
                 'status' => true,
                 'statut_code' => 200,
-                'statut_message' => 'Ce type de categorie a été supprimé avec succès',
+                'statut_message' => 'Ce Menu a été supprimé avec succès',
                 'data' => $lemenu,
             ]);
         }
