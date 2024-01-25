@@ -17,6 +17,7 @@ class CategorieController extends Controller
     public function index()
     {
         try {
+            
             return response()->json([
                 'status' => true,
                 'statut code' => 200,
@@ -56,7 +57,7 @@ class CategorieController extends Controller
             return response()->json([
                     "status" => false,
                     "statut_code" => 401,
-                    "message" => "Vous n'êtes pas autorisé à accéder à cette ressource."
+                    "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
                 
             ]);
         }
@@ -122,7 +123,7 @@ class CategorieController extends Controller
             return response()->json([
                 'status' => false,
                 'statut_code' => 401,
-                'message' => "Vous n'êtes pas autorisé à modifier cette catégorie."
+                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
             ]);
         }
     }

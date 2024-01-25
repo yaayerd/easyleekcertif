@@ -7,8 +7,10 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\Other\CategorieController;
 use App\Http\Controllers\Api\Other\CatégorieController;
+use App\Http\Controllers\Api\Other\CommandeController;
 use App\Http\Controllers\Api\Other\MenuController;
 use App\Http\Controllers\Api\Other\PlatController;
+use App\Models\Commande;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,5 +76,16 @@ Route::patch('/plat/archiver/{id}', [PlatController::class, 'archiver']);
 Route::patch('/plat/desarchiver/{id}', [PlatController::class, 'desarchiver']);
 Route::get('/plat/show/{id}', [PlatController::class, 'show']);
 Route::delete('/plat/delete/{id}', [PlatController::class, 'destroy']);
+
+
+// --------------------  Les routes liées à Commande pour le User
+
+Route::get('/commande/list', [CommandeController::class, 'index'] );
+Route::post('/commande/store', [CommandeController::class, 'store'] );
+Route::put('/commande/update/{id}', [CommandeController::class, 'update']);
+Route::patch('/commande/archiver/{id}', [CommandeController::class, 'annuler']);
+// Route::patch('/commande/desarchiver/{id}', [CommandeController::class, 'desarchiver']);
+// Route::get('/commande/show/{id}', [CommandeController::class, 'show']);
+// Route::delete('/commande/delete/{id}', [CommandeController::class, 'destroy']);
 
 

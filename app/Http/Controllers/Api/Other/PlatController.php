@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Plat\CreatePlatRequest;
 use App\Http\Requests\Api\Plat\UpdatePlatRequest;
-use App\Http\Requests\Api\Plat\ArchiverPlatRequest;
 
 class PlatController extends Controller
 {
@@ -28,7 +27,7 @@ class PlatController extends Controller
             return response()->json([
                 "status" => false,
                 "statut_code" => 401,
-                "message" => "Vous n'êtes pas autorisé à accéder à ces ressources."
+                "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
             ]);
         }
     }
@@ -44,7 +43,7 @@ class PlatController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreatePlatRequest $request)
     {
         try {
             $plat = new Plat();
@@ -75,7 +74,7 @@ class PlatController extends Controller
             return response()->json([
                 "status" => false,
                 "statut_code" => 401,
-                "message" => "Vous n'êtes pas autorisé à accéder à cette ressource."
+                "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
 
             ]);
         }
@@ -110,7 +109,7 @@ class PlatController extends Controller
             return response()->json([
                 "status" => false,
                 "statut_code" => 401,
-                "message" => "Vous n'êtes pas autorisé à accéder à cette ressource."
+                "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
             ]);
         }
     }
@@ -155,7 +154,7 @@ class PlatController extends Controller
             return response()->json([
                 'status' => false,
                 'statut_code' => 401,
-                'message' => "Vous n'êtes pas autorisé à accéder à cette ressource."
+                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
             ]);
         }
     }
@@ -197,7 +196,7 @@ class PlatController extends Controller
             return response()->json([
                 'status' => false,
                 'statut_code' => 401,
-                'message' => "Vous n'êtes pas autorisé à accéder à cette ressource."
+                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
             ]);
         }
     }
@@ -249,7 +248,7 @@ class PlatController extends Controller
             return response()->json([
                 'status' => false,
                 'statut_code' => 401,
-                'message' => "Vous n'êtes pas autorisé à accéder à cette ressource."
+                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
             ]);
         }
     }

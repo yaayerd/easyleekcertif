@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('prix');
             $table->string('image');
             $table->longText('descriptif');
+            $table->integer('nombrePlats')->default(1);
             $table->timestamps();
         });
     }

@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Plat::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
-            $table->string('numeroCommande');
+            $table->string('numeroCommande')->unique();
             $table->integer('nombrePlats')->default(1);
             $table->integer('prixCommande');
             $table->string('lieuLivraison');
-            $table->enum('etatCommande',['enregistree', 'acceptee', 'refusee'])->default('enregistree');
+            $table->enum('etatCommande',['acceptee', 'refusee'])->default('acceptee');
             $table->timestamps();
         });
     }

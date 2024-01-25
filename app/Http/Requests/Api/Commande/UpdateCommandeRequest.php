@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\Plat;
+namespace App\Http\Requests\Api\Commande;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ArchiverPlatRequest extends FormRequest
+class UpdateCommandeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

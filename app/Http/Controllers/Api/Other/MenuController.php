@@ -27,7 +27,7 @@ class MenuController extends Controller
             return response()->json([
                 "status" => false,
                 "statut_code" => 401,
-                "message" => "Vous n'êtes pas autorisé à accéder à cette ressource."
+                "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
             ]);
         }
     }
@@ -60,7 +60,7 @@ class MenuController extends Controller
             return response()->json([
                 "status" => false,
                 "statut_code" => 401,
-                "message" => "Vous n'êtes pas autorisé à accéder à cette ressource."
+                "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
 
             ]);
         }
@@ -94,7 +94,7 @@ class MenuController extends Controller
             return response()->json([
                 "status" => false,
                 "statut_code" => 401,
-                "message" => "Vous n'êtes pas autorisé à accéder à cette ressource."
+                "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
             ]);
         }
     }
@@ -139,7 +139,7 @@ class MenuController extends Controller
             return response()->json([
                 'status' => false,
                 'statut_code' => 401,
-                'message' => "Vous n'êtes pas autorisé à accéder à cette ressource."
+                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
             ]);
         }
     }
@@ -149,23 +149,31 @@ class MenuController extends Controller
      */
     public function destroy(string $id)
     {
-        $lemenu = Menu::find($id);
+        try {
+            $lemenu = Menu::find($id);
 
-        if ($lemenu === null) {
+            if ($lemenu === null) {
+                return response()->json([
+                    'status' => false,
+                    'statut_code' => 404,
+                    'statut_message' => 'Ce menu n\'existe pas',
+                ]);
+            } else {
+
+                $lemenu->delete();
+
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'statut_message' => 'Ce Menu a été supprimé avec succès',
+                    'data' => $lemenu,
+                ]);
+            }
+        } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'statut_code' => 404,
-                'statut_message' => 'Ce menu n\'existe pas',
-            ]);
-        } else {
-
-            $lemenu->delete();
-
-            return response()->json([
-                'status' => true,
-                'statut_code' => 200,
-                'statut_message' => 'Ce Menu a été supprimé avec succès',
-                'data' => $lemenu,
+                'statut_code' => 401,
+                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
             ]);
         }
     }

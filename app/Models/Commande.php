@@ -20,4 +20,8 @@ class Commande extends Model
     public function avis() {
         return $this->hasMany(Avis::class);
        }
+
+       protected $fillable = [
+        'numeroCommande', 'nombrePlats', 'prixCommande', 'lieuLivraison'
+    ]; 
 }
