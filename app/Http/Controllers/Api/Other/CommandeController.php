@@ -7,6 +7,8 @@ use App\Models\Plat;
 use App\Models\Commande;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Commande\CreateCommandeRequest;
+use App\Http\Requests\Api\Commande\UpdateCommandeRequest;
 
 class CommandeController extends Controller
 {
@@ -75,7 +77,7 @@ class CommandeController extends Controller
      */
 
 
-    public function store(Request $request)
+    public function store(CreateCommandeRequest $request)
     {
         try {
             $commande = new Commande();
@@ -174,7 +176,7 @@ class CommandeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateCommande(Request $request, Commande $commande)
+    public function updateCommande(UpdateCommandeRequest $request, Commande $commande)
     { 
         try {
         // $user = auth()->guard('user-api')->user();
@@ -195,8 +197,8 @@ class CommandeController extends Controller
         }
 
         if ($user && $commande) {
-            $commande = Commande::where('user_id', $user->id)->where('id', $commande->id)->first();
-
+            $commande = Commande::where('id', $commande->id)->first(); // where('user_id', $user->id)->
+            // dd($commande);
             $commande->nombrePlats = $request->nombrePlats;
             $commande->prixCommande = $request->nombrePlats * $leplat->prix;
             $commande->lieuLivraison = $request->lieuLivraison;

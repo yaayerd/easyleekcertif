@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Api\Commande;
+namespace App\Http\Requests\Api\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateCommandeRequest extends FormRequest
+class CreateRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,25 +24,16 @@ class UpdateCommandeRequest extends FormRequest
     public function rules()
     {
         return [
-            'plat_id' => 'exists:plats,id', 
-            'nombrePlats' => 'required|integer|min:1',
-            'lieuLivraison' => 'required|string|max:255',
+            'nom' => 'required|max:50|unique:roles', // Assure que le nom est unique dans la table roles
         ];
     }
 
     public function messages()
     {
         return [
-            // 'plat_id.required' => 'Le plat est obligatoire.',
-            'plat_id.exists' => 'Le plat sélectionné n\'existe pas.',
-
-            'nombrePlats.required' => 'Le nombre de plats est obligatoire.',
-            'nombrePlats.integer' => 'Le nombre de plats doit être un nombre entier.',
-            'nombrePlats.min' => 'Le nombre de plats doit être au moins égal à 1.',
-
-            'lieuLivraison.required' => 'Lelieu de livraison est obligatoire.',
-            'lieuLivraison.string' => 'Lelieu de livraison doit être une chaîne de caractères.',
-            'lieuLivraison.max' => 'Lelieu de livraisonne peut pas dépasser 255 caractères.',
+            'nom.required' => 'Le nom est obligatoire.',
+            'nom.max' => 'Le nom du rôle ne peut pas dépasser 50 caractères.',
+            'nom.unique' => 'Le nom du rôle doit être unique.',
         ];
     }
 

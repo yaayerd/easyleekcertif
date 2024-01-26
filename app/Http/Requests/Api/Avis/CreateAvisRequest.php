@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Api\Commande;
+namespace App\Http\Requests\Api\Avis;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateCommandeRequest extends FormRequest
+class CreateAvisRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,25 +24,25 @@ class UpdateCommandeRequest extends FormRequest
     public function rules()
     {
         return [
-            'plat_id' => 'exists:plats,id', 
-            'nombrePlats' => 'required|integer|min:1',
-            'lieuLivraison' => 'required|string|max:255',
+            'commande_id' => 'required|exists:commandes,id', 
+            'note' => 'required|integer|min:1|max:5',
+            'commentaire' => 'nullable|string|max:255',
         ];
     }
 
     public function messages()
     {
         return [
-            // 'plat_id.required' => 'Le plat est obligatoire.',
-            'plat_id.exists' => 'Le plat sélectionné n\'existe pas.',
+            'commande_id.required' => 'La commande est obligatoire pour faire un avis.',
+            'commande_id.exists' => 'La commande sélectionnée n\'existe pas.',
 
-            'nombrePlats.required' => 'Le nombre de plats est obligatoire.',
-            'nombrePlats.integer' => 'Le nombre de plats doit être un nombre entier.',
-            'nombrePlats.min' => 'Le nombre de plats doit être au moins égal à 1.',
+            'note.required' => 'La note est obligatoire.',
+            'note.integer' => 'La note doit être un nombre entier.',
+            'note.min' => 'La note doit être compris entre 1 et 5 étoiles.',
+            'note.max' => 'La note doit être compris entre 1 et 5 étoiles.',
 
-            'lieuLivraison.required' => 'Lelieu de livraison est obligatoire.',
-            'lieuLivraison.string' => 'Lelieu de livraison doit être une chaîne de caractères.',
-            'lieuLivraison.max' => 'Lelieu de livraisonne peut pas dépasser 255 caractères.',
+            'commentaire.string' => 'Le commentaire doit être une chaîne de caractères.',
+            'commentaire.max' => 'Le commentaire ne peut pas dépasser 255 caractères.',
         ];
     }
 

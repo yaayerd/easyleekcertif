@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Other;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Avis\CreateAvisRequest;
+use App\Http\Requests\Api\Avis\UpdateAvisRequest;
 use App\Models\Avis;
 use App\Models\Commande;
 use Exception;
@@ -73,7 +75,7 @@ class AvisController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateAvisRequest $request)
     {
         try {
             $avis = new Avis();
@@ -169,7 +171,7 @@ class AvisController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateAvisRequest $request, $id)
     {
         try {
             $user = $request->user();

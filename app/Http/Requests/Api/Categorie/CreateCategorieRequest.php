@@ -24,7 +24,7 @@ class CreateCategorieRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "type" => 'required|max:50|unique:categories|in:Ndeki,Cuisine Locale,Fast Food,Patisserie,Ndiogonal',
+            "type" => 'required|max:50|unique:categories|in:Ndeki,Cuisine Locale,Fast Food,Patisserie,Ndiogonal,Dibiterie,Tangana',
         ];
     }
 
