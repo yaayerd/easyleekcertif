@@ -27,6 +27,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Menu::class, 'menu_id');
     }
     
+    public function commande()
+    {
+        return $this->hasMany(Commande::class, 'commande_id');
+    }
+    
     // Rest omitted for brevity
 
     /**

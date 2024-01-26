@@ -82,10 +82,14 @@ Route::delete('/plat/delete/{id}', [PlatController::class, 'destroy']);
 
 Route::get('/commande/list', [CommandeController::class, 'index'] );
 Route::post('/commande/store', [CommandeController::class, 'store'] );
-Route::put('/commande/update/{id}', [CommandeController::class, 'update']);
-Route::patch('/commande/archiver/{id}', [CommandeController::class, 'annuler']);
-// Route::patch('/commande/desarchiver/{id}', [CommandeController::class, 'desarchiver']);
-// Route::get('/commande/show/{id}', [CommandeController::class, 'show']);
-// Route::delete('/commande/delete/{id}', [CommandeController::class, 'destroy']);
+Route::put('/commande/update/{commande}', [CommandeController::class, 'updateCommande']);
+Route::get('/commande/show/{id}', [CommandeController::class, 'show']);
+Route::delete('/commande/annuler/{id}', [CommandeController::class, 'annulerCommande']);
+
+
+// --------------------  Les routes liées à Commande pour le restaurant
+
+Route::put('/commande/refuser/{id}', [CommandeController::class, 'refuserCommande']);
+Route::put('/commande/accepter/{id}', [CommandeController::class, 'accepterCommande']);
 
 

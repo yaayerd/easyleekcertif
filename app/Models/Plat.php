@@ -14,7 +14,7 @@ class Plat extends Model
         }
 
     public function commandes() {
-        return $this->belongsTo(Commande::class);
+        return $this->hasMany(Commande::class);
         }
 
         protected $fillable = [

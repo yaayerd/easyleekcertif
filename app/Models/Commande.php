@@ -14,14 +14,14 @@ class Commande extends Model
         }
     
     public function plats() {
-        return $this->hasMany(Plat::class);
-        }
+        return $this->hasOne(Plat::class);
+    }
 
     public function avis() {
         return $this->hasMany(Avis::class);
        }
 
        protected $fillable = [
-        'numeroCommande', 'nombrePlats', 'prixCommande', 'lieuLivraison'
+        'numeroCommande', 'nombrePlats', 'nomPlat', 'prixCommande', 'lieuLivraison', 'etatCommande'
     ]; 
 }

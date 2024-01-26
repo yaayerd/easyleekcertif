@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
             $table->string('numeroCommande')->unique();
             $table->integer('nombrePlats')->default(1);
+            $table->integer('nomPlat');
             $table->integer('prixCommande');
             $table->string('lieuLivraison');
             $table->enum('etatCommande',['acceptee', 'refusee'])->default('acceptee');
