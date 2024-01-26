@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->enum('note', [0, 1, 2, 3, 4, 5])->default(0);
             $table->foreignIdFor(Commande::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
+            $table->string('nomPlatCommande');
             $table->longText('commentaire');
             $table->timestamps();
         });

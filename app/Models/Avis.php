@@ -12,4 +12,8 @@ class Avis extends Model
     public function commandes() {
         return $this->belongsTo(Commande::class);
         }
+        
+    protected $fillable = [
+            'note', 'commentaire', 'commande_id'
+        ]; 
 }

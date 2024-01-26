@@ -1,12 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\Other\AvisController;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\Other\CategorieController;
-use App\Http\Controllers\Api\Other\CatégorieController;
 use App\Http\Controllers\Api\Other\CommandeController;
 use App\Http\Controllers\Api\Other\MenuController;
 use App\Http\Controllers\Api\Other\PlatController;
@@ -92,4 +91,12 @@ Route::delete('/commande/annuler/{id}', [CommandeController::class, 'annulerComm
 Route::put('/commande/refuser/{id}', [CommandeController::class, 'refuserCommande']);
 Route::put('/commande/accepter/{id}', [CommandeController::class, 'accepterCommande']);
 
+
+// --------------------  Les routes liées aux Avis 
+
+Route::get('/avis/list', [AvisController::class, 'index'] );
+Route::post('/avis/store', [AvisController::class, 'store'] );
+Route::put('/avis/update/{id}', [AvisController::class, 'update']);
+Route::get('/avis/show/{id}', [AvisController::class, 'show']);
+Route::delete('/avis/delete/{id}', [AvisController::class, 'destroy']);
 

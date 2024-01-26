@@ -113,7 +113,8 @@ class CommandeController extends Controller
             return response()->json([
                 'status' => false,
                 'statut_code' => 500,
-                'error' => "Une erreur est survenue lors de l'ajout de la commande, veuillez vérifier vos informations."
+                'error' => "Une erreur est survenue lors de l'ajout de la commande, veuillez vérifier vos informations.",
+                'exception' => $e
             ]);
         }
     }
@@ -156,7 +157,8 @@ class CommandeController extends Controller
             return response()->json([
                 "status" => false,
                 "statut_code" => 500,
-                "message" => "Une erreur est survenue."
+                "message" => "Une erreur est survenue.",
+                "error"   => $e
             ]);
         }
     }
@@ -173,7 +175,7 @@ class CommandeController extends Controller
      * Update the specified resource in storage.
      */
     public function updateCommande(Request $request, Commande $commande)
-    {
+    { 
         try {
         // $user = auth()->guard('user-api')->user();
         $user=$request->user();

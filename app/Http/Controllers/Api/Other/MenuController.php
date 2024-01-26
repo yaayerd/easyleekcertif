@@ -21,7 +21,7 @@ class MenuController extends Controller
                 'status' => true,
                 'statut code' => 200,
                 'message' => "Voici le Menu du restaurant. ",
-                'data'  => Menu::all(),
+                'menu'  => Menu::all(),
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -54,7 +54,7 @@ class MenuController extends Controller
                 'status' => true,
                 'statut code' => 200,
                 'message' => "Le menu enrégistré avec succès",
-                'data'  => $lemenu,
+                'menu'  => $lemenu,
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -86,7 +86,7 @@ class MenuController extends Controller
                     'status' => true,
                     'statut_code' => 200,
                     'statut_message' => 'Voici le menu du restaurant',
-                    'data' => $lemenu,
+                    'menu' => $lemenu,
                 ]);
             }
         } catch (Exception $e) {
@@ -132,7 +132,7 @@ class MenuController extends Controller
                     'status' => true,
                     'statut_code' => 200,
                     'statut_message' => 'Le titre du menu a été modifié avec succès',
-                    'data' => $lemenu,
+                    'menu' => $lemenu,
                 ]);
             }
         } catch (Exception $e) {
@@ -166,7 +166,7 @@ class MenuController extends Controller
                     'status' => true,
                     'statut_code' => 200,
                     'statut_message' => 'Ce Menu a été supprimé avec succès',
-                    'data' => $lemenu,
+                    'menu' => $lemenu,
                 ]);
             }
         } catch (Exception $e) {
