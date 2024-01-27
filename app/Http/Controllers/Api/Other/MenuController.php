@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Menu\CreateMenuRequest;
 use App\Http\Requests\Api\Menu\UpdateMenuRequest;
+use App\Models\Restaurant;
+use App\Models\User;
 
 class MenuController extends Controller
 {
@@ -46,26 +48,38 @@ class MenuController extends Controller
     public function store(CreateMenuRequest $request)
     {
         try {
-            $lemenu = new Menu();
-            $lemenu->titre = $request->titre;
-            $lemenu->save();
+            $restaurant = $request->user();
+            if ($restaurant && $restaurant->role_id == 2) {
+                // $restaurant = User::find($request->_id);
+                $lerestaurant_id = $request->user()->id;
+                $lemenu = new Menu();
+                $lemenu->user_id = $lerestaurant_id; //restaurant->id;
+                $lemenu->titre = $request->titre;
+                // dd($lemenu);
+                $lemenu->save();
 
-            return response()->json([
-                'status' => true,
-                'statut code' => 200,
-                'message' => "Le menu enrégistré avec succès",
-                'menu'  => $lemenu,
-            ]);
+                return response()->json([
+                    'status' => true,
+                    'statut code' => 200,
+                    'message' => "Le menu enrégistré avec succès",
+                    'menu'  => $lemenu,
+                ]);
+            } else {
+                return response()->json([
+                    "status" => false,
+                    "status_code" => 401,
+                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
+                ]);
+            }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
-                "statut_code" => 401,
-                "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
-
+                "status_code" => 500,
+                "message" => "Une erreur est survenue lors de l'insertion.",
+                "error"   => $e
             ]);
         }
     }
-
     /**
      * Display the specified resource.
      */

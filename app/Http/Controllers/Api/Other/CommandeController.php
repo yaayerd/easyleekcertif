@@ -229,7 +229,6 @@ class CommandeController extends Controller
                 }
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
@@ -309,6 +308,7 @@ class CommandeController extends Controller
             ]);
         }
     }
+
     public function accepterCommande(Request $request, string $id)
     {
         try {

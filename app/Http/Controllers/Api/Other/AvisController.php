@@ -78,8 +78,8 @@ class AvisController extends Controller
     public function store(CreateAvisRequest $request)
     {
         try {
-            $avis = new Avis();
             $user = $request->user();
+            $avis = new Avis();
             $commande = Commande::find($request->commande_id);
             // dd($commande);
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Other\CategorieController;
 use App\Http\Controllers\Api\Other\CommandeController;
 use App\Http\Controllers\Api\Other\MenuController;
 use App\Http\Controllers\Api\Other\PlatController;
+use App\Http\Controllers\Api\Other\RoleController;
 use App\Models\Commande;
 
 /*
@@ -99,4 +100,13 @@ Route::post('/avis/store', [AvisController::class, 'store'] );
 Route::put('/avis/update/{id}', [AvisController::class, 'update']);
 Route::get('/avis/show/{id}', [AvisController::class, 'show']);
 Route::delete('/avis/delete/{id}', [AvisController::class, 'destroy']);
+
+
+// --------------------  Les routes liées aux Rôles 
+
+Route::get('/role/list', [RoleController::class, 'index'] );
+Route::post('/role/store', [RoleController::class, 'store'] );
+Route::put('/role/update/{id}', [RoleController::class, 'update']);
+Route::get('/role/show/{id}', [RoleController::class, 'show']);
+Route::delete('/role/delete/{id}', [RoleController::class, 'destroy']);
 
