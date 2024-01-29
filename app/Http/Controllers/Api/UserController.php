@@ -127,7 +127,7 @@ class UserController extends Controller
     {
 
         $restaurant = new User();
-        $role_id_restaurant = Role::where("nom", "Restaurant")->get()->first()->id;
+        $role_id_restaurant = Role::where("nom", "Role_RESTAURANT")->get()->first()->id;
         $restaurant->role_id = $role_id_restaurant;
         $restaurant->categorie_id = $request->categorie_id;
         $restaurant->name = $request->name;

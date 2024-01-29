@@ -32,19 +32,13 @@ class PlatController extends Controller
                     "status_code" => 403,
                     "message" => "Vous n'êtes pas autorisé à lister ces plats.",
                 ]);
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 401,
-                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
-            }
+            } 
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue lors de l'insertion.",
-                "error"   => $e
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -62,8 +56,8 @@ class PlatController extends Controller
      */
     public function store(CreatePlatRequest $request, Plat $plat)
     {
-        $this->authorize('store', $plat);
         try {
+            $this->authorize('store', $plat);
             $user = $request->user();
             if ($user && $user->role_id == 2) {
 
@@ -91,19 +85,13 @@ class PlatController extends Controller
                     'message' => "Le plat enrégistré avec succès",
                     'data'  => $plat,
                 ]);
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 401,
-                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
-            }
+            } 
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue lors de l'insertion.",
-                "error"   => $e
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -343,7 +331,7 @@ class PlatController extends Controller
     public function destroy(Request $request,  Plat $plat)
     {
         $this->authorize('destroy', $plat);
-        
+
         try {
             $user = $request->user();
             if ($user && $user->role_id == 2) {

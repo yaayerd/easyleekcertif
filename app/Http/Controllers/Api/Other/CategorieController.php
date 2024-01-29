@@ -17,7 +17,6 @@ class CategorieController extends Controller
     public function index()
     {
         try {
-            
             return response()->json([
                 'status' => true,
                 'statut code' => 200,
@@ -25,8 +24,13 @@ class CategorieController extends Controller
                 'data'  => Categorie::all(),
             ]);
         } catch (Exception $e) {
-            response()->json($e);
-        }
+            return response()->json([
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
+            ]);
+    }
     }
 
     /**
@@ -42,9 +46,11 @@ class CategorieController extends Controller
      */
     public function store(CreateCategorieRequest $request, Categorie $categorie)
     {
-        $this->authorize('store', $categorie);
         
-        try {
+        try { 
+            $this->authorize('store', $categorie);
+            $user = $request->user();
+            if ($user && $user->role_id == 1) {
             $categorie = new Categorie();
             $categorie->type = $request->type;
             $categorie->save();
@@ -55,12 +61,13 @@ class CategorieController extends Controller
                 'message' => "Catégorie enrégistrée avec succès",
                 'data'  => $categorie,
             ]);
+            } 
         } catch (Exception $e) {
             return response()->json([
-                    "status" => false,
-                    "statut_code" => 401,
-                    "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
-                
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue lors de l'insertion.",
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -85,6 +92,12 @@ class CategorieController extends Controller
                 'statut_code' => 404,
                 'message' => "Cette categorie n'existe pas."
             ]);
+            return response()->json([
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
+            ]);
         }
     }
 
@@ -99,12 +112,11 @@ class CategorieController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategorieRequest $request, Categorie $categorie)
+    public function update(UpdateCategorieRequest $request, $id)
     {
-        $this->authorize('update', $categorie);
-
+        
         try {
-            // $categorie = Categorie::find($id);
+            $categorie = Categorie::find($id);
             if ($categorie === null) {
                 return response()->json([
                     "status" => false,
@@ -112,7 +124,7 @@ class CategorieController extends Controller
                     "message" => "Cette categorie n'existe pas.",
                 ]);
             } else {
-            // $categorie = Categorie::find($id);
+                $this->authorize('update', $categorie);
             // dd($request);
             $categorie->type = $request->type;
             $categorie->update();
@@ -125,9 +137,10 @@ class CategorieController extends Controller
             }
         } catch (Exception $e) {
             return response()->json([
-                'status' => false,
-                'statut_code' => 401,
-                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -135,28 +148,37 @@ class CategorieController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categorie $categorie)
+    public function destroy($id)
     {
-        $this->authorize('store', $categorie);
-
-        // $categorie = Categorie::find($id);
-
-        if ($categorie === null) {
+        try {
+            $categorie = Categorie::find($id);
+            
+            if ($categorie === null) {
+                return response()->json([
+                    'status' => false,
+                    'statut_code' => 404,
+                    'statut_message' => 'Ce type de categorie n\'existe pas',
+                ]);
+            } else {
+                $this->authorize('store', $categorie);
+                
+                $categorie->delete();
+                
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'statut_message' => 'Ce type de categorie a été supprimé avec succès',
+                    'data' => $categorie,
+                ]);
+            }
+        } catch (Exception $e) {
             return response()->json([
-                'status' => false,
-                'statut_code' => 404,
-                'statut_message' => 'Ce type de categorie n\'existe pas',
-            ]);
-        } else {
-
-            $categorie->delete();
-
-            return response()->json([
-                'status' => true,
-                'statut_code' => 200,
-                'statut_message' => 'Ce type de categorie a été supprimé avec succès',
-                'data' => $categorie,
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
         }
     }
 }
+

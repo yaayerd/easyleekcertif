@@ -37,19 +37,19 @@ class RolePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Role $role): Response
+    public function update(User $user): Response // && $user->id === $role->user_id
     {
-        return $user->role_id === 1 && $user->id === $role->user_id
+        return $user->role_id === 1 
             ? Response::allow()
-            : Response::deny('Vous n\'avez pas les droits pour modifier un role');
+            : Response::deny('Vous n\'avez pas les droits pour modifier ce role');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function destroy(User $user, Role $role): Response
+    public function destroy(User $user): Response
     {
-        return $user->role_id === 1 && $user->id === $role->user_id
+        return $user->role_id === 1
             ? Response::allow()
             : Response::deny('Vous n\'avez pas les droits pour supprimer un role');
     }

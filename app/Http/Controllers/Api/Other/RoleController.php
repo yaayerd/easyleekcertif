@@ -37,7 +37,7 @@ class RoleController extends Controller
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
-                "error"   => $e
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -71,19 +71,13 @@ class RoleController extends Controller
                     'message' => "Le role enrégistré avec succès",
                     'role'  => $role,
                 ]);
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 401,
-                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
             }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
-                "error"   => $e
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -110,19 +104,13 @@ class RoleController extends Controller
                         'role' => $role,
                     ]);
                 }
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 401,
-                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
             }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
-                "error"   => $e
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -138,14 +126,14 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(UpdateRoleRequest $request, $id)
     {
-        $this->authorize('update', $role);
 
         try {
             $user = $request->user();
+            $role = Role::find($id);
             if ($user && $user->role_id == 1) {
-                // $role = Role::find($id);
+                // dd($role);
                 if ($role === null) {
                     return response()->json([
                         "status" => false,
@@ -153,6 +141,8 @@ class RoleController extends Controller
                         "message" => "Ce role n'existe pas.",
                     ]);
                 } else {
+                    $this->authorize('update', $role);
+
                     $role->nom = $request->nom;
                     $role->update();
 
@@ -163,19 +153,13 @@ class RoleController extends Controller
                         'role' => $role,
                     ]);
                 }
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 401,
-                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
             }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue lors de l'insertion.",
-                "error"   => $e
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -184,44 +168,37 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Role $role)
+    public function destroy(Request $request, $id)
     {
-        $this->authorize('desarchiver', $role);
+        $role = Role::find($id);
 
         try {
             $user = $request->user();
+            // dd($user);
             if ($user && $user->role_id == 1) {
-                // $role = Role::find($id);
-            //    dd($role);
-                if ($role === null) {
+                if (!isset($role)) {
                     return response()->json([
                         'status' => false,
                         'status_code' => 404,
                         'message' => 'Ce role n\'existe pas',
                     ]);
                 } else {
+                    $this->authorize('destroy', $role);
+                    // dd($role);
                     $role->delete();
-    
                     return response()->json([
                         'status' => true,
                         'status_code' => 200,
                         'message' => 'Ce role a été supprimé avec succès',
-                        'role' => $role,
                     ]);
                 }
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 401,
-                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
             }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
-                "error"   => $e
+                "error"   => $e->getMessage()
             ]);
         }
     }

@@ -13,6 +13,7 @@ use App\Models\User;
 
 class MenuController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -28,8 +29,9 @@ class MenuController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
-                "statut_code" => 401,
-                "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
+                "status_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e
             ]);
         }
     }
@@ -47,10 +49,11 @@ class MenuController extends Controller
      */
     public function store(CreateMenuRequest $request, Menu $menu)
     {
-        $this->authorize('store', $menu);
 
         try {
+            $this->authorize('store', $menu);
             $restaurant = $request->user();
+            // dd($request);
             if ($restaurant && $restaurant->role_id == 2) {
                 // $restaurant = User::find($request->_id);
                 $lerestaurant_id = $request->user()->id;
@@ -78,7 +81,7 @@ class MenuController extends Controller
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue lors de l'insertion.",
-                "error"   => $e
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -106,11 +109,11 @@ class MenuController extends Controller
                 ]);
             }
         } catch (Exception $e) {
-
             return response()->json([
                 "status" => false,
-                "statut_code" => 401,
-                "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
+                "status_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -126,13 +129,12 @@ class MenuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMenuRequest $request, Menu $menu)
+    public function update(UpdateMenuRequest $request, $id)
     {
-        $this->authorize('update', $menu);
 
         try {
-            // $lemenu = Menu::find($id);
-            // dd($lemenu);
+            $menu = Menu::find($id);
+            // dd($menu);
 
             if ($menu === null) {
                 return response()->json([
@@ -141,6 +143,8 @@ class MenuController extends Controller
                     "message" => "Ce menu n'existe pas.",
                 ]);
             } else {
+
+                $this->authorize('update', $menu);
 
                 $menu->titre = $request->titre;
 
@@ -155,9 +159,10 @@ class MenuController extends Controller
             }
         } catch (Exception $e) {
             return response()->json([
-                'status' => false,
-                'statut_code' => 401,
-                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -165,13 +170,12 @@ class MenuController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Menu $menu)
+    public function destroy($id)
     {
-        $this->authorize('destroy', $menu);
-        
-        try {
-            // $lemenu = Menu::find($id);
 
+        try {
+            $menu = Menu::find($id);
+            // dd($menu);
             if ($menu === null) {
                 return response()->json([
                     'status' => false,
@@ -179,6 +183,7 @@ class MenuController extends Controller
                     'statut_message' => 'Ce menu n\'existe pas',
                 ]);
             } else {
+                $this->authorize('destroy', $menu);
 
                 $menu->delete();
 
@@ -191,9 +196,10 @@ class MenuController extends Controller
             }
         } catch (Exception $e) {
             return response()->json([
-                'status' => false,
-                'statut_code' => 401,
-                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
         }
     }

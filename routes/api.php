@@ -48,10 +48,6 @@ Route::get('/avis/list', [AvisController::class, 'index']);
 Route::get('/plat/list', [PlatController::class, 'index']);
 
 
-
-
-
-
 // Les routes de l' AdminSystem**************************************************
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem']], function () {
@@ -77,7 +73,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant']], function () {
 
-    // ------------------Route pour le restaurant sur son profil du restaurant 
+    // ------------------ Route pour le restaurant sur son profil du restaurant 
 
     Route::post('/restaurant/modify/profile/{restaurant}', [UserController::class, 'restautantModifyProfile']);
     Route::post('/restaurant/logout', [UserController::class, 'restaurantLogout']);
