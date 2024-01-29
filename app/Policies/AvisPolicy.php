@@ -54,19 +54,4 @@ class AvisPolicy
             : Response::deny('Vous n\'avez pas les droits pour modifier un avis.');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Avis $avis): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Avis $avis): bool
-    {
-        //
-    }
 }

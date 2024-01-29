@@ -54,19 +54,4 @@ class CategoriePolicy
         : Response::deny('Vous n\'avez pas les droits pour supprimer une categorie.');
 }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Categorie $categorie): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Categorie $categorie): bool
-    {
-        //
-    }
 }

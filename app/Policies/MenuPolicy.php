@@ -27,10 +27,6 @@ class MenuPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
-    {
-        //
-    }
 
     public function store(User $user, Menu $menu) :Response
     {
@@ -58,19 +54,4 @@ class MenuPolicy
         : Response::deny('Vous n\'avez pas les droits pour supprimer ce menu');
 }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Menu $menu): Response
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Menu $menu): Response
-    {
-        //
-    }
 }

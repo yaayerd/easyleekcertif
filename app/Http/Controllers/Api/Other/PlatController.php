@@ -60,8 +60,9 @@ class PlatController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreatePlatRequest $request)
+    public function store(CreatePlatRequest $request, Plat $plat)
     {
+        $this->authorize('store', $plat);
         try {
             $user = $request->user();
             if ($user && $user->role_id == 2) {
@@ -157,13 +158,15 @@ class PlatController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function archiver(Request $request, string $id)
+    public function archiver(Request $request, Plat $plat)
     {
+        $this->authorize('archiver', $plat);
+
         try {
             $user = $request->user();
             if ($user && $user->role_id == 2) {
 
-                $plat = Plat::find($id);
+                // $plat = Plat::find($id);
 
                 if ($plat === null) {
                     return response()->json([
@@ -214,12 +217,14 @@ class PlatController extends Controller
         }
     }
 
-    public function desarchiver(Request $request, string $id)
+    public function desarchiver(Request $request, Plat $plat)
     {
+        $this->authorize('desarchiver', $plat);
+
         try {
             $user = $request->user();
             if ($user && $user->role_id == 2) {
-                $plat = Plat::find($id);
+                // $plat = Plat::find($id);
 
                 if ($plat === null) {
                     return response()->json([
@@ -273,12 +278,14 @@ class PlatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePlatRequest $request, $id)
+    public function update(UpdatePlatRequest $request, Plat $plat)
     {
+        $this->authorize('update', $plat);
+
         try {
             $user = $request->user();
             if ($user && $user->role_id == 2) {
-                $plat = Plat::find($id);
+                // $plat = Plat::find($id);
 
                 // dd($plat);
 
@@ -333,12 +340,14 @@ class PlatController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request,  Plat $plat)
     {
+        $this->authorize('destroy', $plat);
+        
         try {
             $user = $request->user();
             if ($user && $user->role_id == 2) {
-                $plat = Plat::find($id);
+                // $plat = Plat::find($id);
 
                 if ($plat === null) {
                     return response()->json([

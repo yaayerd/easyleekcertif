@@ -55,8 +55,9 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateRoleRequest $request)
+    public function store(CreateRoleRequest $request, Role $role)
     {
+        $this->authorize('store', $role);
         try {
             $user = $request->user();
             if ($user && $user->role_id == 1) {
@@ -137,12 +138,14 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, $id)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
+        $this->authorize('update', $role);
+
         try {
             $user = $request->user();
             if ($user && $user->role_id == 1) {
-                $role = Role::find($id);
+                // $role = Role::find($id);
                 if ($role === null) {
                     return response()->json([
                         "status" => false,
@@ -181,12 +184,14 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, Role $role)
     {
+        $this->authorize('desarchiver', $role);
+
         try {
             $user = $request->user();
             if ($user && $user->role_id == 1) {
-                $role = Role::find($id);
+                // $role = Role::find($id);
             //    dd($role);
                 if ($role === null) {
                     return response()->json([

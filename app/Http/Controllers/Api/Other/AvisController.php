@@ -75,8 +75,10 @@ class AvisController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateAvisRequest $request)
+    public function store(CreateAvisRequest $request, Avis $avis)
     {
+        $this->authorize('store', $avis);
+
         try {
             $user = $request->user();
             $avis = new Avis();
@@ -171,11 +173,13 @@ class AvisController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAvisRequest $request, $id)
+    public function update(UpdateAvisRequest $request, Avis $avis)
     {
+        $this->authorize('update', $avis);
+
         try {
             $user = $request->user();
-            $avis = Avis::find($id);
+            // $avis = Avis::find($id);
             // $avis = Avis::where('id', $avis->commande_id)->get(); 
             // dd($avis);
 
@@ -222,11 +226,13 @@ class AvisController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, Avis $avis)
     {
+        $this->authorize('destroy', $avis);
+
         try {
             $user = $request->user();
-            $avis = Avis::find($id);
+            // $avis = Avis::find($id);
 
             //    dd($avis);
 

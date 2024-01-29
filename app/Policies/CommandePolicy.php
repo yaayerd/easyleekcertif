@@ -68,7 +68,7 @@ class CommandePolicy
      * Determine whether the user can permanently delete the model.
      */
     public function accepterCommande(User $user, Commande $commande): Response
-    {
+    {       
         return $user->role_id === 3 && $user->id === $commande->user_id
             ? Response::allow()
             : Response::deny('Vous n\'avez pas les droits pour accepter une commande.');

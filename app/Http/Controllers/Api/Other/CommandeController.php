@@ -47,13 +47,14 @@ class CommandeController extends Controller
                     'message' => "Voici les commandes de ce plat passées par l'utilisateur connecté.",
                     'data'  => $commandes,
                 ]);
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "statut_code" => 401,
-                    "message" => "Vous n'êtes pas connecté, donc vous n'avez pas accès à cette ressource."
-                ]);
             }
+            // else {
+            //     return response()->json([
+            //         "status" => false,
+            //         "statut_code" => 401,
+            //         "message" => "Vous n'êtes pas connecté, donc vous n'avez pas accès à cette ressource."
+            //     ]);
+            // }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
@@ -77,8 +78,9 @@ class CommandeController extends Controller
      */
 
 
-    public function store(CreateCommandeRequest $request)
+    public function store(CreateCommandeRequest $request, Commande $commande)
     {
+        $this->authorize('store', $commande);
         try {
             $commande = new Commande();
 
@@ -104,13 +106,7 @@ class CommandeController extends Controller
                     'message' => "Votre commande à été enregistrée avec succès",
                     'data' => $commande
                 ]);
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "statut_code" => 401,
-                    "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
-                ]);
-            }
+            } 
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
@@ -178,6 +174,8 @@ class CommandeController extends Controller
      */
     public function updateCommande(UpdateCommandeRequest $request, Commande $commande)
     { 
+        $this->authorize('updateCommande', $commande);
+
         try {
         // $user = auth()->guard('user-api')->user();
         $user=$request->user();
@@ -232,11 +230,12 @@ class CommandeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function annulerCommande( $id)
+    public function annulerCommande( Commande $commande)
     {
-     try {
-        $commande = Commande::find($id);
+        $this->authorize('updateCommande', $commande);
 
+     try {
+        // $commande = Commande::find($id); 
         // dd($commande);
 
         if ($commande === null) {
@@ -265,11 +264,13 @@ class CommandeController extends Controller
      }
     }
 
-    public function refuserCommande(Request $request, string $id)
+    public function refuserCommande(Request $request, Commande $commande)
     {
+        $this->authorize('refuserCommande', $commande);
+        
         try {
     
-            $commande = Commande::find($id);
+            // $commande = Commande::find($id);
     
             if ($commande === null) {
                 return response()->json([
@@ -309,11 +310,13 @@ class CommandeController extends Controller
         }
     }
 
-    public function accepterCommande(Request $request, string $id)
+    public function accepterCommande(Request $request, Commande $commande)
     {
+        $this->authorize('accepterCommande', $commande);
+
         try {
     
-            $commande = Commande::find($id);
+            // $commande = Commande::find($id);
     
             if ($commande === null) {
                 return response()->json([

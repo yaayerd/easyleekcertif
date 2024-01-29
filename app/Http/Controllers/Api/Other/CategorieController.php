@@ -40,8 +40,10 @@ class CategorieController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateCategorieRequest $request)
+    public function store(CreateCategorieRequest $request, Categorie $categorie)
     {
+        $this->authorize('store', $categorie);
+        
         try {
             $categorie = new Categorie();
             $categorie->type = $request->type;
@@ -97,10 +99,12 @@ class CategorieController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategorieRequest $request, $id)
+    public function update(UpdateCategorieRequest $request, Categorie $categorie)
     {
+        $this->authorize('update', $categorie);
+
         try {
-            $categorie = Categorie::find($id);
+            // $categorie = Categorie::find($id);
             if ($categorie === null) {
                 return response()->json([
                     "status" => false,
@@ -108,7 +112,7 @@ class CategorieController extends Controller
                     "message" => "Cette categorie n'existe pas.",
                 ]);
             } else {
-            $categorie = Categorie::find($id);
+            // $categorie = Categorie::find($id);
             // dd($request);
             $categorie->type = $request->type;
             $categorie->update();
@@ -131,9 +135,11 @@ class CategorieController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Categorie $categorie)
     {
-        $categorie = Categorie::find($id);
+        $this->authorize('store', $categorie);
+
+        // $categorie = Categorie::find($id);
 
         if ($categorie === null) {
             return response()->json([

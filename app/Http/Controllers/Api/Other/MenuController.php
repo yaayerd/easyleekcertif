@@ -45,8 +45,10 @@ class MenuController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateMenuRequest $request)
+    public function store(CreateMenuRequest $request, Menu $menu)
     {
+        $this->authorize('store', $menu);
+
         try {
             $restaurant = $request->user();
             if ($restaurant && $restaurant->role_id == 2) {
@@ -124,13 +126,15 @@ class MenuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMenuRequest $request, $id)
+    public function update(UpdateMenuRequest $request, Menu $menu)
     {
+        $this->authorize('update', $menu);
+
         try {
-            $lemenu = Menu::find($id);
+            // $lemenu = Menu::find($id);
             // dd($lemenu);
 
-            if ($lemenu === null) {
+            if ($menu === null) {
                 return response()->json([
                     "status" => false,
                     "statut_code" => 404,
@@ -138,15 +142,15 @@ class MenuController extends Controller
                 ]);
             } else {
 
-                $lemenu->titre = $request->titre;
+                $menu->titre = $request->titre;
 
-                $lemenu->update();
+                $menu->update();
 
                 return response()->json([
                     'status' => true,
                     'statut_code' => 200,
                     'statut_message' => 'Le titre du menu a été modifié avec succès',
-                    'menu' => $lemenu,
+                    'menu' => $menu,
                 ]);
             }
         } catch (Exception $e) {
@@ -161,12 +165,14 @@ class MenuController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Menu $menu)
     {
+        $this->authorize('destroy', $menu);
+        
         try {
-            $lemenu = Menu::find($id);
+            // $lemenu = Menu::find($id);
 
-            if ($lemenu === null) {
+            if ($menu === null) {
                 return response()->json([
                     'status' => false,
                     'statut_code' => 404,
@@ -174,13 +180,13 @@ class MenuController extends Controller
                 ]);
             } else {
 
-                $lemenu->delete();
+                $menu->delete();
 
                 return response()->json([
                     'status' => true,
                     'statut_code' => 200,
                     'statut_message' => 'Ce Menu a été supprimé avec succès',
-                    'menu' => $lemenu,
+                    'menu' => $menu,
                 ]);
             }
         } catch (Exception $e) {
