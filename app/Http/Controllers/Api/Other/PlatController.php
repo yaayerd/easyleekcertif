@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Other;
 
 use Exception;
+use App\Models\Menu;
 use App\Models\Plat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,30 +15,69 @@ class PlatController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, Menu $menu)
     {
         try {
             $user = $request->user();
-            $plat = Plat::all();
-            if ($user && $user->role_id == 2) {
+            // $plat = Plat::all();
+            $menu = Menu::find($request->menu_id);
+            // dd($menu);
+
+            if ($user && $menu) { // && $user->role_id == 2 && $menu->user_id == $user->id
                 return response()->json([
-                    'status' => true,
-                    'statut code' => 200,
-                    'message' => "Voici les plats du restaurant. ",
-                    'data'  => Plat::all(),
+                    "status code" => 201,
+                    "message" => "Voici les plats du menu:  {$menu->titre}",
+                    'data' => $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get(),
                 ]);
-            } elseif ($plat->user_id != $user->id) {
+            } elseif ($menu === null) {
                 return response()->json([
                     "status" => false,
-                    "status_code" => 403,
-                    "message" => "Vous n'êtes pas autorisé à lister ces plats.",
+                    "status_code" => 404,
+                    "message" => "Désolé, ce menu n'existe pas dans aucun restaurant.",
                 ]);
-            } 
+            }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
-                "message" => "Une erreur est survenue lors de l'insertion.",
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function indexRestaurant(Request $request, Menu $menu)
+    {
+        try {
+            $user = $request->user();
+            // $plat = Plat::all();
+            $menu = Menu::find($request->menu_id);
+            // dd($menu);
+
+            if ($user && $user->role_id == 2 && $menu && $menu->user_id == $user->id) { // && $user->role_id == 2
+                return response()->json([
+                    "status code" => 201,
+                    "message" => "Voici les plats du menu:  {$menu->titre}",
+                    'data' => $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get(),
+                ]);
+            } elseif ($menu->user_id != $user->id) {
+                return response()->json([
+                    "status" => false,
+                    "status_code" => 403,
+                    "message" => "Vous n'êtes pas autorisé à lister ces plats, car ce menu ne fait pas parti de votre restaurant.",
+                ]);
+            } elseif (!$menu) {
+                return response()->json([
+                    "status" => false,
+                    "status_code" => 404,
+                    "message" => "Désolé, ce menu n'existe pas dans aucun restaurant.",
+                ]);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
             ]);
         }
@@ -54,16 +94,21 @@ class PlatController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreatePlatRequest $request, Plat $plat)
+    public function store(CreatePlatRequest $request, Plat $plat) // Plat $plat
     {
         try {
-            $this->authorize('store', $plat);
             $user = $request->user();
-            if ($user && $user->role_id == 2) {
+            $menu = Menu::find($request->menu_id);
+            // dd($menu);
+
+            if ($user && $user->role_id == 2 && $menu && $menu->user_id == $user->id) {
+
+                $this->authorize('store', $plat);
 
                 $plat = new Plat();
 
                 $plat->libelle = $request->libelle;
+                // dd($plat);
                 $plat->prix = $request->prix;
                 $plat->descriptif = $request->descriptif;
                 $plat->menu_id = $request->menu_id;
@@ -78,14 +123,19 @@ class PlatController extends Controller
 
                 $plat->save();
 
-                // dd($plat); 
                 return response()->json([
                     'status' => true,
                     'statut code' => 200,
                     'message' => "Le plat enrégistré avec succès",
                     'data'  => $plat,
                 ]);
-            } 
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'status_code' => 403,
+                    'message' => "Vous n'avez pas l'autorisation pour ajouter un plat à ce menu il n'est pas vôtre.",
+                ]);
+            }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
@@ -95,9 +145,11 @@ class PlatController extends Controller
             ]);
         }
     }
+
     /**
      * Display the specified resource.
      */
+
     public function show(Request $request, $id)
     {
         try {
@@ -111,12 +163,6 @@ class PlatController extends Controller
                         'statut_code' => 404,
                         'statut_message' => 'Ce plat n\'existe pas',
                     ]);
-                } elseif ($plat->user_id != $user->id) {
-                    return response()->json([
-                        "status" => false,
-                        "status_code" => 403,
-                        "message" => "Vous n'êtes pas autorisé à faire cette action.",
-                    ]);
                 } else {
 
                     return response()->json([
@@ -126,47 +172,34 @@ class PlatController extends Controller
                         'data' => $plat,
                     ]);
                 }
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 401,
-                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
             }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
-                "message" => "Une erreur est survenue lors de l'insertion.",
-                "error"   => $e
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
         }
     }
-
     /**
-     * Show the form for editing the specified resource.
+     * Archive the specified resource in storage.
      */
-    public function archiver(Request $request, Plat $plat)
+    public function archiver(Request $request, $id)
     {
-        $this->authorize('archiver', $plat);
 
+        $plat = Plat::find($id);
         try {
             $user = $request->user();
-            if ($user && $user->role_id == 2) {
-
-                // $plat = Plat::find($id);
+            if ($user) {
+                // dd($plat);
+                $this->authorize('archiver', $plat);
 
                 if ($plat === null) {
                     return response()->json([
                         "status" => false,
                         "statut_code" => 404,
                         "message" => "Ce plat n'existe pas dans le menu.",
-                    ]);
-                } elseif ($plat->user_id != $user->id) {
-                    return response()->json([
-                        "status" => false,
-                        "status_code" => 403,
-                        "message" => "Vous n'êtes pas autorisé à faire cette action.",
                     ]);
                 } else {
                     if ($plat->is_archived === 1) {
@@ -176,7 +209,8 @@ class PlatController extends Controller
                             "message" => "Ce plat est déjà archivé, il n'est plus disponible dans le menu.",
                         ]);
                     } else {
-                        $plat->is_archived = $request->is_archived;
+
+                        // $plat->is_archived = $request->is_archived;
 
                         $plat->update(['is_archived' => true]);
 
@@ -188,43 +222,31 @@ class PlatController extends Controller
                         ]);
                     }
                 }
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 401,
-                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
             }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
-                "message" => "Une erreur est survenue lors de l'insertion.",
-                "error"   => $e
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
         }
     }
 
-    public function desarchiver(Request $request, Plat $plat)
+    public function desarchiver(Request $request, $id)
     {
-        $this->authorize('desarchiver', $plat);
-
+        $plat = Plat::find($id);
         try {
             $user = $request->user();
-            if ($user && $user->role_id == 2) {
-                // $plat = Plat::find($id);
+            if ($user) {
+
+                $this->authorize('desarchiver', $plat);
 
                 if ($plat === null) {
                     return response()->json([
                         "status" => false,
                         "statut_code" => 404,
                         "message" => "Ce plat n'existe pas dans le menu.",
-                    ]);
-                } elseif ($plat->user_id != $user->id) {
-                    return response()->json([
-                        "status" => false,
-                        "status_code" => 403,
-                        "message" => "Vous n'êtes pas autorisé à accéder à une ressource qui ne vous est propre.",
                     ]);
                 } else {
                     if ($plat->is_archived === 0) {
@@ -234,7 +256,8 @@ class PlatController extends Controller
                             "message" => "Ce plat est déjà désarchivé, il est donc disponible dans le menu.",
                         ]);
                     } else {
-                        $plat->is_archived = $request->is_archived;
+
+                        // $plat->is_archived = $request->is_archived;
 
                         $plat->update(['is_archived' => false]);
 
@@ -246,19 +269,13 @@ class PlatController extends Controller
                         ]);
                     }
                 }
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 401,
-                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
             }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
-                "message" => "Une erreur est survenue lors de l'insertion.",
-                "error"   => $e
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -266,18 +283,15 @@ class PlatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePlatRequest $request, Plat $plat)
+    public function update(UpdatePlatRequest $request,  $id)
     {
-        $this->authorize('update', $plat);
 
+        $plat = Plat::find($id);
         try {
             $user = $request->user();
-            if ($user && $user->role_id == 2) {
-                // $plat = Plat::find($id);
+            if ($user) {
 
                 // dd($plat);
-
-                // $plat->save();
 
                 if ($plat === null) {
                     return response()->json([
@@ -286,7 +300,7 @@ class PlatController extends Controller
                         "message" => "Ce plat n'existe pas.",
                     ]);
                 } else {
-
+                    $this->authorize('update', $plat);
 
                     $plat->libelle = $request->libelle;
                     $plat->prix = $request->prix;
@@ -304,23 +318,17 @@ class PlatController extends Controller
                     return response()->json([
                         'status' => true,
                         'statut_code' => 200,
-                        'statut_message' => 'Le titre du plat a été modifié avec succès',
+                        'statut_message' => 'Le plat a été modifié avec succès',
                         'data' => $plat,
                     ]);
                 }
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 401,
-                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
             }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
-                "message" => "Une erreur est survenue lors de l'insertion.",
-                "error"   => $e
+                "message" => "Une erreur est survenue lors de la mise à jour.",
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -328,14 +336,13 @@ class PlatController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request,  Plat $plat)
+    public function destroy(Request $request, $id)
     {
-        $this->authorize('destroy', $plat);
 
+        $plat = Plat::find($id);
         try {
             $user = $request->user();
-            if ($user && $user->role_id == 2) {
-                // $plat = Plat::find($id);
+            if ($user) {
 
                 if ($plat === null) {
                     return response()->json([
@@ -344,6 +351,7 @@ class PlatController extends Controller
                         'statut_message' => 'Ce plat n\'existe pas',
                     ]);
                 } else {
+                    $this->authorize('delete', $plat);
 
                     $plat->delete();
 
@@ -359,8 +367,8 @@ class PlatController extends Controller
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
-                "message" => "Une erreur est survenue lors de l'insertion.",
-                "error"   => $e
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
         }
     }

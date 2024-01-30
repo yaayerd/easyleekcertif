@@ -76,7 +76,7 @@ class RoleController extends Controller
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
-                "message" => "Une erreur est survenue.",
+                "message" => "Une erreur est survenue lors de l'insertion.",
                 "error"   => $e->getMessage()
             ]);
         }
@@ -144,6 +144,7 @@ class RoleController extends Controller
                     $this->authorize('update', $role);
 
                     $role->nom = $request->nom;
+
                     $role->update();
 
                     return response()->json([
@@ -158,7 +159,7 @@ class RoleController extends Controller
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
-                "message" => "Une erreur est survenue lors de l'insertion.",
+                "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
             ]);
         }

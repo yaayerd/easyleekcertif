@@ -45,7 +45,7 @@ Route::post('/user/login', [UserController::class, 'userLogin']);
 Route::get('/categorie/list', [CategorieController::class, 'index']);
 Route::get('/menu/list', [MenuController::class, 'index']);
 Route::get('/avis/list', [AvisController::class, 'index']);
-Route::get('/plat/list', [PlatController::class, 'index']);
+Route::get('/plat/list/', [PlatController::class, 'index']);
 
 
 // Les routes de l' AdminSystem**************************************************
@@ -88,6 +88,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
 
     // --------------------  Les routes liées au Plat 
 
+    Route::get('/plat/list/restaurant', [PlatController::class, 'indexRestaurant']);
     Route::post('/plat/store', [PlatController::class, 'store']);
     Route::put('/plat/update/{id}', [PlatController::class, 'update']);
     Route::patch('/plat/archiver/{id}', [PlatController::class, 'archiver']);

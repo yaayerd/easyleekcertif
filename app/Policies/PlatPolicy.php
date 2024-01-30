@@ -27,7 +27,7 @@ class PlatPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): Response
+    public function store(User $user): Response
     {
         return $user->role_id === 2
             ? Response::allow()
@@ -39,26 +39,28 @@ class PlatPolicy
      */
     public function update(User $user, Plat $plat): Response
     {
-        return $user->role_id === 2 && $user->id === $plat->user_id
-            ? Response::allow()
-            : Response::deny('Vous n\'avez pas les droits pour modifier ce plat');
+        // dd($plat->menu->user_id);
+        return $user->role_id === 2 && $user->id === $plat->menu->user_id
+        ? Response::allow()
+        : Response::deny('Vous n\'avez pas les droits pour modifier ce plat');
     }
-
+    
     /**
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, Plat $plat): Response
     {
-        return $user->role_id === 2 && $user->id === $plat->user_id
-            ? Response::allow()
-            : Response::deny('Vous n\'avez pas les droits pour supprimer ce plat');
+        return $user->role_id === 2 && $user->id === $plat->menu->user_id
+        ? Response::allow()
+        : Response::deny('Vous n\'avez pas les droits pour supprimer ce plat');
     }
     /**
      * Determine whether the user can restore the model.
      */
     public function archiver(User $user, Plat $plat): Response
     {
-        return $user->role_id === 2 && $user->id === $plat->user_id
+        // dd($plat->menu->user_id);
+        return $user->role_id === 2 && $user->id === $plat->menu->user_id
         ? Response::allow()
         : Response::deny('Vous n\'avez pas les droits pour archiver ce plat');
 }
@@ -68,7 +70,7 @@ class PlatPolicy
      */
     public function desarchiver(User $user, Plat $plat): Response
     {
-        return $user->role_id === 2 && $user->id === $plat->user_id
+        return $user->role_id === 2 && $user->id === $plat->menu->user_id
             ? Response::allow()
             : Response::deny('Vous n\'avez pas les droits pour désarchiver ce plat');
     }

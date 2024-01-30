@@ -18,7 +18,7 @@ class Plat extends Model
         }
 
         protected $fillable = [
-            'libelle', 'descriptif', 'prix', 'menu_id', 'is_archived',
+            'libelle', 'descriptif', 'prix', 'menu_id', 'image', 'is_archived',
         ];
         
 }
