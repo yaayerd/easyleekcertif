@@ -98,7 +98,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
 
     // --------------------  Les routes liées à Commande pour le restaurant
     
-    Route::get('/commande/list', [CommandeController::class, 'index']);
+    Route::get('/commande/list/restaurant', [CommandeController::class, 'indexResto']);
     Route::put('/commande/refuser/{id}', [CommandeController::class, 'refuserCommande']);
     Route::put('/commande/accepter/{id}', [CommandeController::class, 'accepterCommande']);
 });
@@ -107,7 +107,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
 
 // Les routes du Client ********************************************
 
-Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem']], function () {
+Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'client']], function () {
 
     // Les routes d'authentification de user
 

@@ -24,7 +24,7 @@ class CommandeController extends Controller
                 return response()->json([
                     "status" => false,
                     "statut_code" => 400,
-                    "message" => "plat_id est requis."
+                    "message" => "Ce plat est introuvable."
                 ]);
             }
 
@@ -39,8 +39,9 @@ class CommandeController extends Controller
             }
 
             if ($user) {
-                $commandes = Commande::where('user_id', $user->id)->where('plat_id', $plat->id)->get();
-
+                $commandes = Commande::where('user_id', $user->id)->get(); // ->where('plat_id', $plat->id)
+                // dd($plat);
+                dd($commandes);
                 return response()->json([
                     'status' => true,
                     'statut_code' => 200,
@@ -48,18 +49,12 @@ class CommandeController extends Controller
                     'data'  => $commandes,
                 ]);
             }
-            // else {
-            //     return response()->json([
-            //         "status" => false,
-            //         "statut_code" => 401,
-            //         "message" => "Vous n'êtes pas connecté, donc vous n'avez pas accès à cette ressource."
-            //     ]);
-            // }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "statut_code" => 500,
-                "message" => "Une erreur est survenue."
+                "message" => "Une erreur est survenue.",
+                "erreur" => $e->getMessage()
             ]);
         }
     }
@@ -80,12 +75,13 @@ class CommandeController extends Controller
 
     public function store(CreateCommandeRequest $request, Commande $commande)
     {
-        $this->authorize('store', $commande);
         try {
-            $commande = new Commande();
-
-
             $user = auth()->guard('user-api')->user();
+            
+            $commande = new Commande();
+            
+            $this->authorize('store', $commande);
+
             $plat = Plat::find($request->plat_id);
 
             if ($plat && $user) {
@@ -127,6 +123,7 @@ class CommandeController extends Controller
             $user = auth()->guard('user-api')->user();
 
             $commande = Commande::find($id);
+
             // dd($commande);
             if ($commande === null) {
                 return response()->json([
@@ -136,13 +133,13 @@ class CommandeController extends Controller
                 ]);
             }
             if ($user) {
-                $commandes = Commande::where('user_id', $user->id)->where('id', $commande->id)->get();
+                $commande = Commande::where('user_id', $user->id)->where('id', $commande->id)->get();
 
                 return response()->json([
                     'status' => true,
                     'statut_code' => 200,
                     'message' => "Voici les détails de la commande que vous avez faites pour ce plat.",
-                    'data'  => $commandes,
+                    'data'  => $commande,
                 ]);
             } else {
                 return response()->json([
@@ -156,7 +153,7 @@ class CommandeController extends Controller
                 "status" => false,
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
-                "error"   => $e
+                "error"   => $e->getMessage()  
             ]);
         }
     }
