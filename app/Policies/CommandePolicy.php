@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Commande;
+use App\Models\Plat;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -59,7 +60,12 @@ class CommandePolicy
      */
     public function refuserCommande(User $user, Commande $commande): Response
     {
-        return $user->role_id === 3 && $user->id === $commande->user_id
+       
+        $platcommander= Plat::where('id',$commande->plat_id )->first();
+        //dd($platcommander->menu->user_id,$user->id );
+
+
+        return $user->role_id === 2 && $user->id === $platcommander->menu->user_id
             ? Response::allow()
             : Response::deny('Vous n\'avez pas les droits pour refuser une commande.');
     }
@@ -69,7 +75,9 @@ class CommandePolicy
      */
     public function accepterCommande(User $user, Commande $commande): Response
     {       
-        return $user->role_id === 3 && $user->id === $commande->user_id
+        $platcommander= Plat::where('id',$commande->plat_id )->first();
+        return $user->role_id === 2 && $user->id === $platcommander->menu->user_id
+
             ? Response::allow()
             : Response::deny('Vous n\'avez pas les droits pour accepter une commande.');
     }

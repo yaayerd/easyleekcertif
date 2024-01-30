@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Commande\CreateCommandeRequest;
 use App\Http\Requests\Api\Commande\UpdateCommandeRequest;
+use Illuminate\Console\Command;
 
 class CommandeController extends Controller
 {
@@ -123,17 +124,16 @@ class CommandeController extends Controller
             $user = auth()->guard('user-api')->user();
 
             $commande = Commande::find($id);
-
             // dd($commande);
-            if ($commande === null) {
+            if (!$commande) {
                 return response()->json([
                     'status' => false,
                     'statut_code' => 404,
                     'statut_message' => 'Cette commande n\'existe pas',
                 ]);
             }
-            if ($user) {
-                $commande = Commande::where('user_id', $user->id)->where('id', $commande->id)->get();
+            elseif ($user) {
+                $commande = Commande::where('user_id', $user->id)->where('id', $commande->id)->first();
 
                 return response()->json([
                     'status' => true,
@@ -141,11 +141,12 @@ class CommandeController extends Controller
                     'message' => "Voici les détails de la commande que vous avez faites pour ce plat.",
                     'data'  => $commande,
                 ]);
-            } else {
+            } 
+            else {
                 return response()->json([
-                    "status" => false,
-                    "statut_code" => 401,
-                    "message" => "Vous n'êtes pas connecté, donc vous n'avez pas accès à cette ressource."
+                    'status' => false,
+                    'status_code' => 404,
+                    'message' => "Aucune commande n'a été trouvée.",
                 ]);
             }
         } catch (Exception $e) {
@@ -169,33 +170,33 @@ class CommandeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateCommande(UpdateCommandeRequest $request, Commande $commande)
+    public function updateCommande(UpdateCommandeRequest $request, $id)
     { 
-        $this->authorize('updateCommande', $commande);
-
+        
         try {
-        // $user = auth()->guard('user-api')->user();
-        $user=$request->user();
-
-        // $commande = Commande::find($id);
-         $leplat = Plat::where('id',$commande->plat_id)->first(); 
-        //  dd($leplat->prix);
-        //    dd($commande->user);
-         
-
-        if ($commande === null) {
-            return response()->json([
-                "status" => false,
-                "statut_code" => 404,
-                "message" => "Cette commande n'existe pas.",
-            ]);
-        }
-
-        if ($user && $commande) {
+            // $user = auth()->guard('user-api')->user();
+            $user=$request->user();
+            
+            $commande = Commande::find($id);
+            $plat = Plat::where('id',$commande->plat_id)->first(); 
+            //  dd($leplat->prix);
+            //    dd($commande->user_id);
+            // $commandeRestaurant = Commande::where('plat')
+            
+            if ($commande === null) {
+                return response()->json([
+                    "status" => false,
+                    "statut_code" => 404,
+                    "message" => "Cette commande n'existe pas.",
+                ]);
+            }
+            
+            if ($user && $commande) {
+            $this->authorize('updateCommande', $commande);
             $commande = Commande::where('id', $commande->id)->first(); // where('user_id', $user->id)->
             // dd($commande);
             $commande->nombrePlats = $request->nombrePlats;
-            $commande->prixCommande = $request->nombrePlats * $leplat->prix;
+            $commande->prixCommande = $request->nombrePlats * $plat->prix;
             $commande->lieuLivraison = $request->lieuLivraison;
 
             // dd($commande);
@@ -261,13 +262,14 @@ class CommandeController extends Controller
      }
     }
 
-    public function refuserCommande(Request $request, Commande $commande)
+    public function refuserCommande(Request $request, $id)
     {
-        $this->authorize('refuserCommande', $commande);
         
         try {
+            $commande = Commande::find($id);
+
+            $this->authorize('refuserCommande', $commande);
     
-            // $commande = Commande::find($id);
     
             if ($commande === null) {
                 return response()->json([
@@ -300,20 +302,21 @@ class CommandeController extends Controller
     
         } catch (Exception $e) {
             return response()->json([
-                'status' => false,
-                'statut_code' => 401,
-                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
+                "status" => false,
+                "statut_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()  
             ]);
         }
     }
 
-    public function accepterCommande(Request $request, Commande $commande)
+    public function accepterCommande(Request $request, $id)
     {
-        $this->authorize('accepterCommande', $commande);
-
+        
         try {
-    
-            // $commande = Commande::find($id);
+            $commande = Commande::find($id);
+
+            $this->authorize('accepterCommande', $commande);
     
             if ($commande === null) {
                 return response()->json([

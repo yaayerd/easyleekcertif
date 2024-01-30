@@ -37,7 +37,6 @@ Route::group([
 
 // **********************Les routes libres à tous users ***************************
 
-Route::post('/restaurant/register', [UserController::class, 'restaurantRegister']);
 Route::post('/restaurant/login', [UserController::class, 'restaurantLogin']);
 Route::post('/user/register', [UserController::class, 'userRegister']);
 Route::post('/user/login', [UserController::class, 'userLogin']);
@@ -52,6 +51,9 @@ Route::get('/plat/list/', [PlatController::class, 'index']);
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem']], function () {
 
+    //-------------------------Restaurant
+    
+    Route::post('/restaurant/register', [UserController::class, 'restaurantRegister']);
     // --------------------  Les routes liées à Catégorie 
 
     Route::post('/categorie/store', [CategorieController::class, 'store']);
@@ -97,7 +99,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
     Route::delete('/plat/delete/{id}', [PlatController::class, 'destroy']);
 
     // --------------------  Les routes liées à Commande pour le restaurant
-    
+
     Route::get('/commande/list/restaurant', [CommandeController::class, 'indexResto']);
     Route::put('/commande/refuser/{id}', [CommandeController::class, 'refuserCommande']);
     Route::put('/commande/accepter/{id}', [CommandeController::class, 'accepterCommande']);
