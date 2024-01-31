@@ -78,9 +78,9 @@ class CommandeController extends Controller
     {
         try {
             $user = auth()->guard('user-api')->user();
-            
+
             $commande = new Commande();
-            
+
             $this->authorize('store', $commande);
 
             $plat = Plat::find($request->plat_id);
@@ -103,7 +103,7 @@ class CommandeController extends Controller
                     'message' => "Votre commande à été enregistrée avec succès",
                     'data' => $commande
                 ]);
-            } 
+            }
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
@@ -131,8 +131,7 @@ class CommandeController extends Controller
                     'statut_code' => 404,
                     'statut_message' => 'Cette commande n\'existe pas',
                 ]);
-            }
-            elseif ($user) {
+            } elseif ($user) {
                 $commande = Commande::where('user_id', $user->id)->where('id', $commande->id)->first();
 
                 return response()->json([
@@ -141,8 +140,7 @@ class CommandeController extends Controller
                     'message' => "Voici les détails de la commande que vous avez faites pour ce plat.",
                     'data'  => $commande,
                 ]);
-            } 
-            else {
+            } else {
                 return response()->json([
                     'status' => false,
                     'status_code' => 404,
@@ -154,7 +152,7 @@ class CommandeController extends Controller
                 "status" => false,
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
-                "error"   => $e->getMessage()  
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -171,18 +169,18 @@ class CommandeController extends Controller
      * Update the specified resource in storage.
      */
     public function updateCommande(UpdateCommandeRequest $request, $id)
-    { 
-        
+    {
+
         try {
             // $user = auth()->guard('user-api')->user();
-            $user=$request->user();
-            
+            $user = $request->user();
+
             $commande = Commande::find($id);
-            $plat = Plat::where('id',$commande->plat_id)->first(); 
+            $plat = Plat::where('id', $commande->plat_id)->first();
             //  dd($leplat->prix);
             //    dd($commande->user_id);
             // $commandeRestaurant = Commande::where('plat')
-            
+
             if ($commande === null) {
                 return response()->json([
                     "status" => false,
@@ -190,142 +188,135 @@ class CommandeController extends Controller
                     "message" => "Cette commande n'existe pas.",
                 ]);
             }
-            
+
             if ($user && $commande) {
-            $this->authorize('updateCommande', $commande);
-            $commande = Commande::where('id', $commande->id)->first(); // where('user_id', $user->id)->
-            // dd($commande);
-            $commande->nombrePlats = $request->nombrePlats;
-            $commande->prixCommande = $request->nombrePlats * $plat->prix;
-            $commande->lieuLivraison = $request->lieuLivraison;
+                $this->authorize('updateCommande', $commande);
+                $commande = Commande::where('id', $commande->id)->first(); // where('user_id', $user->id)->
+                // dd($commande);
+                $commande->nombrePlats = $request->nombrePlats;
+                $commande->prixCommande = $request->nombrePlats * $plat->prix;
+                $commande->lieuLivraison = $request->lieuLivraison;
 
-            // dd($commande);
+                // dd($commande);
 
-            $commande->update();
+                $commande->update();
 
-            return response()->json([
-                'status' => true,
-                'statut_code' => 200,
-                'message' => "Votre commande à été modifiée avec succès",
-                'data' => $commande
-            ]);
-        }  else {
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'message' => "Votre commande à été modifiée avec succès",
+                    'data' => $commande
+                ]);
+            }
+        } catch (Exception $e) {
             return response()->json([
                 "status" => false,
-                "statut_code" => 401,
-                "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
+                "statut_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
-                    }
-                } catch (Exception $e) {
-                    return response()->json([
-                        'status' => false,
-                        'statut_code' => 401,
-                        'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
-                    ]);
-                }
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function annulerCommande( Commande $commande)
+    public function annulerCommande(Commande $commande)
     {
         $this->authorize('updateCommande', $commande);
 
-     try {
-        // $commande = Commande::find($id); 
-        // dd($commande);
+        try {
+            // $commande = Commande::find($id); 
+            // dd($commande);
 
-        if ($commande === null) {
+            if ($commande === null) {
+                return response()->json([
+                    'status' => false,
+                    'statut_code' => 404,
+                    'statut_message' => 'Cette commande n\'existe pas',
+                ]);
+            } else {
+
+                $commande->delete();
+
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'statut_message' => 'Ce Menu a été supprimé avec succès',
+                    'numeroCommande' => $commande->numeroCommande,
+                ]);
+            }
+        } catch (Exception $e) {
             return response()->json([
-                'status' => false,
-                'statut_code' => 404,
-                'statut_message' => 'Cette commande n\'existe pas',
-            ]);
-        } else {
-
-            $commande->delete();
-
-            return response()->json([
-                'status' => true,
-                'statut_code' => 200,
-                'statut_message' => 'Ce Menu a été supprimé avec succès',
-                'numeroCommande' => $commande->numeroCommande,
+                "status" => false,
+                "statut_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
         }
-     } catch (Exception $e) {
-        return response()->json([
-            'status' => false,
-            'statut_code' => 401,
-            'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
-        ]);
-     }
     }
 
     public function refuserCommande(Request $request, $id)
     {
-        
+
         try {
             $commande = Commande::find($id);
 
             $this->authorize('refuserCommande', $commande);
-    
-    
+
+
             if ($commande === null) {
                 return response()->json([
                     "status" => false,
                     "statut_code" => 404,
                     "message" => "Cette commande n'existe pas.",
                 ]);
-            } 
-    
+            }
+
             if ($commande->etatCommande === 'refusee') {
                 return response()->json([
                     "status" => true,
                     "statut_code" => 200,
                     "message" => "Cette commande est déjà refusée.",
                 ]);
-            } elseif ($commande) {
-                if (isset($commande->etatCommande)) {
-        
-                $commande->update(['etatCommande' => 'refusee']);
-                // dd($commande);
-                return response()->json([
-                    'status' => true,
-                    'statut_code' => 200,
-                    'statut_message' => 'Le plat est refusee avec succès',
-                    'data' => $commande,
-                ]);
+            } elseif (isset($commande->etatCommande)) {
+                // if (isset($commande->etatCommande)) {
+
+                    $commande->update(['etatCommande' => 'refusee']);
+                    // dd($commande);
+                    return response()->json([
+                        'status' => true,
+                        'statut_code' => 200,
+                        'statut_message' => 'Le plat est refusee avec succès',
+                        'data' => $commande,
+                    ]);
                 }
-            }
-           
-    
+            // }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
-                "error"   => $e->getMessage()  
+                "error"   => $e->getMessage()
             ]);
         }
     }
 
     public function accepterCommande(Request $request, $id)
     {
-        
         try {
             $commande = Commande::find($id);
 
             $this->authorize('accepterCommande', $commande);
-    
+
             if ($commande === null) {
                 return response()->json([
                     "status" => false,
                     "statut_code" => 404,
                     "message" => "Cette commande n'existe pas.",
                 ]);
-            } 
-    
+            }
+
             if ($commande->etatCommande === 'acceptee') {
                 return response()->json([
                     "status" => true,
@@ -334,26 +325,24 @@ class CommandeController extends Controller
                 ]);
             } elseif ($commande) {
                 if (isset($commande->etatCommande)) {
-        
-                $commande->update(['etatCommande' => 'acceptee']);
-                // dd($commande);
-                return response()->json([
-                    'status' => true,
-                    'statut_code' => 200,
-                    'statut_message' => 'La commande est acceptée avec succès',
-                    'data' => $commande,
-                ]);
+
+                    $commande->update(['etatCommande' => 'acceptee']);
+                    // dd($commande);
+                    return response()->json([
+                        'status' => true,
+                        'statut_code' => 200,
+                        'statut_message' => 'La commande est acceptée avec succès',
+                        'data' => $commande,
+                    ]);
                 }
             }
-           
-    
         } catch (Exception $e) {
             return response()->json([
-                'status' => false,
-                'statut_code' => 401,
-                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource.."
+                "status" => false,
+                "statut_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
             ]);
         }
     }
-    
 }
