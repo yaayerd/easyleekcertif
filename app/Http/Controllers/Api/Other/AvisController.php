@@ -167,12 +167,12 @@ class AvisController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAvisRequest $request, Avis $avis)
+    public function update(UpdateAvisRequest $request, $id)
     {
         
         try {
             $user = $request->user();
-            // $avis = Avis::find($id);
+            $avis = Avis::find($id);
             // $avis = Avis::where('id', $avis->commande_id)->get(); 
             // dd($avis);
             

@@ -48,7 +48,9 @@ class AvisPolicy
      */
     public function update(User $user, Avis $avis): Response
     {
-        return $user->role_id === 3 && $user->id === $avis->user_id
+    $commande = Commande::where('user_id', $user->id)->first();  
+        // return $user->role_id === 3 && $user->id === $avis->commande //->user_id
+        return $user->role_id === 3 && $avis->user_id === $user->id
             ? Response::allow()
             : Response::deny('Vous n\'avez pas les droits pour modifier cet avis.');
     }
