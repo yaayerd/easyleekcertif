@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Avis\UpdateAvisRequest;
 use App\Models\Avis;
 use App\Models\Commande;
 use Exception;
+use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 
 class AvisController extends Controller
@@ -47,19 +48,13 @@ class AvisController extends Controller
                     'message' => "Voici les avis de cette commande.",
                     'avisClient'  => $lesavis,
                 ]);
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "statut_code" => 401,
-                    "message" => "Vous n'êtes pas connecté, donc vous n'avez pas accès à cette ressource."
-                ]);
-            }
+            } 
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
-                "erreur" => $e
+                "erreur" => $e->getMessage()
             ]);
         }
     }
@@ -75,13 +70,24 @@ class AvisController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateAvisRequest $request, Avis $avis)
+    public function avisStore(CreateAvisRequest $request, Avis $avis)
     {
-        $this->authorize('store', $avis);
-
+        
         try {
             $user = $request->user();
+
+            $commande = $request->commande_id;
+
+            $commande = Commande::where('id' , $request->commande_id)->first();
+        // $commande = Commande::where('user_id', $user->id)->where('id', $id)->first();
+
+
+            // dd($commande);
+            
+            $this->authorize('avisStore', $avis);
+            
             $avis = new Avis();
+            
             $commande = Commande::find($request->commande_id);
             // dd($commande);
 
@@ -101,19 +107,13 @@ class AvisController extends Controller
                     'message' => "Votre avis à été enregistrée avec succès",
                     'avisClient' => $avis
                 ]);
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "statut_code" => 401,
-                    "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
-                ]);
-            }
+            } 
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
                 'statut_code' => 500,
-                'message' => "Une erreur est survenue lors de l'ajout de la commande, veuillez vérifier vos informations.",
-                'error' => $e
+                'message' => "Une erreur est survenue lors de l'ajout de cet avis, veuillez vérifier vos informations.",
+                'error' => $e->getMessage()
             ]);
         }
     }
@@ -144,19 +144,13 @@ class AvisController extends Controller
                     'message' => "Voici les détails de l'avis que vous avez fait pour cette commande.",
                     'avis'  => $avis,
                 ]);
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "statut_code" => 401,
-                    "message" => "Vous n'êtes pas connecté, donc vous n'avez pas accès à cette ressource."
-                ]);
-            }
+            } 
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
-                "error"   => $e
+                "error"   => $e->getMessage()
             ]);
         }
     }
@@ -175,14 +169,13 @@ class AvisController extends Controller
      */
     public function update(UpdateAvisRequest $request, Avis $avis)
     {
-        $this->authorize('update', $avis);
-
+        
         try {
             $user = $request->user();
             // $avis = Avis::find($id);
             // $avis = Avis::where('id', $avis->commande_id)->get(); 
             // dd($avis);
-
+            
             if ($avis === null) {
                 return response()->json([
                     "status" => false,
@@ -190,8 +183,10 @@ class AvisController extends Controller
                     "message" => "Cette commande n'existe pas.",
                 ]);
             }
-
+            
             if ($user && $avis) {
+                $this->authorize('update', $avis);
+
                 $avis = Avis::where('id', $avis->id)->first();
 
                 $avis->note = $request->note;
@@ -206,19 +201,13 @@ class AvisController extends Controller
                     'message' => "Votre avis à été modifiée avec succès",
                     'avisClient' => $avis
                 ]);
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "statut_code" => 401,
-                    "message" => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
-                ]);
-            }
+            } 
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
                 'statut_code' => 500,
                 'message' => "Une erreur est survenue lors de l'ajout de la commande, veuillez vérifier vos informations.",
-                'error' => $e
+                'error' => $e->getMessage()
             ]);
         }
     }
@@ -226,14 +215,14 @@ class AvisController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Avis $avis)
+    public function destroy(Request $request, $id)
     {
-        $this->authorize('destroy', $avis);
-
+        
         try {
             $user = $request->user();
-            // $avis = Avis::find($id);
 
+            $avis = Avis::find($id);
+            
             //    dd($avis);
 
             if ($avis === null) {
@@ -243,8 +232,9 @@ class AvisController extends Controller
                     'statut_message' => 'Cet avis n\'existe pas',
                 ]);
             }
-            //    if ($user && $user->role == 'admin') {
-            if ($user && $avis) {
+                if ($user && $avis) {
+
+                $this->authorize('destroy', $avis);
 
                 $avis->delete();
 
@@ -257,8 +247,9 @@ class AvisController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'statut_code' => 401,
-                'message' => "Vous n'êtes pas connecté, donc vous n'avez pas à accès à cette ressource."
+                'statut_code' => 500,
+                'message' => "Une erreur est survenue.",
+                'error' => $e->getMessage()
             ]);
         }
     }

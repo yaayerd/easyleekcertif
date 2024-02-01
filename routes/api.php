@@ -43,8 +43,11 @@ Route::post('/user/login', [UserController::class, 'userLogin']);
 // -----------------------------Libres ---------------------
 Route::get('/categorie/list', [CategorieController::class, 'index']);
 Route::get('/menu/list', [MenuController::class, 'index']);
-Route::get('/avis/list', [AvisController::class, 'index']);
 Route::get('/plat/list/', [PlatController::class, 'index']);
+Route::get('/plat/show/{id}', [PlatController::class, 'show']);
+Route::get('/avis/list', [AvisController::class, 'index']);
+Route::get('/avis/show/{id}', [AvisController::class, 'show']);
+
 
 
 // Les routes de l' AdminSystem**************************************************
@@ -54,8 +57,13 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
     //-------------------------Restaurant
     
     Route::post('/restaurant/register', [UserController::class, 'restaurantRegister']);
+    Route::post('/client/compte/desactiver', [UserController::class, 'desactiveAccount']);
+    Route::post('/client/compte/reactiver', [UserController::class, 'reactiveAccount']);
+    Route::post('/restaurant/compte/reactiver', [UserController::class, 'reactiveAccount']);
+    Route::post('/restaurant/compte/desactiver', [UserController::class, 'desactiveAccount']);
+    
     // --------------------  Les routes liées à Catégorie 
-
+    Route::get('/categorie/list', [CategorieController::class, 'index']);
     Route::post('/categorie/store', [CategorieController::class, 'store']);
     Route::put('/categorie/update/{id}', [CategorieController::class, 'update']);
     Route::get('/categorie/show/{id}', [CategorieController::class, 'show']);
@@ -83,6 +91,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
 
     // --------------------  Les routes liées au Menu 
 
+    Route::get('/menu/list', [MenuController::class, 'index']);
     Route::post('/menu/store', [MenuController::class, 'store']);
     Route::put('/menu/update/{id}', [MenuController::class, 'update']);
     Route::get('/menu/show/{id}', [MenuController::class, 'show']);
@@ -103,6 +112,8 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
     Route::get('/commande/list/restaurant', [CommandeController::class, 'indexResto']);
     Route::put('/commande/refuser/{id}', [CommandeController::class, 'refuserCommande']);
     Route::put('/commande/accepter/{id}', [CommandeController::class, 'accepterCommande']);
+    Route::get('/commande/accepted/list', [CommandeController::class, 'commandeAcceptedList']);
+    Route::get('/commande/refused/list', [CommandeController::class, 'commandeRefusedList']);
 });
 
 
@@ -127,7 +138,8 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'client']], 
 
     // --------------------  Les routes liées aux Avis 
 
-    Route::post('/avis/store', [AvisController::class, 'store']);
+    Route::get('/avis/list', [AvisController::class, 'index']);
+    Route::post('/avis/avisStore', [AvisController::class, 'avisStore']);
     Route::put('/avis/update/{id}', [AvisController::class, 'update']);
     Route::get('/avis/show/{id}', [AvisController::class, 'show']);
     Route::delete('/avis/delete/{id}', [AvisController::class, 'destroy']);

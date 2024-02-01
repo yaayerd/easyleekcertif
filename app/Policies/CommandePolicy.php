@@ -30,6 +30,7 @@ class CommandePolicy
      */
     public function store(User $user): Response
     {
+        // dd("bonjour");
         return $user->role_id === 3
             ? Response::allow()
             : Response::deny('Vous n\'avez pas les droits pour faire une commande.');
@@ -81,4 +82,24 @@ class CommandePolicy
             ? Response::allow()
             : Response::deny('Vous n\'avez pas les droits pour accepter une commande.');
     }
+
+    // public function commandeAccepted(User $user, Commande $commande): Response
+    // {       
+    //     // $commandeAccepted= Plat::where('id',$commande->plat_id )->get()  ;//->where('etatCommande', 'acceptee')->first();
+    //     dd($commande);
+
+    //     return $user->role_id === 2 && $user->id === $commande->menu->user_id || $user->role_id === 3
+
+    //         ? Response::allow()
+    //         : Response::deny('Vous n\'avez pas les droits pour voir la liste des commandes acceptées.');
+    // }
+
+    // public function commandeRefused(User $user, Commande $commande): Response
+    // {       
+    //     $platcommander= Plat::where('id',$commande->plat_id )->get();
+    //     return $user->role_id === 2 && $user->id === $platcommander->menu->user_id || $user->role_id === 3
+
+    //         ? Response::allow()
+    //         : Response::deny('Vous n\'avez pas les droits pour voir la liste des commandes refusées.');
+    // }
 }

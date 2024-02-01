@@ -221,12 +221,11 @@ class CommandeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function annulerCommande(Commande $commande)
+    public function annulerCommande($id)
     {
-        $this->authorize('updateCommande', $commande);
 
         try {
-            // $commande = Commande::find($id); 
+            $commande = Commande::find($id);
             // dd($commande);
 
             if ($commande === null) {
@@ -236,6 +235,7 @@ class CommandeController extends Controller
                     'statut_message' => 'Cette commande n\'existe pas',
                 ]);
             } else {
+                $this->authorize('updateCommande', $commande);
 
                 $commande->delete();
 
@@ -282,15 +282,15 @@ class CommandeController extends Controller
             } elseif (isset($commande->etatCommande)) {
                 // if (isset($commande->etatCommande)) {
 
-                    $commande->update(['etatCommande' => 'refusee']);
-                    // dd($commande);
-                    return response()->json([
-                        'status' => true,
-                        'statut_code' => 200,
-                        'statut_message' => 'Le plat est refusee avec succès',
-                        'data' => $commande,
-                    ]);
-                }
+                $commande->update(['etatCommande' => 'refusee']);
+                // dd($commande);
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'statut_message' => 'Le plat est refusee avec succès',
+                    'data' => $commande,
+                ]);
+            }
             // }
         } catch (Exception $e) {
             return response()->json([
@@ -345,4 +345,52 @@ class CommandeController extends Controller
             ]);
         }
     }
+
+    // public function commandeAcceptedList(Request $request)
+    // {
+    //     try {
+    //         $commandes = Commande::where('etatCommande', 'acceptee')->get();
+    //         // dd($commandes);
+            
+    //         $this->authorize('commandeAccepted', $commandes);
+
+    //         return response()->json([
+    //             'status' => true,
+    //             'statut_code' => 200,
+    //             'statut_message' => 'Liste des commandes acceptées récupérée avec succès',
+    //             'data' => $commandes,
+    //         ]);
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             "status" => false,
+    //             "statut_code" => 500,
+    //             "message" => "Une erreur est survenue.",
+    //             "error"   => $e->getMessage()
+    //         ]);
+    //     }
+    // }
+
+    // public function commandeRefusedList(Request $request)
+    // {
+    //     try {
+
+    //         $commandes = Commande::where('etatCommande', 'refusee')->get();
+    //         // dd($commandes);
+    //         $this->authorize('commandeRefused', $commandes);
+
+    //         return response()->json([
+    //             'status' => true,
+    //             'statut_code' => 200,
+    //             'statut_message' => 'Liste des commandes refusées récupérée avec succès',
+    //             'data' => $commandes,
+    //         ]);
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             "status" => false,
+    //             "statut_code" => 500,
+    //             "message" => "Une erreur est survenue.",
+    //             "error"   => $e->getMessage()
+    //         ]);
+    //     }
+    // }
 }

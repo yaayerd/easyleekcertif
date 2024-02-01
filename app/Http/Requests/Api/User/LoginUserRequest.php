@@ -44,7 +44,7 @@ class LoginUserRequest extends FormRequest
     {
         return [
            
-            'email.required' => 'L\'dresse email est obligatoire.',
+            'email.required' => 'L\'adresse email est obligatoire.',
             'email.email' => 'Veuillez fournir une adresse email valide.',
            
             'password.required' => 'Le mot de passe est obligatoire.',
