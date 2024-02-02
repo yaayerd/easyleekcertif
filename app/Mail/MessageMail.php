@@ -16,9 +16,9 @@ class MessageMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public $subject,  $body;
+    public $subject,  $body, $user;
     
-    public function __construct($subject, $body)
+    public function __construct($subject, $body,  $user)
     {
         $this->subject  = $subject;
         $this->body     = $body;

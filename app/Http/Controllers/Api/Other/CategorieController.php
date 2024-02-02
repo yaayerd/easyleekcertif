@@ -53,12 +53,14 @@ class CategorieController extends Controller
             if ($user && $user->role_id == 1) {
             $categorie = new Categorie();
             $categorie->type = $request->type;
+            // dd($categorie);
+
             $categorie->save();
 
             return response()->json([
                 'status' => true,
                 'statut code' => 200,
-                'message' => "Catégorie enrégistrée avec succès",
+                'message' => "Catégorie enrégistrée  avec succès",
                 'data'  => $categorie,
             ]);
             } 

@@ -41,8 +41,7 @@ Route::group([
 Route::post('/restaurant/login', [UserController::class, 'restaurantLogin']);
 Route::post('/user/register', [UserController::class, 'userRegister']);
 Route::post('/user/login', [UserController::class, 'userLogin']);
-Route::post('/contact/admin', [MessageController::class, 'contacterAdmin']);
-Route::post('/message/test', [MessageController::class, 'testMessage']);
+Route::post('/message/to/admin', [MessageController::class, 'messageToAdmin']);
 // -----------------------------Libres ---------------------
 Route::get('/categorie/list', [CategorieController::class, 'index']);
 Route::get('/menu/list', [MenuController::class, 'index']);
@@ -50,7 +49,6 @@ Route::get('/plat/list/', [PlatController::class, 'index']);
 Route::get('/plat/show/{id}', [PlatController::class, 'show']);
 Route::get('/avis/list', [AvisController::class, 'index']);
 Route::get('/avis/show/{id}', [AvisController::class, 'show']);
-
 
 
 // Les routes de l' AdminSystem**************************************************
