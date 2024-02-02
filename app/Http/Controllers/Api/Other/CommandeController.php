@@ -352,7 +352,7 @@ class CommandeController extends Controller
     //         $commandes = Commande::where('etatCommande', 'acceptee')->get();
     //         // dd($commandes);
             
-    //         $this->authorize('commandeAccepted', $commandes);
+            // $this->authorize('commandeAccepted', $commandes);
 
     //         return response()->json([
     //             'status' => true,
@@ -376,7 +376,8 @@ class CommandeController extends Controller
 
     //         $commandes = Commande::where('etatCommande', 'refusee')->get();
     //         // dd($commandes);
-    //         $this->authorize('commandeRefused', $commandes);
+    
+            // $this->authorize('commandeRefused', $commandes);
 
     //         return response()->json([
     //             'status' => true,

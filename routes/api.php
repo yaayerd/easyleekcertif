@@ -54,13 +54,15 @@ Route::get('/avis/show/{id}', [AvisController::class, 'show']);
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem']], function () {
 
-    //-------------------------Restaurant
+    //-------------------------Gestion Comptes Utilisateurs--------------------
     
     Route::post('/restaurant/register', [UserController::class, 'restaurantRegister']);
-    Route::post('/client/compte/desactiver', [UserController::class, 'desactiveAccount']);
-    Route::post('/client/compte/reactiver', [UserController::class, 'reactiveAccount']);
-    Route::post('/restaurant/compte/reactiver', [UserController::class, 'reactiveAccount']);
-    Route::post('/restaurant/compte/desactiver', [UserController::class, 'desactiveAccount']);
+    Route::post('/client/compte/block/{id}', [UserController::class, 'blockUser']);
+    Route::post('/client/compte/unblock/{id}', [UserController::class, 'unblockUser']);
+    Route::post('/restaurant/compte/block/{id}', [UserController::class, 'blockRestaurant']);
+    Route::post('/restaurant/compte/unblock/{id}', [UserController::class, 'unblockRestaurant']);
+    Route::post('/user/details/{id}', [UserController::class, 'voirUserDetails']);
+    Route::post('/restaurant/details/{id}', [UserController::class, 'voirRestaurantDetails']);
     
     // --------------------  Les routes liées à Catégorie 
     Route::get('/categorie/list', [CategorieController::class, 'index']);

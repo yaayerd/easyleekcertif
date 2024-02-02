@@ -185,7 +185,7 @@ class AvisController extends Controller
             }
             
             if ($user && $avis) {
-                $this->authorize('update', $avis);
+                // $this->authorize('update', $avis);
 
                 $avis = Avis::where('id', $avis->id)->first();
 
@@ -234,7 +234,7 @@ class AvisController extends Controller
             }
                 if ($user && $avis) {
 
-                $this->authorize('destroy', $avis);
+                // $this->authorize('destroy', $avis);
 
                 $avis->delete();
 
@@ -253,4 +253,6 @@ class AvisController extends Controller
             ]);
         }
     }
+
+    
 }

@@ -64,9 +64,9 @@ class UserController extends Controller
             'status_code' => 200,
             'status_message' => "Utilisateur connecté avec succès",
             'user' => $user,
-            'token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->guard('user-api')->factory()->getTTL() * 120
+            'expires_in' => auth()->guard('user-api')->factory()->getTTL() * 120,
+            'token' => $token,
         ]);
     }
 
@@ -120,6 +120,65 @@ class UserController extends Controller
         ]);
     }
 
+    public function unblockUser(Request $request, $id)
+    {
+
+        $user = User::find($id);
+
+        if ($user === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Utilisateur non trouvé"
+            ]);
+        } elseif ($user->role_id !== 3) {
+            return response()->json([
+                'status' => false,
+                'message' => "Vous ne pouvez déloquer que les utilisateurs clients ici."
+            ]);
+        } else {
+
+
+            $user->is_activated = true;
+            $user->save();
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "L'utilisateur a été débloqué",
+                'data' =>  $user,
+            ]);
+        }
+    }
+
+    public function blockUser($id)
+    {   // dd($id);
+
+        $user = User::find($id);
+
+        if ($user === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Utilisateur non trouvé"
+            ]);
+        } elseif ($user->role_id !== 3) {
+            return response()->json([
+                'status' => false,
+                'message' => "Vous ne pouvez bloquer que les utilisateurs clients ici."
+            ]);
+        } else {
+
+
+            $user->is_activated = false;
+            $user->save();
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "L'utilisateur a été bloqué",
+                'data' =>  $user,
+            ]);
+        }
+    }
 
     // Methode RESTAURANTS 
 
@@ -160,13 +219,13 @@ class UserController extends Controller
 
     public function restaurantLogin(LoginUserRequest $request, User $restaurant)
     {
-        
+
         // dd($request);
         $credentials = $request->only(['email', 'password']);
         if (!$token = auth()->guard('user-api')->attempt($credentials)) {
             return response()->json(['error' => 'Les informations d\'identification ne sont pas valides.'], 401);
         }
-        
+
         $restaurant = auth()->guard('user-api')->user();
 
         return response()->json([
@@ -230,5 +289,129 @@ class UserController extends Controller
             'message' => "Profil du restaurant modifié avec succès",
             'data' => $restaurant
         ]);
+    }
+
+
+    public function unblockRestaurant($id)
+    {
+
+        $restaurant = User::find($id);
+
+        if ($restaurant === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Utilisateur non trouvé"
+            ]);
+        } elseif ($restaurant->role_id !== 2) {
+            return response()->json([
+                'status' => false,
+                'message' => "Vous ne pouvez débloquer que les comptes restaurants ici."
+            ]);
+        } else {
+
+            $restaurant->is_activated = false;
+            $restaurant->save();
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Le restaurant a été débloqué",
+                'data' =>  $restaurant,
+            ]);
+        }
+    }
+
+    public function blockRestaurant($id)
+    {
+        $restaurant = User::find($id);
+
+        if ($restaurant === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Utilisateur non trouvé"
+            ]);
+        } elseif ($restaurant->role_id !== 2) {
+            return response()->json([
+                'status' => false,
+                'message' => "Vous ne pouvez bloquer que les comptes restaurants ici."
+            ]);
+        } else {
+
+
+            $restaurant->is_activated = false;
+            $restaurant->save();
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Le restaurant a été bloqué",
+                'data' =>  $restaurant,
+            ]);
+        }
+    }
+
+
+    public function voirRestaurantDetails($id)
+    {
+        if (auth()->guard('user-api')->user()->role_id !== 1) {
+            return response()->json([
+                'status' => false,
+                'message' => "Accès non autorisé"
+            ]);
+        }
+
+        $restaurant = User::find($id);
+
+        if ($restaurant === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Utilisateur non trouvé"
+            ]);
+        } elseif ($restaurant->role_id !== 2) {
+            return response()->json([
+                'status' => false,
+                'message' => "Vous ne pouvez voir les détails que des comptes restaurants ici."
+            ]);
+        } else {
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Détails du restaurant:",
+                'data' =>  $restaurant,
+            ]);
+        }
+    }
+
+    public function voirUserDetails($id)
+    {
+        if (auth()->guard('user-api')->user()->role_id !== 1) {
+            return response()->json([
+                'status' => false,
+                'message' => "Accès non autorisé"
+            ]);
+        }
+
+        $user = User::find($id);
+
+        if ($user === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Utilisateur non trouvé"
+            ]);
+        } elseif ($user->role_id !== 3) {
+            return response()->json([
+                'status' => false,
+                'message' => "Vous ne pouvez voir les détails que des comptes clients ici."
+            ]);
+        } else {
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Détails de l'utilisateur:",
+                'data' =>  $user,
+            ]);
+        }
     }
 }
