@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Other\CommandeController;
 use App\Http\Controllers\Api\Other\MenuController;
 use App\Http\Controllers\Api\Other\PlatController;
 use App\Http\Controllers\Api\Other\RoleController;
+use App\Http\Controllers\Api\MessageController;
 use App\Models\Commande;
 
 /*
@@ -40,6 +41,8 @@ Route::group([
 Route::post('/restaurant/login', [UserController::class, 'restaurantLogin']);
 Route::post('/user/register', [UserController::class, 'userRegister']);
 Route::post('/user/login', [UserController::class, 'userLogin']);
+Route::post('/contact/admin', [MessageController::class, 'contacterAdmin']);
+Route::post('/message/test', [MessageController::class, 'testMessage']);
 // -----------------------------Libres ---------------------
 Route::get('/categorie/list', [CategorieController::class, 'index']);
 Route::get('/menu/list', [MenuController::class, 'index']);

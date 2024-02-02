@@ -180,6 +180,7 @@ class UserController extends Controller
         }
     }
 
+    
     // Methode RESTAURANTS 
 
     public function restaurantRegister(CreateUserRequest $request)
@@ -414,4 +415,5 @@ class UserController extends Controller
             ]);
         }
     }
+
 }
