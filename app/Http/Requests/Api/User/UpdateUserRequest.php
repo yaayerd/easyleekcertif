@@ -25,9 +25,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3|max:30',
-            'email' => 'required|email',
-            // 'phone' => 'required|regex:/^\+221(?:76|77|78|70)[0-9]{7}$/',
-            'phone' => 'required|integer',
+            'email' => 'required|email',                
+            'phone' => ['required','regex:/^(70|75|76|77|78)[0-9]{7}$/'],
             'adresse' => 'required|string|max:70',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'password' => 'required|min:8',
@@ -56,7 +55,7 @@ class UpdateUserRequest extends FormRequest
             'email.email' => 'Veuillez fournir une adresse email valide.',
             
             'phone.required' => 'Le numéro de Téléphone est obligatoire.',
-            'phone.regex' => 'Le "Téléphone" doit être un numéro sénégalais. Il doit commencer par +221 suivi de l\'un des préfixes (76, 77, 78, 70) et être suivi de 7 chiffres.',
+            'phone.regex' => 'Le téléphone doit être un numéro sénégalais. Il doit commencer par +221 suivi de l\'un des préfixes (75, 76, 77, 78, 70) et être suivi de 7 chiffres.',
 
             'adresse.required' => 'L\'adresse est obligatoire.',
             'adresse.string' => 'L\'adresse doit être une chaîne de caractères.',

@@ -26,8 +26,7 @@ class CreateUserRequest extends FormRequest
         return [
             'name' => 'required|min:3|max:30',
             'email' => 'required|email|unique:users,email',
-            // 'phone' => 'required|regex:#^\+221(?:76|77|78|70)[0-9]{7}$#',
-            'phone' => 'required|integer',
+            'phone' => ['required','regex:/^(70|75|76|77|78)[0-9]{7}$/'],
             'adresse' => 'required|string|max:70',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'password' => 'required|min:8',
@@ -57,7 +56,7 @@ class CreateUserRequest extends FormRequest
             'email.unique' => 'Cette adresse email est déjà utilisée par un autre utilisateur.',
 
             'phone.required' => 'Le numéro de Téléphone est obligatoire.',
-            'phone.regex' => 'Le "Téléphone" doit être un numéro sénégalais. Il doit commencer par +221 suivi de l\'un des préfixes (76, 77, 78, 70) et être suivi de 7 chiffres.',
+            'phone.regex' => 'Le "Téléphone" doit être un numéro sénégalais. Il doit commencer par +221 suivi de l\'un des préfixes (75, 76, 77, 78, 70) et être suivi de 7 chiffres.',
 
             'adresse.required' => 'L\'adresse est obligatoire.',
             'adresse.string' => 'L\'adresse doit être une chaîne de caractères.',

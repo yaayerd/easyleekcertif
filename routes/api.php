@@ -52,18 +52,27 @@ Route::get('/avis/show/{id}', [AvisController::class, 'show']);
 
 
 // Les routes de l' AdminSystem**************************************************
-
+    
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem']], function () {
-
+    
     //-------------------------Gestion Comptes Utilisateurs--------------------
     
-    Route::post('/restaurant/register', [UserController::class, 'restaurantRegister']);
+    // ------------------------------Client ----------------------
     Route::post('/client/compte/block/{id}', [UserController::class, 'blockUser']);
     Route::post('/client/compte/unblock/{id}', [UserController::class, 'unblockUser']);
+    Route::post('/user/details/{id}', [UserController::class, 'voirUserDetails']);
+    Route::get('/client/list/blocked', [UserController::class, 'listClientBlocked']);
+    Route::get('/client/list/unblocked', [UserController::class, 'listClientUnblocked']);
+    Route::get('/client/list/all', [UserController::class, 'listAllClient']);
+
+    // ------------------------------Restaurant  ----------------------
+    Route::post('/restaurant/register', [UserController::class, 'restaurantRegister']);
+    Route::post('/restaurant/details/{id}', [UserController::class, 'voirRestaurantDetails']);
     Route::post('/restaurant/compte/block/{id}', [UserController::class, 'blockRestaurant']);
     Route::post('/restaurant/compte/unblock/{id}', [UserController::class, 'unblockRestaurant']);
-    Route::post('/user/details/{id}', [UserController::class, 'voirUserDetails']);
-    Route::post('/restaurant/details/{id}', [UserController::class, 'voirRestaurantDetails']);
+    Route::get('/restaurant/list/blocked', [UserController::class, 'listRestaurantBlocked']);
+    Route::get('/restaurant/list/unblocked', [UserController::class, 'listRestaurantUnblocked']);
+    Route::get('/restaurant/list/all', [UserController::class, 'listAllRestaurant']);
     
     // --------------------  Les routes liées à Catégorie 
     Route::get('/categorie/list', [CategorieController::class, 'index']);
@@ -79,6 +88,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
     Route::put('/role/update/{id}', [RoleController::class, 'update']);
     Route::get('/role/show/{id}', [RoleController::class, 'show']);
     Route::delete('/role/delete/{id}', [RoleController::class, 'destroy']);
+
 });
 
 

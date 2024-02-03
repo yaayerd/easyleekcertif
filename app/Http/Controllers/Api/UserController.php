@@ -181,6 +181,122 @@ class UserController extends Controller
     }
 
     
+    public function voirUserDetails($id)
+    {
+        if (auth()->guard('user-api')->user()->role_id !== 1) {
+            return response()->json([
+                'status' => false,
+                'message' => "Accès non autorisé"
+            ]);
+        }
+
+        $user = User::find($id);
+
+        if ($user === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Utilisateur non trouvé"
+            ]);
+        } elseif ($user->role_id !== 3) {
+            return response()->json([
+                'status' => false,
+                'message' => "Vous ne pouvez voir les détails que des comptes clients ici."
+            ]);
+        } else {
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Détails de l'utilisateur:",
+                'data' =>  $user,
+            ]);
+        }
+    }
+    
+    public function listClientUnblocked()
+    {
+        if (auth()->guard('user-api')->user()->role_id !== 1) {
+            return response()->json([
+                'status' => false,
+                'message' => "Accès non autorisé"
+            ]);
+        }
+        $clients = User::where('role_id', 3)->where('is_activated', true)->get(); 
+
+        // dd($clients);
+
+        if ($clients === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Aucun restaurant trouvé"
+            ]);
+        } else {
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Voici la Liste des clients non bloqués : ",  
+                'data' => $clients,
+            ], 200);  
+        }
+    }
+
+    public function listClientBlocked()
+    {
+        if (auth()->guard('user-api')->user()->role_id !== 1) {
+            return response()->json([
+                'status' => false,
+                'message' => "Accès non autorisé"
+            ]);
+        }
+        $clients = User::where('role_id', 3)->where('is_activated', false)->get(); 
+
+        // dd($clients);
+
+        if ($clients === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Aucun restaurant trouvé"
+            ]);
+        } else {
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Voici la Liste des clients bloqués: ",  
+                'data' => $clients,
+            ], 200);  
+        }
+    }
+
+    public function listAllClient()
+    {
+        if (auth()->guard('user-api')->user()->role_id !== 1) {
+            return response()->json([
+                'status' => false,
+                'message' => "Accès non autorisé"
+            ]);
+        }
+        $clients = User::where('role_id', 3)->get(); 
+
+        // dd($clients);
+
+        if ($clients === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Aucun client trouvé"
+            ]);
+        } else {
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Voici la Liste de tous les clients : ",  
+                'data' => $clients,
+            ], 200);  
+        }
+    }
+
     // Methode RESTAURANTS 
 
     public function restaurantRegister(CreateUserRequest $request)
@@ -384,7 +500,7 @@ class UserController extends Controller
         }
     }
 
-    public function voirUserDetails($id)
+    public function listRestaurantUnblocked()
     {
         if (auth()->guard('user-api')->user()->role_id !== 1) {
             return response()->json([
@@ -392,27 +508,79 @@ class UserController extends Controller
                 'message' => "Accès non autorisé"
             ]);
         }
+        $restaurant = User::where('role_id', 2)->where('is_activated', true)->get(); 
 
-        $user = User::find($id);
+        // dd($restaurant);
 
-        if ($user === null) {
+        if ($restaurant === null) {
             return response()->json([
                 'status' => false,
-                'message' => "Utilisateur non trouvé"
-            ]);
-        } elseif ($user->role_id !== 3) {
-            return response()->json([
-                'status' => false,
-                'message' => "Vous ne pouvez voir les détails que des comptes clients ici."
+                'message' => "Aucun restaurant trouvé"
             ]);
         } else {
 
             return response()->json([
                 'status_code' => 200,
                 'status' => true,
-                'message' => "Détails de l'utilisateur:",
-                'data' =>  $user,
+                'message' => "Voici la Liste des restaurants non bloqués : ",  
+                'data' => $restaurant,
+            ], 200);  
+        }
+    }
+
+    public function listRestaurantBlocked()
+    {
+        if (auth()->guard('user-api')->user()->role_id !== 1) {
+            return response()->json([
+                'status' => false,
+                'message' => "Accès non autorisé"
             ]);
+        }
+        $restaurant = User::where('role_id', 2)->where('is_activated', false)->get(); 
+
+        // dd($restaurant);
+
+        if ($restaurant === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Aucun restaurant trouvé"
+            ]);
+        } else {
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Voici la Liste des restaurants bloqués: ",  
+                'data' => $restaurant,
+            ], 200);  
+        }
+    }
+
+    public function listAllRestaurant()
+    {
+        if (auth()->guard('user-api')->user()->role_id !== 1) {
+            return response()->json([
+                'status' => false,
+                'message' => "Accès non autorisé"
+            ]);
+        }
+        $restaurant = User::where('role_id', 2)->get(); 
+
+        // dd($restaurant);
+
+        if ($restaurant === null) {
+            return response()->json([
+                'status' => false,
+                'message' => "Aucun restaurant trouvé"
+            ]);
+        } else {
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Voici la Liste de tous les restaurants : ",  
+                'data' => $restaurant,
+            ], 200);  
         }
     }
 
