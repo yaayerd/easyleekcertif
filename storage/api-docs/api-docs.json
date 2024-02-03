@@ -1,9 +1,9 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Your API Title",
-        "description": "Your API Description",
-        "version": "1.0.0"
+        "title": "Easyleek Api Project",
+        "description": "EasyLeek, une application de commande en ligne. Elle facilite la manière dont les Sénégalais découvrent, commandent et dégustent leurs plats préférés. En simplifiant le processus avec une interface intuitive, EasyLeek connecte les utilisateurs à une variété de restaurants locaux, offrant une expérience culinaire optimale.",
+        "version": "1.0.1"
     },
     "security": [
         {
