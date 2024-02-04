@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\Message;
 use App\Mail\MessageMail;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class MessageController extends Controller
                 'status' => true,
                 'message' => "Votre message a bien été envoyé.",
                 'data' =>  $message
-            ]);
+            ], 200);
         }
     }
 
@@ -55,4 +56,30 @@ class MessageController extends Controller
 
 
 
+    public function ListMessage()
+     {
+
+        try {
+            
+        $messages = Message::all(); // ->get()
+        // dd($messages); 
+
+            return response()->json([
+                'status' => true,
+                'statut code' => 200,
+                'message' => "Voici les messages des utilisateurs. ",
+                'menu'  => $messages,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e
+            ],  500);
+        }
+
+
+
+    }
 }

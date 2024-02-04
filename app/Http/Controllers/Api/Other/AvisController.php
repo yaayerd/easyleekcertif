@@ -25,7 +25,7 @@ class AvisController extends Controller
                     "status" => false,
                     "statut_code" => 400,
                     "message" => "commande_id est requis."
-                ]);
+                ],  400);
             }
             // $commandes = Commande::where('commande_id', '=', $user->user_id)->get();
             $commande = Commande::find($request->commande_id);
@@ -36,7 +36,7 @@ class AvisController extends Controller
                     "status" => false,
                     "statut_code" => 404,
                     "message" => "La commande n'existe pas."
-                ]);
+                ],  404);
             }
 
             if ($user) {
@@ -47,7 +47,7 @@ class AvisController extends Controller
                     'statut_code' => 200,
                     'message' => "Voici les avis de cette commande.",
                     'avisClient'  => $lesavis,
-                ]);
+                ],  200);
             } 
         } catch (Exception $e) {
             return response()->json([
@@ -55,7 +55,7 @@ class AvisController extends Controller
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "erreur" => $e->getMessage()
-            ]);
+            ],  500);
         }
     }
 
@@ -81,7 +81,6 @@ class AvisController extends Controller
             $commande = Commande::where('id' , $request->commande_id)->first();
         // $commande = Commande::where('user_id', $user->id)->where('id', $id)->first();
 
-
             // dd($commande);
             
             $this->authorize('avisStore', $avis);
@@ -106,7 +105,7 @@ class AvisController extends Controller
                     'statut_code' => 201,
                     'message' => "Votre avis à été enregistrée avec succès",
                     'avisClient' => $avis
-                ]);
+                ],  201);
             } 
         } catch (Exception $e) {
             return response()->json([
@@ -114,7 +113,7 @@ class AvisController extends Controller
                 'statut_code' => 500,
                 'message' => "Une erreur est survenue lors de l'ajout de cet avis, veuillez vérifier vos informations.",
                 'error' => $e->getMessage()
-            ]);
+            ],  500);
         }
     }
 
@@ -132,7 +131,7 @@ class AvisController extends Controller
                     'status' => false,
                     'statut_code' => 404,
                     'statut_message' => 'Cette commande n\'existe pas',
-                ]);
+                ],  404);
             }
             if ($user) {
                 $avis = Avis::where('id', $avis->id)->first();
@@ -143,7 +142,7 @@ class AvisController extends Controller
                     'statut_code' => 200,
                     'message' => "Voici les détails de l'avis que vous avez fait pour cette commande.",
                     'avis'  => $avis,
-                ]);
+                ],  200);
             } 
         } catch (Exception $e) {
             return response()->json([
@@ -151,7 +150,7 @@ class AvisController extends Controller
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],  500);
         }
     }
 
@@ -181,7 +180,7 @@ class AvisController extends Controller
                     "status" => false,
                     "statut_code" => 404,
                     "message" => "Cette commande n'existe pas.",
-                ]);
+                ],  404);
             }
             
             if ($user && $avis) {
@@ -200,7 +199,7 @@ class AvisController extends Controller
                     'statut_code' => 200,
                     'message' => "Votre avis à été modifiée avec succès",
                     'avisClient' => $avis
-                ]);
+                ], 200);
             } 
         } catch (Exception $e) {
             return response()->json([
@@ -208,7 +207,7 @@ class AvisController extends Controller
                 'statut_code' => 500,
                 'message' => "Une erreur est survenue lors de l'ajout de la commande, veuillez vérifier vos informations.",
                 'error' => $e->getMessage()
-            ]);
+            ],500);
         }
     }
 
@@ -230,7 +229,7 @@ class AvisController extends Controller
                     'status' => false,
                     'statut_code' => 404,
                     'statut_message' => 'Cet avis n\'existe pas',
-                ]);
+                ], 404);
             }
                 if ($user && $avis) {
 
@@ -242,7 +241,7 @@ class AvisController extends Controller
                     'status' => true,
                     'statut_code' => 200,
                     'statut_message' => 'Cet avis a été supprimé avec succès',
-                ]);
+                ], 200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -250,7 +249,7 @@ class AvisController extends Controller
                 'statut_code' => 500,
                 'message' => "Une erreur est survenue.",
                 'error' => $e->getMessage()
-            ]);
+            ],500);
         }
     }
 

@@ -22,14 +22,14 @@ class CategorieController extends Controller
                 'statut code' => 200,
                 'message' => "Voici la liste des catégories. ",
                 'data'  => Categorie::all(),
-            ]);
+            ],  200);
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],  500);
     }
     }
 
@@ -59,10 +59,10 @@ class CategorieController extends Controller
 
             return response()->json([
                 'status' => true,
-                'statut code' => 200,
+                'statut code' => 201,
                 'message' => "Catégorie enrégistrée  avec succès",
                 'data'  => $categorie,
-            ]);
+            ],  201);
             } 
         } catch (Exception $e) {
             return response()->json([
@@ -70,7 +70,7 @@ class CategorieController extends Controller
                 "status_code" => 500,
                 "message" => "Une erreur est survenue lors de l'insertion.",
                 "error"   => $e->getMessage()
-            ]);
+            ],  500);
         }
     }
 
@@ -87,19 +87,19 @@ class CategorieController extends Controller
                 'statut code' => 200,
                 'message' => "Ceci est la catégorie",
                 'data'  => $categorie,
-            ]);
+            ], 200);
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
                 'statut_code' => 404,
                 'message' => "Cette categorie n'existe pas."
-            ]);
+            ],  404);
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],   500);
         }
     }
 
@@ -124,7 +124,7 @@ class CategorieController extends Controller
                     "status" => false,
                     "statut_code" => 404,
                     "message" => "Cette categorie n'existe pas.",
-                ]);
+                ],  404);
             } else {
                 $this->authorize('update', $categorie);
             // dd($request);
@@ -135,7 +135,7 @@ class CategorieController extends Controller
                 'statut_code' => 200,
                 'statut_message' => 'Le type de categorie a été modifié avec succès',
                 'data' => $categorie,
-            ]);
+            ],   200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -143,7 +143,7 @@ class CategorieController extends Controller
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],   500);
         }
     }
 
@@ -160,7 +160,7 @@ class CategorieController extends Controller
                     'status' => false,
                     'statut_code' => 404,
                     'statut_message' => 'Ce type de categorie n\'existe pas',
-                ]);
+                ],   404);
             } else {
                 $this->authorize('store', $categorie);
                 
@@ -171,7 +171,7 @@ class CategorieController extends Controller
                     'statut_code' => 200,
                     'statut_message' => 'Ce type de categorie a été supprimé avec succès',
                     'data' => $categorie,
-                ]);
+                ],    200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -179,7 +179,7 @@ class CategorieController extends Controller
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],    500);
         }
     }
 }

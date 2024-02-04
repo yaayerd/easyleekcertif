@@ -24,21 +24,15 @@ class RoleController extends Controller
                     'status_code' => 200,
                     'message' => "Voici les rôles de la plateforme Easyleek.",
                     'roles'  => Role::all(),
-                ]);
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 401,
-                    "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
-            }
+                ],  200);
+            } 
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],  500);
         }
     }
 
@@ -70,7 +64,7 @@ class RoleController extends Controller
                     'statut code' => 200,
                     'message' => "Le role enrégistré avec succès",
                     'role'  => $role,
-                ]);
+                ],  200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -78,7 +72,7 @@ class RoleController extends Controller
                 "status_code" => 500,
                 "message" => "Une erreur est survenue lors de l'insertion.",
                 "error"   => $e->getMessage()
-            ]);
+            ],  500);
         }
     }
     /**
@@ -95,14 +89,14 @@ class RoleController extends Controller
                         'status' => false,
                         'status_code' => 404,
                         'message' => 'Ce role n\'existe pas',
-                    ]);
+                    ],  404);
                 } else {
                     return response()->json([
                         'status' => true,
                         'status_code' => 200,
                         'message' => 'Ceci est le rôle sélectionné.',
                         'role' => $role,
-                    ]);
+                    ],   200);
                 }
             }
         } catch (Exception $e) {
@@ -111,7 +105,7 @@ class RoleController extends Controller
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],   500);
         }
     }
 
@@ -139,7 +133,7 @@ class RoleController extends Controller
                         "status" => false,
                         "status_code" => 404,
                         "message" => "Ce role n'existe pas.",
-                    ]);
+                    ],    404);
                 } else {
                     $this->authorize('update', $role);
 
@@ -152,7 +146,7 @@ class RoleController extends Controller
                         'status_code' => 200,
                         'message' => 'Le nom du role a été modifié avec succès',
                         'role' => $role,
-                    ]);
+                    ],  200);
                 }
             }
         } catch (Exception $e) {
@@ -161,7 +155,7 @@ class RoleController extends Controller
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],  500);
         }
     }
 
@@ -182,7 +176,7 @@ class RoleController extends Controller
                         'status' => false,
                         'status_code' => 404,
                         'message' => 'Ce role n\'existe pas',
-                    ]);
+                    ],   404);
                 } else {
                     $this->authorize('destroy', $role);
                     // dd($role);
@@ -191,7 +185,7 @@ class RoleController extends Controller
                         'status' => true,
                         'status_code' => 200,
                         'message' => 'Ce role a été supprimé avec succès',
-                    ]);
+                    ],    200);
                 }
             }
         } catch (Exception $e) {
@@ -200,7 +194,7 @@ class RoleController extends Controller
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],   500);
         }
     }
 }

@@ -321,11 +321,11 @@ class UserController extends Controller
 
         if ($restaurant) {
             return response()->json([
-                'status_code' => 200,
+                'status_code' => 201,
                 'status' => true,
                 'message' => "Enrégistrement du Restaurant reussie",
                 'data' =>  $restaurant
-            ]);
+            ],  201);
         } else {
             return response()->json([
                 'status' => false,
@@ -352,7 +352,7 @@ class UserController extends Controller
             'token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->guard('user-api')->factory()->getTTL() * 120
-        ]);
+        ],  200);
     }
 
 
@@ -368,7 +368,7 @@ class UserController extends Controller
         return response()->json([
             'status_code' => 200,
             'message' => 'Deconnexion réussie'
-        ]);
+        ],  200);
     }
 
     public function restautantModifyProfile(UpdateUserRequest $request, User $restaurant)
@@ -405,7 +405,7 @@ class UserController extends Controller
             'status' => true,
             'message' => "Profil du restaurant modifié avec succès",
             'data' => $restaurant
-        ]);
+        ],  200);
     }
 
 
@@ -418,12 +418,12 @@ class UserController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => "Utilisateur non trouvé"
-            ]);
+            ],  400);
         } elseif ($restaurant->role_id !== 2) {
             return response()->json([
                 'status' => false,
                 'message' => "Vous ne pouvez débloquer que les comptes restaurants ici."
-            ]);
+            ],   401);
         } else {
 
             $restaurant->is_activated = false;
@@ -434,7 +434,7 @@ class UserController extends Controller
                 'status' => true,
                 'message' => "Le restaurant a été débloqué",
                 'data' =>  $restaurant,
-            ]);
+            ],   200);
         }
     }
 
@@ -446,12 +446,12 @@ class UserController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => "Utilisateur non trouvé"
-            ]);
+            ],  404);
         } elseif ($restaurant->role_id !== 2) {
             return response()->json([
                 'status' => false,
                 'message' => "Vous ne pouvez bloquer que les comptes restaurants ici."
-            ]);
+            ],  403);
         } else {
 
 
@@ -463,7 +463,7 @@ class UserController extends Controller
                 'status' => true,
                 'message' => "Le restaurant a été bloqué",
                 'data' =>  $restaurant,
-            ]);
+            ],  200);
         }
     }
 
@@ -473,8 +473,9 @@ class UserController extends Controller
         if (auth()->guard('user-api')->user()->role_id !== 1) {
             return response()->json([
                 'status' => false,
+                'status_code' => 403,
                 'message' => "Accès non autorisé"
-            ]);
+            ],  403);
         }
 
         $restaurant = User::find($id);
@@ -482,13 +483,15 @@ class UserController extends Controller
         if ($restaurant === null) {
             return response()->json([
                 'status' => false,
+                'status_code' => 404,
                 'message' => "Utilisateur non trouvé"
-            ]);
+            ],  404);
         } elseif ($restaurant->role_id !== 2) {
             return response()->json([
                 'status' => false,
+                'status_code' => 403,
                 'message' => "Vous ne pouvez voir les détails que des comptes restaurants ici."
-            ]);
+            ],   403);
         } else {
 
             return response()->json([
@@ -496,7 +499,7 @@ class UserController extends Controller
                 'status' => true,
                 'message' => "Détails du restaurant:",
                 'data' =>  $restaurant,
-            ]);
+            ],  200);
         }
     }
 
@@ -504,9 +507,10 @@ class UserController extends Controller
     {
         if (auth()->guard('user-api')->user()->role_id !== 1) {
             return response()->json([
-                'status' => false,
+                'status' => false, 
+                'status_code' => 403,
                 'message' => "Accès non autorisé"
-            ]);
+            ],  403);
         }
         $restaurant = User::where('role_id', 2)->where('is_activated', true)->get(); 
 
@@ -515,8 +519,9 @@ class UserController extends Controller
         if ($restaurant === null) {
             return response()->json([
                 'status' => false,
+                'status_code' => 404,
                 'message' => "Aucun restaurant trouvé"
-            ]);
+            ],  404);
         } else {
 
             return response()->json([
@@ -533,8 +538,9 @@ class UserController extends Controller
         if (auth()->guard('user-api')->user()->role_id !== 1) {
             return response()->json([
                 'status' => false,
+                'status_code' => 403,
                 'message' => "Accès non autorisé"
-            ]);
+            ],  403);
         }
         $restaurant = User::where('role_id', 2)->where('is_activated', false)->get(); 
 
@@ -543,8 +549,9 @@ class UserController extends Controller
         if ($restaurant === null) {
             return response()->json([
                 'status' => false,
+                'status_code' => 404,
                 'message' => "Aucun restaurant trouvé"
-            ]);
+            ],  404);
         } else {
 
             return response()->json([
@@ -561,8 +568,9 @@ class UserController extends Controller
         if (auth()->guard('user-api')->user()->role_id !== 1) {
             return response()->json([
                 'status' => false,
+                'status_code' => 403,
                 'message' => "Accès non autorisé"
-            ]);
+            ], 403);
         }
         $restaurant = User::where('role_id', 2)->get(); 
 
@@ -571,8 +579,9 @@ class UserController extends Controller
         if ($restaurant === null) {
             return response()->json([
                 'status' => false,
+                'status_code' => 404,
                 'message' => "Aucun restaurant trouvé"
-            ]);
+            ], 404);
         } else {
 
             return response()->json([

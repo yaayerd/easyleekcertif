@@ -52,7 +52,7 @@ Route::get('/avis/show/{id}', [AvisController::class, 'show']);
 
 
 // Les routes de l' AdminSystem**************************************************
-    
+
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem']], function () {
     
     //-------------------------Gestion Comptes Utilisateurs--------------------
@@ -64,7 +64,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
     Route::get('/client/list/blocked', [UserController::class, 'listClientBlocked']);
     Route::get('/client/list/unblocked', [UserController::class, 'listClientUnblocked']);
     Route::get('/client/list/all', [UserController::class, 'listAllClient']);
-
+    
     // ------------------------------Restaurant  ----------------------
     Route::post('/restaurant/register', [UserController::class, 'restaurantRegister']);
     Route::post('/restaurant/details/{id}', [UserController::class, 'voirRestaurantDetails']);
@@ -74,6 +74,8 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
     Route::get('/restaurant/list/unblocked', [UserController::class, 'listRestaurantUnblocked']);
     Route::get('/restaurant/list/all', [UserController::class, 'listAllRestaurant']);
     
+    Route::get('/message/list', [MessageController::class, 'ListMessage']);
+   
     // --------------------  Les routes liées à Catégorie 
     Route::get('/categorie/list', [CategorieController::class, 'index']);
     Route::post('/categorie/store', [CategorieController::class, 'store']);

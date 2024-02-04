@@ -25,14 +25,14 @@ class MenuController extends Controller
                 'statut code' => 200,
                 'message' => "Voici le Menu du restaurant. ",
                 'menu'  => Menu::all(),
-            ]);
+            ], 200);
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e
-            ]);
+            ], 500);
         }
     }
 
@@ -65,16 +65,16 @@ class MenuController extends Controller
 
                 return response()->json([
                     'status' => true,
-                    'statut code' => 200,
+                    'statut code' => 201,
                     'message' => "Le menu enrégistré avec succès",
                     'menu'  => $lemenu,
-                ]);
+                ], 201);
             } else {
                 return response()->json([
                     "status" => false,
                     "status_code" => 401,
                     "message" => "Vous n'avez pas le rôle requis pour accéder à cette ressource."
-                ]);
+                ], 401);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -82,7 +82,7 @@ class MenuController extends Controller
                 "status_code" => 500,
                 "message" => "Une erreur est survenue lors de l'insertion.",
                 "error"   => $e->getMessage()
-            ]);
+            ], 500);
         }
     }
     /**
@@ -98,7 +98,7 @@ class MenuController extends Controller
                     'status' => false,
                     'statut_code' => 404,
                     'statut_message' => 'Ce Menu n\'existe pas',
-                ]);
+                ], 404);
             } else {
 
                 return response()->json([
@@ -106,7 +106,7 @@ class MenuController extends Controller
                     'statut_code' => 200,
                     'statut_message' => 'Voici le menu du restaurant',
                     'menu' => $lemenu,
-                ]);
+                ], 200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -114,7 +114,7 @@ class MenuController extends Controller
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ], 500);
         }
     }
 
@@ -141,7 +141,7 @@ class MenuController extends Controller
                     "status" => false,
                     "statut_code" => 404,
                     "message" => "Ce menu n'existe pas.",
-                ]);
+                ], 404);
             } else {
 
                 $this->authorize('update', $menu);
@@ -155,7 +155,7 @@ class MenuController extends Controller
                     'statut_code' => 200,
                     'statut_message' => 'Le titre du menu a été modifié avec succès',
                     'menu' => $menu,
-                ]);
+                ], 200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -163,7 +163,7 @@ class MenuController extends Controller
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ], 500);
         }
     }
 
@@ -181,7 +181,7 @@ class MenuController extends Controller
                     'status' => false,
                     'statut_code' => 404,
                     'statut_message' => 'Ce menu n\'existe pas',
-                ]);
+                ], 404);
             } else {
                 $this->authorize('destroy', $menu);
 
@@ -192,7 +192,7 @@ class MenuController extends Controller
                     'statut_code' => 200,
                     'statut_message' => 'Ce Menu a été supprimé avec succès',
                     'menu' => $menu,
-                ]);
+                ], 200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -200,7 +200,7 @@ class MenuController extends Controller
                 "status_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ], 500);
         }
     }
 }

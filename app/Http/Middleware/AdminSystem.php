@@ -22,7 +22,7 @@ class AdminSystem
             return response()->json([
                 'status code' => 403, 
                 'message' => "Sorry, vous n'êtes pas autorisé à accéder à cette ressource réservé à l'Administrateur de ce système."
-            ]);
+            ], 403);
         }
     }
 }

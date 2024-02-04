@@ -26,7 +26,7 @@ class CommandeController extends Controller
                     "status" => false,
                     "statut_code" => 400,
                     "message" => "Ce plat est introuvable."
-                ]);
+                ],  400);
             }
 
             $plat = Plat::find($request->plat_id);
@@ -36,7 +36,7 @@ class CommandeController extends Controller
                     "status" => false,
                     "statut_code" => 404,
                     "message" => "Le plat n'existe pas."
-                ]);
+                ],   404);
             }
 
             if ($user) {
@@ -48,7 +48,7 @@ class CommandeController extends Controller
                     'statut_code' => 200,
                     'message' => "Voici les commandes de ce plat passées par l'utilisateur connecté.",
                     'data'  => $commandes,
-                ]);
+                ],  200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -56,7 +56,7 @@ class CommandeController extends Controller
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "erreur" => $e->getMessage()
-            ]);
+            ],   500);
         }
     }
 
@@ -102,7 +102,7 @@ class CommandeController extends Controller
                     'statut_code' => 201,
                     'message' => "Votre commande à été enregistrée avec succès",
                     'data' => $commande
-                ]);
+                ],  201);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -110,7 +110,7 @@ class CommandeController extends Controller
                 'statut_code' => 500,
                 'error' => "Une erreur est survenue lors de l'ajout de la commande, veuillez vérifier vos informations.",
                 'exception' => $e
-            ]);
+            ],   500);
         }
     }
 
@@ -130,7 +130,7 @@ class CommandeController extends Controller
                     'status' => false,
                     'statut_code' => 404,
                     'statut_message' => 'Cette commande n\'existe pas',
-                ]);
+                ],  404);
             } elseif ($user) {
                 $commande = Commande::where('user_id', $user->id)->where('id', $commande->id)->first();
 
@@ -139,13 +139,7 @@ class CommandeController extends Controller
                     'statut_code' => 200,
                     'message' => "Voici les détails de la commande que vous avez faites pour ce plat.",
                     'data'  => $commande,
-                ]);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'status_code' => 404,
-                    'message' => "Aucune commande n'a été trouvée.",
-                ]);
+                ],   200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -153,7 +147,7 @@ class CommandeController extends Controller
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],   500);
         }
     }
 
@@ -186,7 +180,7 @@ class CommandeController extends Controller
                     "status" => false,
                     "statut_code" => 404,
                     "message" => "Cette commande n'existe pas.",
-                ]);
+                ],  404);
             }
 
             if ($user && $commande) {
@@ -206,7 +200,7 @@ class CommandeController extends Controller
                     'statut_code' => 200,
                     'message' => "Votre commande à été modifiée avec succès",
                     'data' => $commande
-                ]);
+                ],  200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -214,7 +208,7 @@ class CommandeController extends Controller
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],   500);
         }
     }
 
@@ -233,7 +227,7 @@ class CommandeController extends Controller
                     'status' => false,
                     'statut_code' => 404,
                     'statut_message' => 'Cette commande n\'existe pas',
-                ]);
+                ],  404);
             } else {
                 $this->authorize('updateCommande', $commande);
 
@@ -244,7 +238,7 @@ class CommandeController extends Controller
                     'statut_code' => 200,
                     'statut_message' => 'Ce Menu a été supprimé avec succès',
                     'numeroCommande' => $commande->numeroCommande,
-                ]);
+                ],   200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -252,7 +246,7 @@ class CommandeController extends Controller
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],    500);
         }
     }
 
@@ -270,7 +264,7 @@ class CommandeController extends Controller
                     "status" => false,
                     "statut_code" => 404,
                     "message" => "Cette commande n'existe pas.",
-                ]);
+                ],  404);
             }
 
             if ($commande->etatCommande === 'refusee') {
@@ -278,7 +272,7 @@ class CommandeController extends Controller
                     "status" => true,
                     "statut_code" => 200,
                     "message" => "Cette commande est déjà refusée.",
-                ]);
+                ],   200);
             } elseif (isset($commande->etatCommande)) {
                 // if (isset($commande->etatCommande)) {
 
@@ -289,7 +283,7 @@ class CommandeController extends Controller
                     'statut_code' => 200,
                     'statut_message' => 'Le plat est refusee avec succès',
                     'data' => $commande,
-                ]);
+                ],   200);
             }
             // }
         } catch (Exception $e) {
@@ -298,7 +292,7 @@ class CommandeController extends Controller
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],   500);
         }
     }
 
@@ -314,7 +308,7 @@ class CommandeController extends Controller
                     "status" => false,
                     "statut_code" => 404,
                     "message" => "Cette commande n'existe pas.",
-                ]);
+                ],    404);
             }
 
             if ($commande->etatCommande === 'acceptee') {
@@ -322,7 +316,7 @@ class CommandeController extends Controller
                     "status" => true,
                     "statut_code" => 200,
                     "message" => "Cette commande est déjà acceptée.",
-                ]);
+                ],     200);
             } elseif ($commande) {
                 if (isset($commande->etatCommande)) {
 
@@ -333,7 +327,7 @@ class CommandeController extends Controller
                         'statut_code' => 200,
                         'statut_message' => 'La commande est acceptée avec succès',
                         'data' => $commande,
-                    ]);
+                    ],  200);
                 }
             }
         } catch (Exception $e) {
@@ -342,7 +336,7 @@ class CommandeController extends Controller
                 "statut_code" => 500,
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
-            ]);
+            ],  500);
         }
     }
 
@@ -351,8 +345,8 @@ class CommandeController extends Controller
     //     try {
     //         $commandes = Commande::where('etatCommande', 'acceptee')->get();
     //         // dd($commandes);
-            
-            // $this->authorize('commandeAccepted', $commandes);
+
+    //         $this->authorize('commandeAccepted', $commandes);
 
     //         return response()->json([
     //             'status' => true,
@@ -376,8 +370,8 @@ class CommandeController extends Controller
 
     //         $commandes = Commande::where('etatCommande', 'refusee')->get();
     //         // dd($commandes);
-    
-            // $this->authorize('commandeRefused', $commandes);
+
+    // $this->authorize('commandeRefused', $commandes);
 
     //         return response()->json([
     //             'status' => true,
