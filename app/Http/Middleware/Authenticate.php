@@ -26,7 +26,7 @@ class Authenticate
         return response()->json([
             "status" => false,
             "status_code" => 403,
-            "message" => "Vous n'êtes pas connecté vous ne pouvez accéder à cette page."
-        ]);
+            "message" => "Veuillez d'abord vous connecter pour accéder à cette page."
+        ],403);
     }
 }

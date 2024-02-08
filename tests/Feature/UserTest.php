@@ -68,21 +68,33 @@ class UserTest extends TestCase
         $response->assertStatus(200);
         // $this->assertArrayHasKey('token', $response->json());
 
-           // Récupérer l'utilisateur de la base de données
-           $user = User::where('email', $existingUser['email'])->first();
+        // Récupérer l'utilisateur de la base de données
+        $user = User::where('email', $existingUser['email'])->first();
 
-           // Vérifier que les données correspondent
-           $this->assertEquals($existingUser['name'], $user->name);
-           $this->assertEquals($existingUser['phone'], $user->phone);
-           $this->assertEquals($existingUser['adresse'], $user->adresse);
+        // Vérifier que les données correspondent
+        $this->assertEquals($existingUser['name'], $user->name);
+        $this->assertEquals($existingUser['phone'], $user->phone);
+        $this->assertEquals($existingUser['adresse'], $user->adresse);
     }
 
 
     public function testRegisterRestaurantValidated()
     {
+        $admin = User::factory()->create([
+            'name' => 'Admin Test',
+            // 'email' => 'admintest@email.com',
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => 'password123',
+            'phone' => '768323276',
+            'adresse' => "Thies",
+            'role_id' => 1
+        ]);
+        // dd($admin);
+        $this->actingAs($admin);
+
         Storage::fake('public');
 
-        $data = [
+        $resto = [
             'name' => 'Food_Delices',
             'email' => 'fooddelices@email.com',
             // 'email' => $this->faker->unique()->safeEmail,
@@ -90,11 +102,10 @@ class UserTest extends TestCase
             'phone' => '768345276',
             'adresse' => "Medina",
             'image' => UploadedFile::fake()->image('article.jpg'),
-            'categorie_id' => 6
+            'categorie_id' => 8
         ];
 
-        $response = $this->postJson('/api/auth/restaurant/register', $data);
-
+        $response = $this->postJson('/api/auth/restaurant/register', $resto);
         // $this->withoutMiddleware();
         // dd($response);
         $response->assertStatus(200);
@@ -113,29 +124,26 @@ class UserTest extends TestCase
 
         // Vérifier que la réponse a un code de statut HTTP 200
         $response->assertStatus(200);
-
-        
     }
 
     public function testRestaurantLogout()
     {
         // Connecter le restaurant
         $restaurant = $this->post('/api/restaurant/login', [
-            'email' => "degustika@email.com",
+            'email' => "degustimiam@email.com",
             'password' => "password123",
         ]);
+
+        // dd($restaurant);
 
         // Envoyer une requête POST à l'endpoint restaurantLogout
         $response = $this->post('/api/auth/restaurant/logout');
 
-        // Vérifier que la réponse a un code de statut HTTP 200
-        $response->assertStatus(200);
-
-        // // Vérifier que le message de la réponse est correct
-        // $response->assertJson([
-        //     'status_code' => 200,
-        //     'message' => 'Deconnexion réussie'
-        // ]);
+        // Vérifier que le message de la réponse est correct
+        $response->assertJson([
+            'status_code' => 200,
+            'message' => 'Deconnexion réussie'
+        ]);
 
         // Vérifier que le restaurant est bien déconnecté
         // $this->assertGuest('user-api');
@@ -145,7 +153,7 @@ class UserTest extends TestCase
     {
         // Connecter le restaurant
         $response = $this->post('/api/restaurant/login', [
-            'email' => "degustika@email.com",
+            'email' => "degustimiam@email.com",
             'password' => "password123",
         ]);
 
@@ -153,23 +161,43 @@ class UserTest extends TestCase
         $restaurant = auth()->guard('user-api')->user();
 
         // Préparer les nouvelles données pour le profil du restaurant
-        $newData = [
+        $newDataRestaurant = [
             'name' => 'Degustika  Miaaam',
             'email' => 'degustimiam@email.com',
             'phone' => '783456789',
             'password' => 'password123',
-            'adresse' => 'Memoz',
-            'categorie_id' => 1,
+            'adresse' => 'Memoz Simplon',
+            'categorie_id' => 4,
             'image' => UploadedFile::fake()->image('newimage.jpg'),
         ];
 
         // Envoyer une requête PUT à l'endpoint restaurantModifyProfile
-        $response = $this->postJson('/api/auth/restaurant/modify/profile/12', $newData);
+        $response = $this->postJson('/api/auth/restaurant/modify/profile/12', $newDataRestaurant);
 
         // Vérifier que la réponse a un code de statut HTTP 200
         $response->assertStatus(200);
-
     }
 
 
+    // public function testLogout()
+    // {
+    //     $structure = StructureSante::factory()->create([
+    //         'role_id' => 3,
+    //     ]);
+
+    //     $token = JWTAuth::fromUser($structure);
+
+    //     // Connexion de l'utilisateur avec le guard 'structure' en utilisant le token JWT
+    //     $this->withHeader('Authorization', 'Bearer ' . $token);
+
+    //     $response = $this->json('GET', '/api/logoutStructure');
+    //     $response->assertStatus(200)
+    //         ->assertJson([
+    //             'status' => true,
+    //             'message' => $response->json('message'),
+    //         ]);
+
+    //     // vérifie si la structure s'est bien déconnectée 
+    //     $this->assertGuest('structure');
+    // }
 }

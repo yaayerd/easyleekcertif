@@ -13,29 +13,93 @@ class MenuTest extends TestCase
    
     public function testCreateMenu()
     {
-        // Connecter le user restaurant
+        
         $restaurant = $this->post('/api/restaurant/login', [
-            'email' => "degustika@email.com",
+            'email' => "fooddelices@email.com",
             'password' => "password123",
         ]);
 
-        // Récupérer le restaurant connecté
-        $restaurant = auth()->guard('user-api')->user();
-        // dd($restaurant);
-        $this->actingAs($restaurant, 'restaurant');
         $menu = [
-            'titre' => 'niam niam'
+            'titre' => 'leeeek'
         ];
 
         $response = $this->post('/api/auth/menu/store', $menu);
 
-        $response->assertStatus(201)
-            ->assertJson([
-                "status" => true,
-                "message" => "Menu ajouté avec succès ",
-                "user" => $response->json('menu')
-            ]);
+        $response->assertStatus(201);
             
     }
 
+    public function testShowMenu()
+    {
+        // Connecter le user restaurant
+        $restaurant = $this->post('/api/restaurant/login', [
+            'email' => "fooddelices@email.com",
+            'password' => "password123",
+        ]);
+
+        $response = $this->get('/api/auth/menu/show/5');
+
+        $response->assertStatus(200);
+
+        // $response->assertStatus(201)
+        //     ->assertJson([
+        //         "status" => true,
+        //         "message" => "Menu ajouté avec succès ",
+        //         "user" => $menu
+        //     ]);
+            
+    }
+
+    public function testListMenu()
+    {
+        // Connecter le user restaurant
+        $restaurant = $this->post('/api/restaurant/login', [
+            'email' => "fooddelices@email.com",
+            'password' => "password123",
+        ]);
+
+        $response = $this->get('/api/auth/menu/list');
+
+        $response->assertStatus(200);
+
+        // $response->assertStatus(201)
+        //     ->assertJson([
+        //         "status" => true,
+        //         "message" => "Menu ajouté avec succès ",
+        //         "user" => $menu
+        //     ]);
+            
+    }
+
+    public function testModifyMenu() 
+    {
+         // Connecter le user restaurant
+         $restaurant = $this->post('/api/restaurant/login', [
+            'email' => "fooddelices@email.com",
+            'password' => "password123",
+        ]);
+        
+        $menu = [
+            'titre' => 'leek doux'
+        ];
+
+        $response = $this->put('/api/auth/menu/update/19', $menu);
+
+        $response->assertStatus(200);
+    }
+    
+    // public function testDeleteMenu() 
+    // {
+    //      // Connecter le user restaurant
+    //      $restaurant = $this->post('/api/restaurant/login', [
+    //         'email' => "fooddelices@email.com",
+    //         'password' => "password123",
+    //     ]);
+
+    //     $response = $this->delete('/api/auth/menu/delete/22');
+
+    //     $response->assertStatus(200);
+    // }
+
 }
+

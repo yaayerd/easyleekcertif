@@ -15,21 +15,22 @@ class PlatController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, Menu $menu)
+    public function index(Request $request)
     {
         try {
-            $user = $request->user();
-            // $plat = Plat::all();
             $menu = Menu::find($request->menu_id);
             // dd($menu);
-
-            if ($user && $menu) { // && $user->role_id == 2 && $menu->user_id == $user->id
+            
+            if ($menu) { // && $user->role_id == 2 && $menu->user_id == $user->id
+                $plats = $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get();
+                // dd($plats);
                 return response()->json([
-                    "status code" => 201,
+                    "status code" => 200,
                     "message" => "Voici les plats du menu:  {$menu->titre}",
-                    'data' => $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get(),
-                ],  201);
-            } elseif ($menu === null) {
+                    'plats' => $plats,
+                ],  200);
+            } 
+            elseif ($menu === null) {
                 return response()->json([
                     "status" => false,
                     "status_code" => 404,
