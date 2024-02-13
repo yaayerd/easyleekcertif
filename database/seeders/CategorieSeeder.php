@@ -32,7 +32,13 @@ class CategorieSeeder extends Seeder
         ]);
 
         Categorie::factory()->create([
-            'type' => 'Patisserie',
+            'type' => 'Tangana',
         ]);
+
+        Categorie::factory()->create([
+            'type' => 'Dibiterie',
+        ]);
+
+        
     }
 }

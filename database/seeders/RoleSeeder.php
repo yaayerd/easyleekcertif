@@ -17,12 +17,12 @@ class RoleSeeder extends Seeder
 
 
                 // Créer le rôle 'AdminSystem'
-                Role::factory()->create(['nom' => 'AdminSystem']);
+                Role::factory()->create(['nom' => 'Role_AdminSystem']);
 
                 // Créer le rôle 'Restaurant'
-                Role::factory()->create(['nom' => 'Restaurant']);
+                Role::factory()->create(['nom' => 'Role_Restaurant']);
         
                 // Créer le rôle 'Client'
-                Role::factory()->create(['nom' => 'Client']);
+                Role::factory()->create(['nom' => 'Role_Client']);
     }
 }
