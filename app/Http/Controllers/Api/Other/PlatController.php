@@ -120,6 +120,7 @@ class PlatController extends Controller
                 $plat->prix = $request->prix;
                 $plat->descriptif = $request->descriptif;
                 $plat->menu_id = $request->menu_id;
+                // $plat->image = $request->image;
                 if ($request->file('image')) {
                     $file = $request->file('image');
                     $filename = date('YmdHi') . $file->getClientOriginalName();

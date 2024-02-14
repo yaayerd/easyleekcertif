@@ -61,14 +61,14 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
     // ------------------------------Client ----------------------
     Route::post('/client/compte/block/{id}', [UserController::class, 'blockUser']);
     Route::post('/client/compte/unblock/{id}', [UserController::class, 'unblockUser']);
-    Route::post('/user/details/{id}', [UserController::class, 'voirUserDetails']);
+    Route::get('/user/details/{id}', [UserController::class, 'voirUserDetails']);
     Route::get('/client/list/blocked', [UserController::class, 'listClientBlocked']);
     Route::get('/client/list/unblocked', [UserController::class, 'listClientUnblocked']);
     Route::get('/client/list/all', [UserController::class, 'listAllClient']);
     
     // ------------------------------Restaurant  ----------------------
     Route::post('/restaurant/register', [UserController::class, 'restaurantRegister']);
-    Route::post('/restaurant/details/{id}', [UserController::class, 'voirRestaurantDetails']);
+    Route::get('/restaurant/details/{id}', [UserController::class, 'voirRestaurantDetails']);
     Route::post('/restaurant/compte/block/{id}', [UserController::class, 'blockRestaurant']);
     Route::post('/restaurant/compte/unblock/{id}', [UserController::class, 'unblockRestaurant']);
     Route::get('/restaurant/list/blocked', [UserController::class, 'listRestaurantBlocked']);
