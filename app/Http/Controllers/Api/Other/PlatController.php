@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Other;
 use Exception;
 use App\Models\Menu;
 use App\Models\Plat;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Plat\CreatePlatRequest;
@@ -53,13 +54,15 @@ class PlatController extends Controller
             $user = $request->user();
             // $plat = Plat::all();
             $menu = Menu::find($request->menu_id);
+            // $user = User::find();
             // dd($menu);
 
             if ($user && $user->role_id == 2 && $menu && $menu->user_id == $user->id) { // && $user->role_id == 2
                 return response()->json([
-                    "status code" => 201,
-                    "message" => "Voici les plats du menu:  {$menu->titre}",
-                    'data' => $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get(),
+                    "status_code" => 201,
+                    "message" => "Voici les plats du menu:  {$menu->titre} du restaurant {$user->name}.",
+                    "user_id" =>  "{$menu->user_id}",
+                    "data" => $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get(),
                 ],  200);
             } elseif ($menu->user_id != $user->id) {
                 return response()->json([
