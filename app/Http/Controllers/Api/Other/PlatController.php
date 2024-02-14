@@ -51,18 +51,22 @@ class PlatController extends Controller
     public function indexRestaurant(Request $request, Menu $menu)
     {
         try {
-            $user = $request->user();
-            // $plat = Plat::all();
-            $menu = Menu::find($request->menu_id);
-            // $user = User::find();
+            $user = auth()->user();
+            $plats = Plat::where('menu_id', $menu->id)->get();
+            // $user_ok = User::where('id', $menu->user_id)->first();
+            // dd($user);
+            // $menu = Menu::find($request->menu_id);
+            // $user_id = Menu::find($request->user_id);
             // dd($menu);
 
-            if ($user && $user->role_id == 2 && $menu && $menu->user_id == $user->id) { // && $user->role_id == 2
+            if ( $user->role_id === 2 && $menu->user_id === auth()->user()->id) { 
+                
                 return response()->json([
                     "status_code" => 201,
                     "message" => "Voici les plats du menu:  {$menu->titre} du restaurant {$user->name}.",
-                    "user_id" =>  "{$menu->user_id}",
-                    "data" => $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get(),
+                    "user_id" =>  auth()->user()->id,
+                    "data" => $plats,
+                    // $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get(),
                 ],  200);
             } elseif ($menu->user_id != $user->id) {
                 return response()->json([
