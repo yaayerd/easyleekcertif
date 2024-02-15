@@ -180,7 +180,7 @@ class UserController extends Controller
         }
     }
 
-    
+
     public function voirUserDetails($id)
     {
         if (auth()->guard('user-api')->user()->role_id !== 1) {
@@ -212,7 +212,7 @@ class UserController extends Controller
             ]);
         }
     }
-    
+
     public function listClientUnblocked()
     {
         if (auth()->guard('user-api')->user()->role_id !== 1) {
@@ -221,7 +221,7 @@ class UserController extends Controller
                 'message' => "Accès non autorisé"
             ]);
         }
-        $clients = User::where('role_id', 3)->where('is_activated', true)->get(); 
+        $clients = User::where('role_id', 3)->where('is_activated', true)->get();
 
         // dd($clients);
 
@@ -235,9 +235,9 @@ class UserController extends Controller
             return response()->json([
                 'status_code' => 200,
                 'status' => true,
-                'message' => "Voici la Liste des clients non bloqués : ",  
+                'message' => "Voici la Liste des clients non bloqués : ",
                 'data' => $clients,
-            ], 200);  
+            ], 200);
         }
     }
 
@@ -249,7 +249,7 @@ class UserController extends Controller
                 'message' => "Accès non autorisé"
             ]);
         }
-        $clients = User::where('role_id', 3)->where('is_activated', false)->get(); 
+        $clients = User::where('role_id', 3)->where('is_activated', false)->get();
 
         // dd($clients);
 
@@ -263,9 +263,9 @@ class UserController extends Controller
             return response()->json([
                 'status_code' => 200,
                 'status' => true,
-                'message' => "Voici la Liste des clients bloqués: ",  
+                'message' => "Voici la Liste des clients bloqués: ",
                 'data' => $clients,
-            ], 200);  
+            ], 200);
         }
     }
 
@@ -277,7 +277,7 @@ class UserController extends Controller
                 'message' => "Accès non autorisé"
             ]);
         }
-        $clients = User::where('role_id', 3)->get(); 
+        $clients = User::where('role_id', 3)->get();
 
         // dd($clients);
 
@@ -291,9 +291,9 @@ class UserController extends Controller
             return response()->json([
                 'status_code' => 200,
                 'status' => true,
-                'message' => "Voici la Liste de tous les clients : ",  
+                'message' => "Voici la Liste de tous les clients : ",
                 'data' => $clients,
-            ], 200);  
+            ], 200);
         }
     }
 
@@ -507,12 +507,12 @@ class UserController extends Controller
     {
         if (auth()->guard('user-api')->user()->role_id !== 1) {
             return response()->json([
-                'status' => false, 
+                'status' => false,
                 'status_code' => 403,
                 'message' => "Accès non autorisé"
             ],  403);
         }
-        $restaurant = User::where('role_id', 2)->where('is_activated', true)->get(); 
+        $restaurant = User::where('role_id', 2)->where('is_activated', true)->get();
 
         // dd($restaurant);
 
@@ -527,9 +527,9 @@ class UserController extends Controller
             return response()->json([
                 'status_code' => 200,
                 'status' => true,
-                'message' => "Voici la Liste des restaurants non bloqués : ",  
+                'message' => "Voici la Liste des restaurants non bloqués : ",
                 'data' => $restaurant,
-            ], 200);  
+            ], 200);
         }
     }
 
@@ -542,7 +542,7 @@ class UserController extends Controller
                 'message' => "Accès non autorisé"
             ],  403);
         }
-        $restaurant = User::where('role_id', 2)->where('is_activated', false)->get(); 
+        $restaurant = User::where('role_id', 2)->where('is_activated', false)->get();
 
         // dd($restaurant);
 
@@ -557,9 +557,9 @@ class UserController extends Controller
             return response()->json([
                 'status_code' => 200,
                 'status' => true,
-                'message' => "Voici la Liste des restaurants bloqués: ",  
+                'message' => "Voici la Liste des restaurants bloqués: ",
                 'data' => $restaurant,
-            ], 200);  
+            ], 200);
         }
     }
 
@@ -572,7 +572,7 @@ class UserController extends Controller
                 'message' => "Accès non autorisé"
             ], 403);
         }
-        $restaurant = User::where('role_id', 2)->get(); 
+        $restaurant = User::where('role_id', 2)->get();
 
         // dd($restaurant);
 
@@ -587,15 +587,15 @@ class UserController extends Controller
             return response()->json([
                 'status_code' => 200,
                 'status' => true,
-                'message' => "Voici la Liste de tous les restaurants : ",  
+                'message' => "Voici la Liste de tous les restaurants : ",
                 'data' => $restaurant,
-            ], 200);  
+            ], 200);
         }
     }
 
     public function getAllRestaurant()
     {
-        $restaurants = User::where('role_id', 2)->where('is_activated', true)->get(); 
+        $restaurants = User::where('role_id', 2)->where('is_activated', true)->get();
 
         // dd($restaurant);
 
@@ -610,10 +610,31 @@ class UserController extends Controller
             return response()->json([
                 'status_code' => 200,
                 'status' => true,
-                'message' => "Voici la Liste des restaurants : ",  
+                'message' => "Voici la Liste des restaurants : ",
                 'data' => $restaurants,
-            ], 200);  
+            ], 200);
         }
     }
 
+    public function getRestaurantByCategorie($categorie_id)
+    {
+        $restaurants = User::where('role_id', 2)->where('categorie_id', $categorie_id)->get();
+
+        // dd($restaurants);
+        if ($restaurants->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'status_code' => 404,
+                'message' => "Aucun restaurant trouvé pour cette catégorie"
+            ], 404);
+        } else {
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Voici la liste de tous les restaurants pour cette catégorie : ",
+                'data' => $restaurants,
+            ], 200);
+        }
+    }
+    
 }

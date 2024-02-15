@@ -51,6 +51,7 @@ Route::get('/plat/show/{id}', [PlatController::class, 'show']);
 Route::get('/avis/list', [AvisController::class, 'index']);
 Route::get('/avis/show/{id}', [AvisController::class, 'show']);
 Route::get('/restaurant/list/', [UserController::class, 'getAllRestaurant']);
+Route::get('/restaurant/list/{categorie_id}', [UserController::class, 'getRestaurantByCategorie']);
 
 
 
