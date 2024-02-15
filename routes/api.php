@@ -50,6 +50,8 @@ Route::get('/plat/list/', [PlatController::class, 'index']);
 Route::get('/plat/show/{id}', [PlatController::class, 'show']);
 Route::get('/avis/list', [AvisController::class, 'index']);
 Route::get('/avis/show/{id}', [AvisController::class, 'show']);
+Route::get('/restaurant/list/', [UserController::class, 'getAllRestaurant']);
+
 
 
 // Les routes de l' AdminSystem**************************************************

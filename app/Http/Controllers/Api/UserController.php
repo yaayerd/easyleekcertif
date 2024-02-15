@@ -593,4 +593,27 @@ class UserController extends Controller
         }
     }
 
+    public function getAllRestaurant()
+    {
+        $restaurants = User::where('role_id', 2)->where('is_activated', true)->get(); 
+
+        // dd($restaurant);
+
+        if ($restaurants === null) {
+            return response()->json([
+                'status' => false,
+                'status_code' => 404,
+                'message' => "Aucun restaurant trouvé"
+            ],  404);
+        } else {
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Voici la Liste des restaurants : ",  
+                'data' => $restaurants,
+            ], 200);  
+        }
+    }
+
 }
