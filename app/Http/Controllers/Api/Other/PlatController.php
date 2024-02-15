@@ -48,7 +48,7 @@ class PlatController extends Controller
         }
     }
 
-    public function indexRestaurant(Request $request, Menu $menu)
+    public function indexForRestaurant(Request $request, Menu $menu)
     {
         try {
             $user = auth()->user();
@@ -73,6 +73,36 @@ class PlatController extends Controller
                     "status_code" => 403,
                     "message" => "Vous n'êtes pas autorisé à lister ces plats, car ce menu ne fait pas parti de votre restaurant.",
                 ],  403);
+            } elseif (!$menu) {
+                return response()->json([
+                    "status" => false,
+                    "status_code" => 404,
+                    "message" => "Désolé, ce menu n'existe pas dans aucun restaurant.",
+                ],   404);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue lors du listage des plats.",
+                "error"   => $e->getMessage()
+            ],   500);
+        }
+    }
+
+    public function getPlatbyMenu ($menu_id)
+    {
+        try {
+            $plats = Plat::where('menu_id', $menu_id)->where('is_archived', false)->orderByDesc('created_at')->get();
+            $menu = Menu::find($menu_id);
+            // dd($menu);
+
+            if ($menu) {
+                return response()->json([
+                    "status_code" => 201,
+                    "message" => "Voici les plats du menu:  {$menu->titre} de ce restaurant.",
+                    "data" => $plats,
+                ],  200);
             } elseif (!$menu) {
                 return response()->json([
                     "status" => false,
