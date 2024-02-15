@@ -9,9 +9,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Commande\CreateCommandeRequest;
 use App\Http\Requests\Api\Commande\UpdateCommandeRequest;
+use App\Notifications\CommandeEffectuee;
 use Illuminate\Console\Command;
+use Illuminate\Notifications\Notification;
+// use Illuminate\Support\Facades\Notification;
 
-class CommandeController extends Controller
+class CommandeController extends Controller  
 {
     /**
      * Display a listing of the resource.
@@ -93,9 +96,16 @@ class CommandeController extends Controller
                 $commande->prixCommande = $request->nombrePlats * $plat->prix;
                 $commande->numeroCommande = uniqid();
                 $commande->lieuLivraison = $request->lieuLivraison;
+                $user = auth()->guard('user-api')->user();
+                
                 // dd($commande);
-
+                $user->notify(new CommandeEffectuee($commande));
+                
                 $commande->save();
+                
+
+
+                // Notification::send($user, new CommandeEffectuee($commande));
 
                 return response()->json([
                     'status' => true,
@@ -109,7 +119,7 @@ class CommandeController extends Controller
                 'status' => false,
                 'statut_code' => 500,
                 'error' => "Une erreur est survenue lors de l'ajout de la commande, veuillez vérifier vos informations.",
-                'exception' => $e
+                'exception' => $e->getMessage()
             ],   500);
         }
     }

@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "EasyLeek Project API Documentation",
-        "description": "EasyLeek, une application de commande de repas en ligne. Elle facilite la manière dont les Sénégalais découvrent, commandent et dégustent leurs plats préférés. En simplifiant le processus avec une interface intuitive, EasyLeek connecte les utilisateurs à une variété de restaurants locaux, offrant une expérience culinaire optimale.",
+        "title": "Easyleek Project API Documentation",
+        "description": "EasyLeek, une application de commande en ligne. Elle facilite la manière dont les Sénégalais découvrent, commandent et dégustent leurs plats préférés. En simplifiant le processus avec une interface intuitive, EasyLeek connecte les utilisateurs à une variété de restaurants locaux, offrant une expérience culinaire optimale.",
         "version": "1.0.0"
     },
     "security": [
@@ -158,6 +158,51 @@
                 ]
             }
         },
+        "/api/restaurant/list/8": {
+            "get": {
+                "summary": "Lister Restaurant par Catégorie",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Routes Libres"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
         "/api/plat/list": {
             "get": {
                 "summary": "Lister Plat",
@@ -218,6 +263,51 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/plat/list/1": {
+            "get": {
+                "summary": "Lister Plat by Menu",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Routes Libres"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
             }
         },
         "/api/plat/show/2": {

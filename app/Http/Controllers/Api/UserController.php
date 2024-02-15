@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\CreateUserRequest;
-use App\Http\Requests\Api\User\LoginUserRequest;
-use App\Http\Requests\Api\User\UpdateUserRequest;
-use Illuminate\Foundation\Auth\User;
+use App\Notifications\ClientInscrit;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\RestaurantAjoutee;
+use Illuminate\Notifications\Notifiable;
+use App\Http\Requests\Api\User\LoginUserRequest;
+use App\Http\Requests\Api\User\CreateUserRequest;
+use App\Http\Requests\Api\User\UpdateUserRequest;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class UserController extends Controller
+class UserController extends Controller //implements Authenticatable
 {
+    use Notifiable;
+    // protected $primaryKey = 'id';
+    
     public function userRegister(CreateUserRequest $request)
     {
 
@@ -32,6 +39,9 @@ class UserController extends Controller
             $user['image'] = $filename;
         }
         $user->password = Hash::make($request->password);
+
+        $user->notify(new ClientInscrit($user));
+
         $user->save();
 
         if ($user) {
@@ -317,6 +327,9 @@ class UserController extends Controller
             $file->move(public_path('images'), $filename);
             $user['image'] = $filename;
         }
+
+        $restaurant->notify(new RestaurantAjoutee($restaurant)); 
+
         $restaurant->save();
 
         if ($restaurant) {

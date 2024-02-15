@@ -61,7 +61,7 @@ class PlatController extends Controller
             if ( $user->role_id === 2 && $menu->user_id === auth()->user()->id) { 
                 
                 return response()->json([
-                    "status_code" => 201,
+                    "status_code" => 200,
                     "message" => "Voici les plats du menu:  {$menu->titre} du restaurant {$user->name}.",
                     "user_id" =>  auth()->user()->id,
                     "data" => $plats,
@@ -99,7 +99,7 @@ class PlatController extends Controller
 
             if ($menu) {
                 return response()->json([
-                    "status_code" => 201,
+                    "status_code" => 200,
                     "message" => "Voici les plats du menu:  {$menu->titre} de ce restaurant.",
                     "data" => $plats,
                 ],  200);
