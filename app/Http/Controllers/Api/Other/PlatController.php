@@ -52,7 +52,7 @@ class PlatController extends Controller
     {
         try {
             $user = auth()->user();
-            $plats = Plat::where('menu_id', $menu->id)->get();
+            $plats = Plat::where('menu_id', $menu->id)->where('is_archived', false)->orderByDesc('created_at')->get();
             // $user_ok = User::where('id', $menu->user_id)->first();
             // $menu = Menu::find($request->menu_id);
             // $user_id = Menu::find($request->user_id);

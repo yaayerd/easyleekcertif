@@ -1,9 +1,9 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "EasyLeek Project: API de commande de repas en ligne.",
-        "description": "EasyLeek, une application de commande en ligne. Elle facilite la manière dont les Sénégalais découvrent, commandent et dégustent leurs plats préférés. En simplifiant le processus avec une interface intuitive, EasyLeek connecte les utilisateurs à une variété de restaurants locaux, offrant une expérience culinaire optimale.",
-        "version": "1.0.1"
+        "title": "EasyLeek Project API Documentation",
+        "description": "EasyLeek, une application de commande de repas en ligne. Elle facilite la manière dont les Sénégalais découvrent, commandent et dégustent leurs plats préférés. En simplifiant le processus avec une interface intuitive, EasyLeek connecte les utilisateurs à une variété de restaurants locaux, offrant une expérience culinaire optimale.",
+        "version": "1.0.0"
     },
     "security": [
         {
@@ -102,7 +102,52 @@
                     }
                 },
                 "tags": [
-                    "Menu"
+                    "Module Gestion Menu"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/restaurant/list/": {
+            "get": {
+                "summary": "Lister Restaurant",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Routes Libres"
                 ],
                 "parameters": [
                     {
@@ -168,7 +213,7 @@
                                 }
                             },
                             "example": {
-                                "menu_id": 10
+                                "menu_id": 56
                             }
                         }
                     }
@@ -404,363 +449,6 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/user/register": {
-            "post": {
-                "summary": "userRegister",
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Authentification User"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "phone": {
-                                        "type": "integer"
-                                    },
-                                    "adresse": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "name": "Mariama",
-                                "email": "mariama@email.com",
-                                "phone": 765370467,
-                                "adresse": "Fadia",
-                                "password": "password123"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/user/login": {
-            "post": {
-                "summary": "UserLogin",
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Authentification User"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "email": "admin3@email.com",
-                                "password": "password123"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/auth/user/me": {
-            "post": {
-                "summary": "UserMe",
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Authentification User"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ]
-            }
-        },
-        "/api/auth/user/modify/profile/5": {
-            "post": {
-                "summary": "UserModifyProfile",
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Authentification User"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "phone": {
-                                        "type": "integer"
-                                    },
-                                    "adresse": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "name": "Annnnnnita",
-                                "email": "annita@email.com",
-                                "phone": 771671267,
-                                "adresse": "Dakar",
-                                "password": "password123"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/auth/user/logout": {
-            "post": {
-                "summary": "UserLogout",
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Authentification User"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ]
             }
         },
         "/api/auth/restaurant/register": {
@@ -1110,12 +798,12 @@
             }
         },
         "/api/auth/restaurant/details/6": {
-            "post": {
+            "get": {
                 "summary": "Voir Détails Restaurant",
                 "description": "",
                 "responses": {
-                    "201": {
-                        "description": "Created successfully",
+                    "200": {
+                        "description": "OK",
                         "content": {
                             "application/json": {
                                 "schema": {},
@@ -1123,8 +811,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "404": {
+                        "description": "Not Found",
                         "content": {
                             "application/json": {
                                 "schema": {},
@@ -1132,17 +820,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {
                                 "schema": {},
@@ -1407,8 +1086,98 @@
             }
         },
         "/api/auth/user/details/5": {
-            "post": {
+            "get": {
                 "summary": "Voir Détails Client",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Gestion Comptes Utilisateurs"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/auth/message/list/": {
+            "get": {
+                "summary": "List Message ",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Gestion Comptes Utilisateurs"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/user/register": {
+            "post": {
+                "summary": "userRegister",
                 "description": "",
                 "responses": {
                     "201": {
@@ -1449,7 +1218,310 @@
                     }
                 },
                 "tags": [
-                    "Gestion Comptes Utilisateurs"
+                    "Authentification User"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "integer"
+                                    },
+                                    "adresse": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "name": "Fatima",
+                                "email": "fatimaaaa@email.com",
+                                "phone": 755370467,
+                                "adresse": "Fadia",
+                                "password": "password123"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/login": {
+            "post": {
+                "summary": "UserLogin",
+                "description": "",
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorize",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Authentification User"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "email": "degustimiam@email.com",
+                                "password": "password123"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/user/me": {
+            "post": {
+                "summary": "UserMe",
+                "description": "",
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorize",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Authentification User"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/auth/user/modify/profile/5": {
+            "post": {
+                "summary": "UserModifyProfile",
+                "description": "",
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorize",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Authentification User"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "integer"
+                                    },
+                                    "adresse": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "name": "Annnnnnita",
+                                "email": "annita@email.com",
+                                "phone": 771671267,
+                                "adresse": "Dakar",
+                                "password": "password123"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/user/logout": {
+            "post": {
+                "summary": "UserLogout",
+                "description": "",
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorize",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Authentification User"
                 ],
                 "parameters": [
                     {
@@ -1527,7 +1599,7 @@
                                 }
                             },
                             "example": {
-                                "email": "degustika@email.com",
+                                "email": "fooddelices@email.com",
                                 "password": "password123"
                             }
                         }
@@ -1789,7 +1861,7 @@
                     }
                 },
                 "tags": [
-                    "Categorie"
+                    "Module Gestion Categorie"
                 ],
                 "parameters": [
                     {
@@ -1851,7 +1923,7 @@
                     }
                 },
                 "tags": [
-                    "Categorie"
+                    "Module Gestion Categorie"
                 ],
                 "parameters": [
                     {
@@ -1896,7 +1968,7 @@
                     }
                 },
                 "tags": [
-                    "Categorie"
+                    "Module Gestion Categorie"
                 ],
                 "parameters": [
                     {
@@ -1941,7 +2013,7 @@
                     }
                 },
                 "tags": [
-                    "Categorie"
+                    "Module Gestion Categorie"
                 ],
                 "parameters": [
                     {
@@ -2012,7 +2084,7 @@
                     }
                 },
                 "tags": [
-                    "Categorie"
+                    "Module Gestion Categorie"
                 ],
                 "parameters": [
                     {
@@ -2066,7 +2138,7 @@
                     }
                 },
                 "tags": [
-                    "Menu"
+                    "Module Gestion Menu"
                 ],
                 "parameters": [
                     {
@@ -2087,7 +2159,7 @@
                                 }
                             },
                             "example": {
-                                "titre": "it's goooood"
+                                "titre": "Food goooood"
                             }
                         }
                     }
@@ -2128,7 +2200,7 @@
                     }
                 },
                 "tags": [
-                    "Menu"
+                    "Module Gestion Menu"
                 ],
                 "parameters": [
                     {
@@ -2173,7 +2245,7 @@
                     }
                 },
                 "tags": [
-                    "Menu"
+                    "Module Gestion Menu"
                 ],
                 "parameters": [
                     {
@@ -2244,7 +2316,7 @@
                     }
                 },
                 "tags": [
-                    "Menu"
+                    "Module Gestion Menu"
                 ],
                 "parameters": [
                     {
@@ -2298,7 +2370,7 @@
                     }
                 },
                 "tags": [
-                    "Role"
+                    "Module Gestion Rôle"
                 ],
                 "parameters": [
                     {
@@ -2360,7 +2432,7 @@
                     }
                 },
                 "tags": [
-                    "Role"
+                    "Module Gestion Rôle"
                 ],
                 "parameters": [
                     {
@@ -2405,7 +2477,7 @@
                     }
                 },
                 "tags": [
-                    "Role"
+                    "Module Gestion Rôle"
                 ],
                 "parameters": [
                     {
@@ -2450,7 +2522,7 @@
                     }
                 },
                 "tags": [
-                    "Role"
+                    "Module Gestion Rôle"
                 ],
                 "parameters": [
                     {
@@ -2521,7 +2593,7 @@
                     }
                 },
                 "tags": [
-                    "Role"
+                    "Module Gestion Rôle"
                 ],
                 "parameters": [
                     {
@@ -2575,7 +2647,7 @@
                     }
                 },
                 "tags": [
-                    "Plat"
+                    "Module Gestion Plat"
                 ],
                 "parameters": [
                     {
@@ -2609,8 +2681,8 @@
                                 }
                             },
                             "example": {
-                                "libelle": "thiou niari boulettes",
-                                "prix": "800",
+                                "libelle": "Mafé ",
+                                "prix": "500",
                                 "descriptif": "Du bon riz blanc fait avec  tomate diambbb, poisson, legumes,  sauce etc",
                                 "menu_id": "7",
                                 "image": {
@@ -2623,7 +2695,7 @@
                 }
             }
         },
-        "/api/auth/plat/list/restaurant": {
+        "/api/auth/plat/list/restaurant/7": {
             "get": {
                 "summary": "Lister Plat Restaurant",
                 "description": "",
@@ -2657,7 +2729,7 @@
                     }
                 },
                 "tags": [
-                    "Plat"
+                    "Module Gestion Plat"
                 ],
                 "parameters": [
                     {
@@ -2665,27 +2737,10 @@
                         "name": "User-Agent",
                         "type": "string"
                     }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "menu_id": {
-                                        "type": "integer"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "menu_id": 6
-                            }
-                        }
-                    }
-                }
+                ]
             }
         },
-        "/api/auth/plat/show/2": {
+        "/api/auth/plat/show/50": {
             "get": {
                 "summary": "Show Plat",
                 "description": "",
@@ -2719,7 +2774,7 @@
                     }
                 },
                 "tags": [
-                    "Plat"
+                    "Module Gestion Plat"
                 ],
                 "parameters": [
                     {
@@ -2727,7 +2782,24 @@
                         "name": "User-Agent",
                         "type": "string"
                     }
-                ]
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "menu_id": {
+                                        "type": "integer"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "menu_id": 7
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/auth/plat/update/2": {
@@ -2764,7 +2836,7 @@
                     }
                 },
                 "tags": [
-                    "Plat"
+                    "Module Gestion Plat"
                 ],
                 "parameters": [
                     {
@@ -2846,7 +2918,7 @@
                     }
                 },
                 "tags": [
-                    "Plat"
+                    "Module Gestion Plat"
                 ],
                 "parameters": [
                     {
@@ -2928,7 +3000,7 @@
                     }
                 },
                 "tags": [
-                    "Plat"
+                    "Module Gestion Plat"
                 ],
                 "parameters": [
                     {
@@ -3019,7 +3091,7 @@
                     }
                 },
                 "tags": [
-                    "Plat"
+                    "Module Gestion Plat"
                 ],
                 "parameters": [
                     {
@@ -3073,7 +3145,7 @@
                     }
                 },
                 "tags": [
-                    "Commande"
+                    "Module Gestion Commande"
                 ],
                 "parameters": [
                     {
@@ -3143,7 +3215,7 @@
                     }
                 },
                 "tags": [
-                    "Commande"
+                    "Module Gestion Commande"
                 ],
                 "parameters": [
                     {
@@ -3205,7 +3277,7 @@
                     }
                 },
                 "tags": [
-                    "Commande"
+                    "Module Gestion Commande"
                 ],
                 "parameters": [
                     {
@@ -3250,7 +3322,7 @@
                     }
                 },
                 "tags": [
-                    "Commande"
+                    "Module Gestion Commande"
                 ],
                 "parameters": [
                     {
@@ -3325,7 +3397,7 @@
                     }
                 },
                 "tags": [
-                    "Commande"
+                    "Module Gestion Commande"
                 ],
                 "parameters": [
                     {
@@ -3370,7 +3442,7 @@
                     }
                 },
                 "tags": [
-                    "Commande"
+                    "Module Gestion Commande"
                 ],
                 "parameters": [
                     {
@@ -3415,7 +3487,7 @@
                     }
                 },
                 "tags": [
-                    "Commande"
+                    "Module Gestion Commande"
                 ],
                 "parameters": [
                     {
@@ -3469,7 +3541,7 @@
                     }
                 },
                 "tags": [
-                    "Avis"
+                    "Module Gestion Avis"
                 ],
                 "parameters": [
                     {
@@ -3539,7 +3611,7 @@
                     }
                 },
                 "tags": [
-                    "Avis"
+                    "Module Gestion Avis"
                 ],
                 "parameters": [
                     {
@@ -3601,7 +3673,7 @@
                     }
                 },
                 "tags": [
-                    "Avis"
+                    "Module Gestion Avis"
                 ],
                 "parameters": [
                     {
@@ -3646,7 +3718,7 @@
                     }
                 },
                 "tags": [
-                    "Avis"
+                    "Module Gestion Avis"
                 ],
                 "parameters": [
                     {
@@ -3725,7 +3797,7 @@
                     }
                 },
                 "tags": [
-                    "Avis"
+                    "Module Gestion Avis"
                 ],
                 "parameters": [
                     {
