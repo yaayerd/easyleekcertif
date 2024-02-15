@@ -1,27 +1,34 @@
 FROM php:8.2-apache
 WORKDIR /var/www/html
-COPY . .
-
+# copier le contenu du projet dans l'espace de travail 
+COPY . . 
+# Définir le serveur localhost dans tout apache 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
+# installation et màj des packages (editeur de texte et extension de php)
 RUN apt-get update \
     && apt-get install -qq -y --no-install-recommends \
     cron \
      vim \
      locales coreutils apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev;
 
+# configuration des langues 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
     locale-gen
 
+# installation de composer 
 RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
    mv composer.phar /usr/local/bin/composer
 
+#  On active les modules apache nécessaires pour exécuter notre application
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install pdo pdo_mysql mysqli gd opcache intl calendar dom mbstring zip gd xsl && a2enmod rewrite
 RUN pecl install apcu && docker-php-ext-enable apcu
     
+    #ajout d'extension de php depuis ce dépot github  
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
+# rendre les extensions executables 
 RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
     install-php-extensions amqp

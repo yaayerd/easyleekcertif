@@ -163,38 +163,38 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $id)
-    {
-        $role = Role::find($id);
+    // public function destroy(Request $request, $id)
+    // {
+    //     $role = Role::find($id);
 
-        try {
-            $user = $request->user();
-            // dd($user);
-            if ($user && $user->role_id == 1) {
-                if (!isset($role)) {
-                    return response()->json([
-                        'status' => false,
-                        'status_code' => 404,
-                        'message' => 'Ce role n\'existe pas',
-                    ],   404);
-                } else {
-                    $this->authorize('destroy', $role);
-                    // dd($role);
-                    $role->delete();
-                    return response()->json([
-                        'status' => true,
-                        'status_code' => 200,
-                        'message' => 'Ce role a été supprimé avec succès',
-                    ],    200);
-                }
-            }
-        } catch (Exception $e) {
-            return response()->json([
-                "status" => false,
-                "status_code" => 500,
-                "message" => "Une erreur est survenue.",
-                "error"   => $e->getMessage()
-            ],   500);
-        }
-    }
+    //     try {
+    //         $user = $request->user();
+    //         // dd($user);
+    //         if ($user && $user->role_id == 1) {
+    //             if (!isset($role)) {
+    //                 return response()->json([
+    //                     'status' => false,
+    //                     'status_code' => 404,
+    //                     'message' => 'Ce role n\'existe pas',
+    //                 ],   404);
+    //             } else {
+    //                 $this->authorize('destroy', $role);
+    //                 // dd($role);
+    //                 $role->delete();
+    //                 return response()->json([
+    //                     'status' => true,
+    //                     'status_code' => 200,
+    //                     'message' => 'Ce role a été supprimé avec succès',
+    //                 ],    200);
+    //             }
+    //         }
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             "status" => false,
+    //             "status_code" => 500,
+    //             "message" => "Une erreur est survenue.",
+    //             "error"   => $e->getMessage()
+    //         ],   500);
+    //     }
+    // }
 }

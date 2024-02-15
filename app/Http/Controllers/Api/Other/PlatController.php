@@ -54,7 +54,6 @@ class PlatController extends Controller
             $user = auth()->user();
             $plats = Plat::where('menu_id', $menu->id)->get();
             // $user_ok = User::where('id', $menu->user_id)->first();
-            // dd($user);
             // $menu = Menu::find($request->menu_id);
             // $user_id = Menu::find($request->user_id);
             // dd($menu);
@@ -68,7 +67,7 @@ class PlatController extends Controller
                     "data" => $plats,
                     // $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get(),
                 ],  200);
-            } elseif ($menu->user_id != $user->id) {
+            } elseif ($menu->user_id != auth()->user()->id) {
                 return response()->json([
                     "status" => false,
                     "status_code" => 403,
@@ -85,7 +84,7 @@ class PlatController extends Controller
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
-                "message" => "Une erreur est survenue.",
+                "message" => "Une erreur est survenue lors du listage des plats.",
                 "error"   => $e->getMessage()
             ],   500);
         }
