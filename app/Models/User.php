@@ -10,7 +10,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable; 
 
     public function role()
     {
@@ -32,6 +32,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Commande::class, 'commande_id');
     }
     
+    public function livreurs() {
+
+        return $this->hasMany(Livreur::class,  "user_id");
+    }
     // Rest omitted for brevity
 
     /**

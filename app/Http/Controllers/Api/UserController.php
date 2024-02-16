@@ -481,6 +481,28 @@ class UserController extends Controller //implements Authenticatable
     }
 
 
+    public function getRestaurantDetails($id)
+    {
+       
+        $restaurant = User::find($id);
+
+        if ($restaurant === null) {
+            return response()->json([
+                'status' => false,
+                'status_code' => 404,
+                'message' => "Utilisateur non trouvé"
+            ],  404);
+        } else {
+
+            return response()->json([
+                'status_code' => 200,
+                'status' => true,
+                'message' => "Détails du restaurant:",
+                'data' =>  $restaurant,
+            ],  200);
+        }
+    }
+
     public function voirRestaurantDetails($id)
     {
         if (auth()->guard('user-api')->user()->role_id !== 1) {

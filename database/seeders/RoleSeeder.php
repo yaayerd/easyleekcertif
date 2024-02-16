@@ -15,7 +15,6 @@ class RoleSeeder extends Seeder
     {
         // // Creer les roles dans la base de données
 
-
                 // Créer le rôle 'AdminSystem'
                 Role::factory()->create(['nom' => 'Role_AdminSystem']);
 
@@ -24,5 +23,8 @@ class RoleSeeder extends Seeder
         
                 // Créer le rôle 'Client'
                 Role::factory()->create(['nom' => 'Role_Client']);
+                
+                // Créer le rôle 'Livreur'
+                Role::factory()->create(['nom' => 'Role_Livreur']);
     }
 }

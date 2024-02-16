@@ -21,6 +21,11 @@ class Commande extends Model
         return $this->hasMany(Avis::class);
        }
 
+       public function livraisons() 
+       {
+           return $this->belongsTo(Livraison::class);
+       }
+
        protected $fillable = [
         'numeroCommande', 'nombrePlats', 'nomPlat', 'prixCommande', 'lieuLivraison', 'etatCommande'
     ]; 

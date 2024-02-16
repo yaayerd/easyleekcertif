@@ -42,6 +42,7 @@ Route::post('/restaurant/login', [UserController::class, 'restaurantLogin']);
 Route::post('/user/register', [UserController::class, 'userRegister']);
 Route::post('/user/login', [UserController::class, 'userLogin']);
 Route::post('/message/to/admin', [MessageController::class, 'messageToAdmin']);
+Route::get('/restaurant/details/{id}', [UserController::class, 'getRestaurantDetails']);
 // -----------------------------Libres ---------------------
 Route::get('/categorie/list', [CategorieController::class, 'index']);
 Route::get('/menu/list', [MenuController::class, 'index']);
