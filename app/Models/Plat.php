@@ -9,16 +9,19 @@ class Plat extends Model
 {
     use HasFactory;
 
-    public function menu() {
+    public function menu()
+    {
         return $this->belongsTo(Menu::class);
-        }
+    }
 
-    public function commandes() {
+    public function commandes()
+    {
         return $this->hasMany(Commande::class);
-        }
+    }
 
-        protected $fillable = [
-            'libelle', 'descriptif', 'prix', 'menu_id', 'image', 'is_archived',
-        ];
-        
+
+
+    protected $fillable = [
+        'libelle', 'descriptif', 'prix', 'menu_id', 'image', 'is_archived',
+    ];
 }

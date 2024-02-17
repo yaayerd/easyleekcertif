@@ -9,24 +9,27 @@ class Commande extends Model
 {
     use HasFactory;
 
-    public function users() {
+    public function users()
+    {
         return $this->hasOne(User::class);
-        }
-    
-    public function plats() {
+    }
+
+    public function plats()
+    {
         return $this->hasOne(Plat::class);
     }
 
-    public function avis() {
+    public function livraisons()
+    {
+        return $this->belongsTo(Livraison::class);
+    }
+
+    public function avis()
+    {
         return $this->hasMany(Avis::class);
-       }
+    }
 
-       public function livraisons() 
-       {
-           return $this->belongsTo(Livraison::class);
-       }
-
-       protected $fillable = [
+    protected $fillable = [
         'numeroCommande', 'nombrePlats', 'nomPlat', 'prixCommande', 'lieuLivraison', 'etatCommande'
-    ]; 
+    ];
 }

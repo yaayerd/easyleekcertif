@@ -39,9 +39,10 @@ Route::group([
 
 // **********************Les routes libres à tous users ***************************
 
-Route::post('/restaurant/login', [UserController::class, 'restaurantLogin']);
 Route::post('/user/register', [UserController::class, 'userRegister']);
+Route::post('/restaurant/login', [UserController::class, 'restaurantLogin']);
 Route::post('/user/login', [UserController::class, 'userLogin']);
+Route::post('/livreur/login', [UserController::class, 'livreurLogin']);
 Route::post('/message/to/admin', [MessageController::class, 'messageToAdmin']);
 Route::get('/restaurant/details/{id}', [UserController::class, 'getRestaurantDetails']);
 // -----------------------------Libres ---------------------
@@ -147,9 +148,9 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
 // Les routes du Client ********************************************
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'client']], function () {
-
+    
     // Les routes d'authentification de user
-
+    
     Route::post('/user/modify/profile/{user}', [UserController::class, 'userModifyProfile']);
     Route::post('/user/logout', [UserController::class, 'userLogout']);
     Route::get('/user/me', [UserController::class, 'userMe']);
@@ -169,4 +170,12 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'client']], 
     Route::put('/avis/update/{id}', [AvisController::class, 'update']);
     Route::get('/avis/show/{id}', [AvisController::class, 'show']);
     Route::delete('/avis/delete/{id}', [AvisController::class, 'destroy']);
+});
+
+// Les routes du Livreur ********************************************
+
+Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'livreur']], function () {
+    
+    Route::post('/livre/update/occupe', [AvisController::class, 'putStatutOccupe']);
+    
 });
