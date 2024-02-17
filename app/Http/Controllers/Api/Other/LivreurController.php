@@ -99,7 +99,7 @@ class LivreurController extends Controller
                         "status" => false,
                         "statut_code" => 403,
                         "message" => "Vous ne pouvez pas modifier le statut car vous n'êtes pas livreur sur notre plateforme."
-                    ]);
+                    ], 403);
                 } else {
 
                     $request->validate([
@@ -112,9 +112,9 @@ class LivreurController extends Controller
                     return response()->json([
                         "status" => true,
                         "statut_code"  => 200,
-                        "message" => "Le livreur est maintenant occupé.",
+                        "message" => "Vous êtes marqué comme indisponible en ce moment.",
                         "data" => $livreur
-                    ]);
+                    ], 200);
                 }
             }
         } catch (Exception $e) {
@@ -126,4 +126,6 @@ class LivreurController extends Controller
             ],   500);
         }
     }
+
+
 }

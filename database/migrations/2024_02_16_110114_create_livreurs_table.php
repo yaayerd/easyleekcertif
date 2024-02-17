@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('livreurs', function (Blueprint $table) {
             $table->id();
+            // $table->string('numeroMatricule')->unique();
             $table->enum('statutLivreur', ['disponible', 'occupe'])->default('disponible');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
             $table->timestamps();

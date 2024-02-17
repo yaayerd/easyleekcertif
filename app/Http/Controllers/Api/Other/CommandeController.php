@@ -16,6 +16,7 @@ use Illuminate\Notifications\Notification;
 
 class CommandeController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -77,41 +78,139 @@ class CommandeController extends Controller
      */
 
 
+    // public function storeOne(CreateCommandeRequest $request, Commande $commande)
+    // {
+    //     try {
+    //         $user = auth()->guard('user-api')->user();
+
+    //         $commande = new Commande();
+
+    //         $this->authorize('store', $commande);
+
+    //         $plat = Plat::find($request->plat_id);
+
+    //         if ($plat && $user) {
+    //             $commande->user_id = $user->id;
+    //             $commande->plat_id = $plat->id;
+    //             $commande->nomPlat = $plat->libelle;
+    //             $commande->nombrePlats = $request->nombrePlats;
+    //             $commande->prixCommande = $request->nombrePlats * $plat->prix;
+    //             $commande->numeroCommande = uniqid();
+    //             $commande->lieuLivraison = $request->lieuLivraison;
+    //             $user = auth()->guard('user-api')->user();
+
+    //             // dd($commande);
+    //             $user->notify(new CommandeEffectuee($commande));
+
+    //             $commande->save();
+
+
+
+    //             // Notification::send($user, new CommandeEffectuee($commande));
+
+    //             return response()->json([
+    //                 'status' => true,
+    //                 'statut_code' => 201,
+    //                 'message' => "Votre commande à été enregistrée avec succès",
+    //                 'data' => $commande
+    //             ],  201);
+    //         }
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'statut_code' => 500,
+    //             'error' => "Une erreur est survenue lors de l'ajout de la commande, veuillez vérifier vos informations.",
+    //             'exception' => $e->getMessage()
+    //         ],   500);
+    //     }
+    // }
+
+    // public function addCommande(CreateCommandeRequest $request, Commande $commande)
+    // {
+    //     try {
+    //         $user = auth()->guard('user-api')->user();
+
+    //         $this->authorize('store', $commande);
+
+    //         $platIds = $request->input('plat_ids'); // Assuming the request contains an array of plat_ids
+
+    //         if (!empty($platIds) && $user) {
+    //             foreach ($platIds as $platId) {
+    //                 $plat = Plat::find($platId);
+
+    //                 if ($plat) {
+    //                     $commande = new Commande();
+
+    //                     $commande->user_id = $user->id;
+    //                     $commande->plat_id = $plat->id;
+    //                     $commande->nomPlat = $plat->libelle;
+    //                     $commande->nombrePlats = $request->nombrePlats;
+    //                     $commande->prixCommande = $request->nombrePlats * $plat->prix;
+    //                     $commande->numeroCommande = uniqid();
+    //                     $commande->lieuLivraison = $request->lieuLivraison;
+
+    //                     $user->notify(new CommandeEffectuee($commande));
+
+    //                     $commande->save();
+    //                 }
+    //             }
+
+    //             return response()->json([
+    //                 'status' => true,
+    //                 'statut_code' => 201,
+    //                 'message' => "Vos commandes ont été enregistrées avec succès",
+    //                 'data' => $commande
+    //             ],  201);
+    //         }
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'statut_code' => 500,
+    //             'error' => "Une erreur est survenue lors de l'ajout de la commande, veuillez vérifier vos informations.",
+    //             'exception' => $e->getMessage()
+    //         ],   500);
+    //     }
+    // }
+
     public function store(CreateCommandeRequest $request, Commande $commande)
     {
         try {
             $user = auth()->guard('user-api')->user();
 
-            $commande = new Commande();
-
             $this->authorize('store', $commande);
 
-            $plat = Plat::find($request->plat_id);
+            $commandes = $request->input('commandes'); // Récupérer le tableau de commandes du JSON
+            $plusieursCommandes = []; // Initialiser un tableau pour stocker les commandes créées
 
-            if ($plat && $user) {
-                $commande->user_id = $user->id;
-                $commande->plat_id = $plat->id;
-                $commande->nomPlat = $plat->libelle;
-                $commande->nombrePlats = $request->nombrePlats;
-                $commande->prixCommande = $request->nombrePlats * $plat->prix;
-                $commande->numeroCommande = uniqid();
-                $commande->lieuLivraison = $request->lieuLivraison;
-                $user = auth()->guard('user-api')->user();
+            if (!empty($commandes) && $user) {
+                foreach ($commandes as $oneCommande) {
+                    $plat = Plat::find($oneCommande['plat_id']);
 
-                // dd($commande);
-                $user->notify(new CommandeEffectuee($commande));
+                    if ($plat) {
+                        $commande = new Commande();
 
-                $commande->save();
+                        $commande->user_id = $user->id;
+                        $commande->plat_id = $plat->id;
+                        $commande->nomPlat = $plat->libelle;
+                        $commande->nombrePlats = $oneCommande['nombrePlats'];
+                        $commande->prixCommande = $oneCommande['nombrePlats'] * $plat->prix;
+                        $commande->numeroCommande = uniqid();
+                        $commande->lieuLivraison = $request->lieuLivraison;
 
+                        $user->notify(new CommandeEffectuee($commande));
 
+                        $commande->save();
 
-                // Notification::send($user, new CommandeEffectuee($commande));
+                        // Ajouter la commande créée au tableau
+                        $plusieursCommandes[] = $commande;
+                    }
+                }
 
                 return response()->json([
                     'status' => true,
                     'statut_code' => 201,
-                    'message' => "Votre commande à été enregistrée avec succès",
-                    'data' => $commande
+                    'message' => "Vos commandes ont été enregistrées avec succès",
+                    'data' => $plusieursCommandes // Utiliser le tableau contenant toutes les commandes créées
                 ],  201);
             }
         } catch (Exception $e) {
@@ -123,6 +222,8 @@ class CommandeController extends Controller
             ],   500);
         }
     }
+
+
 
 
     /**
