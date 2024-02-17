@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Other\MenuController;
 use App\Http\Controllers\Api\Other\PlatController;
 use App\Http\Controllers\Api\Other\RoleController;
 use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\Other\LivreurController;
 use App\Models\Commande;
 
 /*
@@ -81,7 +82,10 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
     Route::get('/restaurant/list/all', [UserController::class, 'listAllRestaurant']);
     
     Route::get('/message/list', [MessageController::class, 'ListMessage']);
-   
+    
+    // ------------------------------Livreur  ----------------------
+    Route::post('/livreur/register', [LivreurController::class, 'livreurRegister']);
+
     // --------------------  Les routes liées à Catégorie 
     Route::get('/categorie/list', [CategorieController::class, 'index']);
     Route::post('/categorie/store', [CategorieController::class, 'store']);
@@ -108,7 +112,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
 
     Route::post('/restaurant/modify/profile/{restaurant}', [UserController::class, 'restautantModifyProfile']);
     Route::post('/restaurant/logout', [UserController::class, 'restaurantLogout']);
-    Route::post('/restaurant/me', [UserController::class, 'restaurantMe']);
+    Route::get('/restaurant/me', [UserController::class, 'restaurantMe']);
 
     // --------------------  Les routes liées au Menu 
 
@@ -148,7 +152,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'client']], 
 
     Route::post('/user/modify/profile/{user}', [UserController::class, 'userModifyProfile']);
     Route::post('/user/logout', [UserController::class, 'userLogout']);
-    Route::post('/user/me', [UserController::class, 'userMe']);
+    Route::get('/user/me', [UserController::class, 'userMe']);
 
     // --------------------  Les routes liées à Commande pour le User
 

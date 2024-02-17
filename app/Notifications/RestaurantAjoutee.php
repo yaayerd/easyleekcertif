@@ -46,7 +46,6 @@ class RestaurantAjoutee extends Notification
             ->line('Voici les informations de votre compte restaurant:')
             ->line('Nous vous suggerrons de modifier votre mot de passe:')
             ->line('Nom de votre restaurant: ' . $notifiable->name)
-            // ->line('Adresse: ' . $notifiable->adresse)
             ->action('Accéder à la plateforme ici ', url('/categorie/list'))
             ->line('Merci de faire partie de notre plateforme. Belle aventure!');
     }

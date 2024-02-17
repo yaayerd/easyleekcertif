@@ -34,7 +34,7 @@ class User extends Authenticatable implements JWTSubject
     
     public function livreurs() {
 
-        return $this->hasMany(Livreur::class,  "user_id");
+        return $this->hasOne(Livreur::class,  "user_id");
     }
     // Rest omitted for brevity
 

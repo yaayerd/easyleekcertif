@@ -56,7 +56,7 @@ class CreateUserRequest extends FormRequest
             'email.unique' => 'Cette adresse email est déjà utilisée par un autre utilisateur.',
 
             'phone.required' => 'Le numéro de Téléphone est obligatoire.',
-            'phone.regex' => 'Le "Téléphone" doit être un numéro sénégalais. Il doit commencer par +221 suivi de l\'un des préfixes (75, 76, 77, 78, 70) et être suivi de 7 chiffres.',
+            'phone.regex' => 'Le "Téléphone" doit être un numéro sénégalais. Il doit commencer par l\'un des préfixes (75, 76, 77, 78, 70) et être suivi de 7 chiffres.',
 
             'adresse.required' => 'L\'adresse est obligatoire.',
             'adresse.string' => 'L\'adresse doit être une chaîne de caractères.',

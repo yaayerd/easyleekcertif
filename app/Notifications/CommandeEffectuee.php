@@ -13,6 +13,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 class CommandeEffectuee extends Notification //implements ShouldQueue
 {
     use Queueable ;
+    
     private $commande; 
 
     /**

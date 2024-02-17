@@ -14,7 +14,7 @@ use Illuminate\Console\Command;
 use Illuminate\Notifications\Notification;
 // use Illuminate\Support\Facades\Notification;
 
-class CommandeController extends Controller  
+class CommandeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -97,12 +97,12 @@ class CommandeController extends Controller
                 $commande->numeroCommande = uniqid();
                 $commande->lieuLivraison = $request->lieuLivraison;
                 $user = auth()->guard('user-api')->user();
-                
+
                 // dd($commande);
                 $user->notify(new CommandeEffectuee($commande));
-                
+
                 $commande->save();
-                
+
 
 
                 // Notification::send($user, new CommandeEffectuee($commande));
