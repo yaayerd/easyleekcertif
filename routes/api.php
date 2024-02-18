@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\Api\Other\AvisController;
+use App\Models\Commande;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\Other\CategorieController;
-use App\Http\Controllers\Api\Other\CommandeController;
+use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\Other\AvisController;
 use App\Http\Controllers\Api\Other\MenuController;
 use App\Http\Controllers\Api\Other\PlatController;
 use App\Http\Controllers\Api\Other\RoleController;
-use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\Other\LivreurController;
-use App\Models\Commande;
+use App\Http\Controllers\Api\Other\CommandeController;
+use App\Http\Controllers\Api\Other\CategorieController;
+use App\Http\Controllers\Api\Other\LivraisonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,12 +46,14 @@ Route::post('/user/login', [UserController::class, 'userLogin']);
 Route::post('/livreur/login', [UserController::class, 'livreurLogin']);
 Route::post('/message/to/admin', [MessageController::class, 'messageToAdmin']);
 Route::get('/restaurant/details/{id}', [UserController::class, 'getRestaurantDetails']);
-// -----------------------------Libres ---------------------
+
+
 Route::get('/categorie/list', [CategorieController::class, 'index']);
 Route::get('/menu/list', [MenuController::class, 'index']);
 Route::get('/plat/list/', [PlatController::class, 'index']);
 // Route::post('/plat/list/', [PlatController::class, 'index']);
 Route::get('/plat/show/{id}', [PlatController::class, 'show']);
+
 Route::get('/avis/list', [AvisController::class, 'index']);
 Route::get('/avis/show/{id}', [AvisController::class, 'show']);
 Route::get('/restaurant/list/', [UserController::class, 'getAllRestaurant']);
@@ -59,12 +62,13 @@ Route::get('/plat/list/{menu_id}', [PlatController::class, 'getPlatbyMenu']);
 
 
 
+
 // Les routes de l' AdminSystem**************************************************
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem']], function () {
-    
+
     //-------------------------Gestion Comptes Utilisateurs--------------------
-    
+
     // ------------------------------Client ----------------------
     Route::post('/client/compte/block/{id}', [UserController::class, 'blockUser']);
     Route::post('/client/compte/unblock/{id}', [UserController::class, 'unblockUser']);
@@ -72,7 +76,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
     Route::get('/client/list/blocked', [UserController::class, 'listClientBlocked']);
     Route::get('/client/list/unblocked', [UserController::class, 'listClientUnblocked']);
     Route::get('/client/list/all', [UserController::class, 'listAllClient']);
-    
+
     // ------------------------------Restaurant  ----------------------
     Route::post('/restaurant/register', [UserController::class, 'restaurantRegister']);
     Route::get('/restaurant/details/{id}', [UserController::class, 'voirRestaurantDetails']);
@@ -81,11 +85,17 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
     Route::get('/restaurant/list/blocked', [UserController::class, 'listRestaurantBlocked']);
     Route::get('/restaurant/list/unblocked', [UserController::class, 'listRestaurantUnblocked']);
     Route::get('/restaurant/list/all', [UserController::class, 'listAllRestaurant']);
-    
+
     Route::get('/message/list', [MessageController::class, 'ListMessage']);
-    
+
     // ------------------------------Livreur  ----------------------
     Route::post('/livreur/register', [LivreurController::class, 'livreurRegister']);
+    Route::get('/list/livreurs/disponibles', [LivreurController::class, 'getLivreursDisponibles']);
+    Route::get('/list/livreurs/occupes', [LivreurController::class, 'getLivreursOccupes']);
+    Route::get('/livreur/details/{id}', [LivreurController::class, 'getDetailsLivreur']);
+    Route::post('/affecter/livraison/{livreur_id}/{commande_id}', [LivraisonController::class, 'affecterLivraison']);
+
+
 
     // --------------------  Les routes liées à Catégorie 
     Route::get('/categorie/list', [CategorieController::class, 'index']);
@@ -101,7 +111,6 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
     Route::put('/role/update/{id}', [RoleController::class, 'update']);
     Route::get('/role/show/{id}', [RoleController::class, 'show']);
     Route::delete('/role/delete/{id}', [RoleController::class, 'destroy']);
-
 });
 
 
@@ -141,6 +150,14 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
     Route::put('/commande/accepter/{id}', [CommandeController::class, 'accepterCommande']);
     Route::get('/commande/accepted/list', [CommandeController::class, 'commandeAcceptedList']);
     Route::get('/commande/refused/list', [CommandeController::class, 'commandeRefusedList']);
+
+    // --------------------  Les routes liées aux livreurs pour le restaurant
+
+    Route::get('/list/livreurs/disponibles', [LivreurController::class, 'getLivreursDisponibles']);
+    Route::get('/list/livreurs/occupes', [LivreurController::class, 'getLivreursOccupes']);
+    Route::get('/livreur/details/{id}', [LivreurController::class, 'getDetailsLivreur']);
+    Route::post('/affecter/livraison/{livreur_id}/{commande_id}', [LivraisonController::class, 'affecterLivraison']);
+    
 });
 
 
@@ -148,9 +165,9 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
 // Les routes du Client ********************************************
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'client']], function () {
-    
+
     // Les routes d'authentification de user
-    
+
     Route::post('/user/modify/profile/{user}', [UserController::class, 'userModifyProfile']);
     Route::post('/user/logout', [UserController::class, 'userLogout']);
     Route::get('/user/me', [UserController::class, 'userMe']);
@@ -170,12 +187,16 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'client']], 
     Route::put('/avis/update/{id}', [AvisController::class, 'update']);
     Route::get('/avis/show/{id}', [AvisController::class, 'show']);
     Route::delete('/avis/delete/{id}', [AvisController::class, 'destroy']);
+
 });
 
 // Les routes du Livreur ********************************************
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'livreur']], function () {
-    
-    Route::post('/livre/update/occupe', [AvisController::class, 'putStatutOccupe']);
-    
+
+    Route::post('/livreur/update/occupe/{id}', [LivreurController::class, 'putStatutOccupe']);
+    Route::get('/list/livreurs/disponibles', [LivreurController::class, 'getLivreursDisponibles']);
+    Route::get('/list/livreurs/occupes', [LivreurController::class, 'getLivreursOccupes']);
+    Route::get('/livreur/details/{id}', [LivreurController::class, 'getDetailsLivreur']);
+    Route::post('/livreur/update/{livreur}', [LivreurController::class, 'livreurModifyProfile']);
 });

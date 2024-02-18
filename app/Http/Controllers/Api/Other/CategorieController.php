@@ -30,7 +30,7 @@ class CategorieController extends Controller
                 "message" => "Une erreur est survenue.",
                 "error"   => $e->getMessage()
             ],  500);
-    }
+        }
     }
 
     /**
@@ -46,24 +46,24 @@ class CategorieController extends Controller
      */
     public function store(CreateCategorieRequest $request, Categorie $categorie)
     {
-        
-        try { 
+
+        try {
             $this->authorize('store', $categorie);
             $user = $request->user();
             if ($user && $user->role_id == 1) {
-            $categorie = new Categorie();
-            $categorie->type = $request->type;
-            // dd($categorie);
+                $categorie = new Categorie();
+                $categorie->type = $request->type;
+                // dd($categorie);
 
-            $categorie->save();
+                $categorie->save();
 
-            return response()->json([
-                'status' => true,
-                'statut code' => 201,
-                'message' => "Catégorie enrégistrée  avec succès",
-                'data'  => $categorie,
-            ],  201);
-            } 
+                return response()->json([
+                    'status' => true,
+                    'statut code' => 201,
+                    'message' => "Catégorie enrégistrée  avec succès",
+                    'data'  => $categorie,
+                ],  201);
+            }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
@@ -116,7 +116,7 @@ class CategorieController extends Controller
      */
     public function update(UpdateCategorieRequest $request, $id)
     {
-        
+
         try {
             $categorie = Categorie::find($id);
             if ($categorie === null) {
@@ -127,15 +127,15 @@ class CategorieController extends Controller
                 ],  404);
             } else {
                 $this->authorize('update', $categorie);
-            // dd($request);
-            $categorie->type = $request->type;
-            $categorie->update();
-            return response()->json([
-                'status' => true,
-                'statut_code' => 200,
-                'statut_message' => 'Le type de categorie a été modifié avec succès',
-                'data' => $categorie,
-            ],   200);
+                // dd($request);
+                $categorie->type = $request->type;
+                $categorie->update();
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'statut_message' => 'Le type de categorie a été modifié avec succès',
+                    'data' => $categorie,
+                ],   200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -154,7 +154,7 @@ class CategorieController extends Controller
     {
         try {
             $categorie = Categorie::find($id);
-            
+
             if ($categorie === null) {
                 return response()->json([
                     'status' => false,
@@ -163,9 +163,9 @@ class CategorieController extends Controller
                 ],   404);
             } else {
                 $this->authorize('store', $categorie);
-                
+
                 $categorie->delete();
-                
+
                 return response()->json([
                     'status' => true,
                     'statut_code' => 200,
@@ -183,4 +183,3 @@ class CategorieController extends Controller
         }
     }
 }
-

@@ -10,13 +10,13 @@ class Livraison extends Model
 {
     use HasFactory;
 
-    public function livreurs()
-    {
-        return $this->belongsTo(Livreur::class);
-    }
-
-    public function commandes() 
+    public function commande() 
     {
         return $this->hasOne(Commande::class);
+    }
+    
+    public function livreur() 
+    {
+        return $this->hasOne(Livreur::class);
     }
 }

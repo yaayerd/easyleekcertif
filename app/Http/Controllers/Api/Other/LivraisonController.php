@@ -2,64 +2,68 @@
 
 namespace App\Http\Controllers\Api\Other;
 
-use App\Http\Controllers\Controller;
+use Exception;
+use App\Models\Livreur;
+use App\Models\Commande;
+use App\Models\Livraison;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class LivraisonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function affecterLivraison($livreur_id, $commande_id)
     {
-        //
-    }
+        try {
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            if (auth()->user() && in_array(auth()->user()->role_id, [1, 2])) {
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+            $livreur = Livreur::find($livreur_id);
+            $commande = Commande::find($commande_id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+            if ($livreur->statutLivreur !== 'disponible') {
+                return response()->json([
+                    'status' => false,
+                    'statut_code' => 400,
+                    'error' => "Le livreur n'est pas disponible pour effectuer cette livraison.",
+                ], 400);
+            }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+            $livraison = new Livraison();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            $livraison->livreur_id = $livreur->id;
+            $livraison->commande_id = $commande->id;
+            $commande->etatLivraison = 'en_cours';
+
+
+            $livraison->save();
+
+            $livreur->statutLivreur = 'occupe';
+            $livreur->save();
+
+            return response()->json([
+                'status' => true,
+                'statut_code' => 200,
+                'message' => "Livraison enregistrée avec succès.",
+                'data' => $livraison,
+        //         'nom_Plat' = $commande->plat->libelle,
+        //     'livreur name'= $livreur->user->name,
+        //    'numeroCommande '= $commande->numeroCommande
+            ], 200); 
+        } else {
+            return response()->json([
+                'status' => true,
+                'statut_code' => 403,
+                'message' => "Vous ne pouvez affecter une livraison à un livreur.",
+            ], 403); 
+        }
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'statut_code' => 500,
+                'error' => "Une erreur est survenue lors de l'enregistrement de la livraison.",
+                'exception' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

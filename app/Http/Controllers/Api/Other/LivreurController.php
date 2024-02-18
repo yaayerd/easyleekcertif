@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Requests\Api\User\LoginUserRequest;
 use App\Http\Requests\Api\User\CreateUserRequest;
+use App\Http\Requests\Api\User\UpdateUserRequest;
 
 class LivreurController extends Controller
 {
@@ -80,13 +81,54 @@ class LivreurController extends Controller
         ]);
     }
 
+    public function livreurModifyProfile(UpdateUserRequest $request, User $livreur)
+    {
+        try {
+            // Vérifier si l'utilisateur connecté est le propriétaire du compte (livreur)
+            $user = $request->user();
+            if ($user->id !== $livreur->id) {
+                return response()->json([
+                    'status' => false,
+                    'statut_code' => 403,
+                    'error' => "Vous n'êtes pas autorisé à modifier ce profil, il ne vous appartient point.",
+                ], 403);
+            }
+    
+            $livreur->name = $request->name;
+            $livreur->email = $request->email;
+            $livreur->phone = $request->phone;
+            $livreur->adresse = $request->adresse;
+    
+            $livreur->password = Hash::make($request->password);
+    
+            $livreur->save();
+    
+            // Retourner une réponse en fonction du résultat de la modification
+            return response()->json([
+                'status' => true,
+                'statut_code' => 200,
+                'message' => "Profil du livreur modifié avec succès",
+                'data' => $livreur
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'statut_code' => 500,
+                'error' => "Une erreur est survenue lors de la modification du profil du livreur.",
+                'exception' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function putStatutOccupe(Request $request, $id)
 
     {
         $livreur = Livreur::find($id);
+        // dd($livreur);
+
         try {
-            $livreur = $request->user();
-            if ($livreur) {
+            $user = $request->user();
+            if ($livreur && $user) {
 
                 if ($livreur === null) {
                     return response()->json([
@@ -94,7 +136,7 @@ class LivreurController extends Controller
                         "statut_code" => 404,
                         "message" => "Ce livreur n'existe pas sur notre plateforme.",
                     ],  404);
-                } elseif ($livreur->role != 4) {
+                } elseif ($user->role_id != 4 && $livreur->id == $request->user()->id) {
                     return response()->json([
                         "status" => false,
                         "statut_code" => 403,
@@ -102,18 +144,21 @@ class LivreurController extends Controller
                     ], 403);
                 } else {
 
-                    $request->validate([
-                        'statut' => 'required|in:disponible,occupe',
-                    ]);
 
                     $livreur->update([
                         'statutLivreur' => 'occupe',
                     ]);
+                    // dd($livreur);
                     return response()->json([
                         "status" => true,
                         "statut_code"  => 200,
                         "message" => "Vous êtes marqué comme indisponible en ce moment.",
-                        "data" => $livreur
+                        "statut actuel" => $livreur->statutLivreur,
+                        'votre id' => $livreur->id,
+                        'user_id' => $user->id,
+                        'name' => $user->name,
+                        'phone' => $user->phone,
+                        'adresse' => $user->adresse,
                     ], 200);
                 }
             }
@@ -127,5 +172,141 @@ class LivreurController extends Controller
         }
     }
 
+    public function getLivreursDisponibles(Request $request)
+    {
+        try {
+            if (auth()->user() && auth()->user()->role_id !== 3) {
+                $livreurs = User::where('role_id', 4)->get();
 
+                $livreursDisponibles = Livreur::where('statutLivreur', 'disponible')->get();
+
+                $livreursInfo = [];
+
+                foreach ($livreursDisponibles as $livreurDisponible) {
+                    $livreurInfo = [
+                        'user_id' => $livreurDisponible->user_id,
+                        'name' => $livreurDisponible->user->name,
+                        'phone' => $livreurDisponible->user->phone,
+                        'adresse' => $livreurDisponible->user->adresse,
+                        'statutLivreur' => $livreurDisponible->statutLivreur,
+                    ];
+
+                    $livreursInfo[] = $livreurInfo;
+                }
+
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'message' => 'Voici la liste des livreurs disponibles.',
+                    'data' => $livreursInfo,
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'statut_code' => 403,
+                    'error' => "En tant que client, vous n'avez pas accès à ces ressources.",
+                ], 403);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'statut_code' => 500,
+                'error' => "Une erreur est survenue lors de la récupération des livreurs disponibles.",
+                'exception' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
+    public function getLivreursOccupes()
+    {
+        try {
+            if (auth()->user() && auth()->user()->role_id !== 3) {
+                $livreurs = User::where('role_id', 4)->get();
+
+                $livreursOccupes = Livreur::where('statutLivreur', 'occupe')->get();
+
+                $livreursInfo = [];
+
+                foreach ($livreursOccupes as $livreurOccupe) {
+                    $livreurInfo = [
+                        'user_id' => $livreurOccupe->user_id,
+                        'name' => $livreurOccupe->user->name,
+                        'phone' => $livreurOccupe->user->phone,
+                        'adresse' => $livreurOccupe->user->adresse,
+                        'statutLivreur' => $livreurOccupe->statutLivreur,
+                    ];
+
+                    $livreursInfo[] = $livreurInfo;
+                }
+
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'message' => 'Voici la liste des livreurs occupes.',
+                    'data' => $livreursInfo,
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'statut_code' => 403,
+                    'error' => "En tant que client, vous n'avez pas accès à ces ressources.",
+                ], 403);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'statut_code' => 500,
+                'error' => "Une erreur est survenue lors de la récupération des livreurs occupes.",
+                'exception' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getDetailsLivreur($livreurId)
+    {
+        try {
+            if (auth()->user() && auth()->user()->role_id !== 3) {
+                $livreur = Livreur::find($livreurId);
+
+                if ($livreur) {
+                    $livreurDetails = [
+                        'user_id' => $livreur->user_id,
+                        'livreur_id' => $livreur->id,
+                        'name' => $livreur->user->name, 
+                        'phone' => $livreur->user->phone,
+                        'adresse' => $livreur->user->adresse,
+                        'role' => $livreur->user->role->nom,
+                        'statut_livreur' => $livreur->statutLivreur,
+                    ];
+
+                    return response()->json([
+                        'status' => true,
+                        'statut_code' => 200,
+                        'message' => 'Voici les details du livreur: ' . $livreur->user->name,
+                        'data' => $livreurDetails,
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'statut_code' => 404,
+                        'error' => "Ce livreur est non trouvé.",
+                    ], 404);
+                }
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'statut_code' => 403,
+                    'error' => "En tant que client, vous n'avez pas accès à ces ressources.",
+                ], 403);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'statut_code' => 500,
+                'error' => "Une erreur est survenue lors de la récupération des détails du livreur.",
+                'exception' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
