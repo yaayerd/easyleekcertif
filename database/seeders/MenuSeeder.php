@@ -15,22 +15,22 @@ class MenuSeeder extends Seeder
     {
         Menu::factory()->create([
             'Titre' => 'La bonne Booff',
-            'user_id' => 1
+            'user_id' => 3
         ]);
 
         Menu::factory()->create([
             'Titre' => 'Food truck',
-            'user_id' => 1
+            'user_id' => 3
         ]);
 
         Menu::factory()->create([
-            'Titre' => 'Do Leek',
-            'user_id' => 2
+            'Titre' => 'BestLeek',
+            'user_id' => 4
         ]);
 
         Menu::factory()->create([
-            'Titre' => 'Kay agn',
-            'user_id' => 2
+            'Titre' => 'FestiLeek',
+            'user_id' => 4
         ]);
 
     }
