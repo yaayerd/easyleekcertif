@@ -45,7 +45,7 @@ class PlatTest extends TestCase
                 'password' => "password123",
             ]);
     
-            $response = $this->get('/api/auth/plat/show/10');
+            $response = $this->get('/api/auth/plat/show/3');
     
             $response->assertStatus(200);
     
@@ -116,7 +116,7 @@ class PlatTest extends TestCase
 
             ];
     
-            $response = $this->put('/api/auth/plat/update/24', $platModif);
+            $response = $this->put('/api/auth/plat/update/2', $platModif);
             // dd($response);
     
             $response->assertStatus(200);

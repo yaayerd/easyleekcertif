@@ -83,7 +83,7 @@ class CommandeTest extends TestCase
                 "lieuLivraison"=>  "Sopprim "
             ];
     
-            $response = $this->put('/api/auth/commande/update/17', $commandeModif);
+            $response = $this->put('/api/auth/commande/update/1', $commandeModif);
             // dd($response);
     
             $response->assertStatus(200);

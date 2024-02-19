@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\livreur;
+use App\Models\Livraison;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\LivreurAjoute;
@@ -93,16 +94,16 @@ class LivreurController extends Controller
                     'error' => "Vous n'êtes pas autorisé à modifier ce profil, il ne vous appartient point.",
                 ], 403);
             }
-    
+
             $livreur->name = $request->name;
             $livreur->email = $request->email;
             $livreur->phone = $request->phone;
             $livreur->adresse = $request->adresse;
-    
+
             $livreur->password = Hash::make($request->password);
-    
+
             $livreur->save();
-    
+
             // Retourner une réponse en fonction du résultat de la modification
             return response()->json([
                 'status' => true,
@@ -273,7 +274,7 @@ class LivreurController extends Controller
                     $livreurDetails = [
                         'user_id' => $livreur->user_id,
                         'livreur_id' => $livreur->id,
-                        'name' => $livreur->user->name, 
+                        'name' => $livreur->user->name,
                         'phone' => $livreur->user->phone,
                         'adresse' => $livreur->user->adresse,
                         'role' => $livreur->user->role->nom,
@@ -305,6 +306,125 @@ class LivreurController extends Controller
                 'status' => false,
                 'statut_code' => 500,
                 'error' => "Une erreur est survenue lors de la récupération des détails du livreur.",
+                'exception' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function accepterLivraison(Request $request, Livraison $livraison)
+    {
+        try {
+            $livraison = Livraison::find($livraison);
+            // $request->user() && auth()->user()->id
+            // dd($livraison->etatLivraison);
+            if ($livraison->livreur->user_id === $request->user()->id) {
+                $livraison->etatLivraison = 'en_cours';
+                $livraison->save();
+                
+                $livraison->livreur->statutLivreur = 'occupe';
+                $livraison->livreur->save();
+
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'message' => "Livraison acceptée avec succès.",
+                    'data' => [
+                        'livraison' => $livraison,
+                        'livreur' => $livraison->livreur->user,
+                        'commande' => $livraison->commande,
+                    ],
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'statut_code' => 403,
+                    'error' => "Vous n'avez pas l'autorisation d'accepter cette livraison.",
+                ], 403);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'statut_code' => 500,
+                'error' => "Une erreur est survenue lors de l'acceptation de la livraison.",
+                'exception' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function terminerLivraison($livraison_id)
+    {
+        try {
+            $livraison = Livraison::find($livraison_id);
+
+            if (auth()->user() && $livraison->livreur->user_id === auth()->user()->id) {
+                $livraison->etatLivraison = 'effectuee';
+                $livraison->save();
+
+                $livraison->livreur->statutLivreur = 'disponible';
+                $livraison->livreur->save();
+
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'message' => "Livraison terminée avec succès.",
+                    'data' => [
+                        'livraison' => $livraison,
+                        'livreur' => $livraison->livreur->user,
+                        'commande' => $livraison->commande,
+                    ],
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'statut_code' => 403,
+                    'error' => "Vous n'avez pas l'autorisation de terminer cette livraison.",
+                ], 403);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'statut_code' => 500,
+                'error' => "Une erreur est survenue lors de la fin de la livraison.",
+                'exception' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function refuserLivraison($livraison_id)
+    {
+        try {
+            $livraison = Livraison::find($livraison_id);
+
+            if (auth()->user() && $livraison->livreur->user_id === auth()->user()->id) {
+                if ($livraison->livreur->statutLivreur === 'occupe') {
+                    $livraison->etatLivraison = 'affectee';
+                    $livraison->save();
+
+                    return response()->json([
+                        'status' => true,
+                        'statut_code' => 200,
+                        'message' => "Livraison refusée avec succès.",
+                        'data' => $livraison,
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'statut_code' => 400,
+                        'error' => "La livraison ne peut pas être acceptée car le livreur est occupé.",
+                    ], 400);
+                }
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'statut_code' => 403,
+                    'error' => "Vous n'avez pas l'autorisation de refuser cette livraison.",
+                ], 403);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'statut_code' => 500,
+                'error' => "Une erreur est survenue lors du refus de la livraison.",
                 'exception' => $e->getMessage(),
             ], 500);
         }

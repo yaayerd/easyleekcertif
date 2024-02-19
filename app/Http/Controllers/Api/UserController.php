@@ -48,7 +48,7 @@ class UserController extends Controller //implements Authenticatable
             return response()->json([
                 'status_code' => 201,
                 'status' => true,
-                'message' => "Inscription de l'utilisateur reussie",
+                'message' => "Inscription du client reussie",
                 'data' =>  $user,
             ], 201);
         } else {
