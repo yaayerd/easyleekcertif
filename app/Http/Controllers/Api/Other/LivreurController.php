@@ -320,7 +320,7 @@ class LivreurController extends Controller
             if ($livraison->livreur->user_id === $request->user()->id) {
                 $livraison->etatLivraison = 'en_cours';
                 $livraison->save();
-                
+                                
                 $livraison->livreur->statutLivreur = 'occupe';
                 $livraison->livreur->save();
 

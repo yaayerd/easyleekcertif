@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('livraisons', function (Blueprint $table) {
             $table->id(); 
-            $table->enum('etatLivraison', ['enregistree', 'affectee','en_cours', 'effectuee'])->default('non_effectuee');
+            $table->enum('etatLivraison', ['enregistree', 'affectee','en_cours', 'effectuee'])->default('enregistree');
             $table->integer('prixLivraison')->default(1000);
             $table->foreignIdFor(Commande::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
             $table->foreignIdFor(Livreur::class)->constrained()->cascadeOnUpdate()->cascadeOnUpdate();

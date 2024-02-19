@@ -26,32 +26,13 @@ class CommandeController extends Controller
         try {
             $user = auth()->guard('user-api')->user();
 
-            if ($request->plat_id === null) {
-                return response()->json([
-                    "status" => false,
-                    "statut_code" => 400,
-                    "message" => "Ce plat est introuvable."
-                ],  400);
-            }
-
-            $plat = Plat::find($request->plat_id);
-
-            if ($plat === null) {
-                return response()->json([
-                    "status" => false,
-                    "statut_code" => 404,
-                    "message" => "Le plat n'existe pas."
-                ],   404);
-            }
-
             if ($user) {
-                $commandes = Commande::where('user_id', $user->id)->get(); // ->where('plat_id', $plat->id)
-                // dd($plat);
-                dd($commandes);
+                $commandes = Commande::where('user_id', $user->id)->get();
+                // dd($commandes);
                 return response()->json([
                     'status' => true,
                     'statut_code' => 200,
-                    'message' => "Voici les commandes de ce plat passées par l'utilisateur connecté.",
+                    'message' => "Voici les commandes passées par ce client connecté.",
                     'data'  => $commandes,
                 ],  200);
             }
@@ -59,13 +40,13 @@ class CommandeController extends Controller
             return response()->json([
                 "status" => false,
                 "statut_code" => 500,
-                "message" => "Une erreur est survenue.",
+                "message" => "Une erreur est survenue lors du listage des plats.",
                 "erreur" => $e->getMessage()
             ],   500);
         }
     }
 
-    // public function getCommandebyPlats ($plat_id)
+    // public function getCommandebyIdPlat ($plat_id)
     // {
     //     try {
     //         $commandes = Commande::where('plat_id', $plat_id)->where('etatCommande', 'acceptee')->orderByDesc('created_at')->get();
@@ -98,10 +79,8 @@ class CommandeController extends Controller
     public function getCommandebyPlat($plat_id)
     {
         try {
-            // Récupérez le plat associé au plat_id
             $plat = Plat::find($plat_id);
 
-            // Vérifiez si l'utilisateur actuel est le créateur du menu associé au plat
             $user = auth()->guard('user-api')->user();
             if (!$user || $plat->menu->user_id !== $user->id) {
                 return response()->json([
@@ -111,7 +90,6 @@ class CommandeController extends Controller
                 ], 403);
             }
 
-            // Récupérez les commandes du plat
             $commandes = Commande::where('plat_id', $plat_id)->where('etatCommande', 'acceptee')->orderByDesc('created_at')->get();
 
             return response()->json([
