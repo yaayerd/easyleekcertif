@@ -6,12 +6,13 @@ use Exception;
 use App\Models\Plat;
 use App\Models\Commande;
 use Illuminate\Http\Request;
+use Illuminate\Console\Command;
 use App\Http\Controllers\Controller;
+use App\Notifications\CommandeEffectuee;
+use Illuminate\Notifications\Notification;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Requests\Api\Commande\CreateCommandeRequest;
 use App\Http\Requests\Api\Commande\UpdateCommandeRequest;
-use App\Notifications\CommandeEffectuee;
-use Illuminate\Console\Command;
-use Illuminate\Notifications\Notification;
 // use Illuminate\Support\Facades\Notification;
 
 class CommandeController extends Controller
@@ -64,18 +65,75 @@ class CommandeController extends Controller
         }
     }
 
+    // public function getCommandebyPlats ($plat_id)
+    // {
+    //     try {
+    //         $commandes = Commande::where('plat_id', $plat_id)->where('etatCommande', 'acceptee')->orderByDesc('created_at')->get();
+    //         $plat = Plat::find($plat_id);
+    //         // dd($menu);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    //         if ($plat) {
+    //             return response()->json([
+    //                 "status_code" => 200,
+    //                 "message" => "Voici les commandes du plat:  {$plat->libelle}",
+    //                 "data" => $commandes,
+    //             ],  200);
+    //         } elseif (!$plat) {
+    //             return response()->json([
+    //                 "status" => false,
+    //                 "status_code" => 404,
+    //                 "message" => "Désolé, ce plat n'existe pas.",
+    //             ],   404);
+    //         }
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             "status" => false,
+    //             "status_code" => 500,
+    //             "message" => "Une erreur est survenue lors du listage des commandes.",
+    //             "error"   => $e->getMessage()
+    //         ],   500);
+    //     }
+    // }
+
+    public function getCommandebyPlat($plat_id)
     {
-        //
-    }
+        try {
+            // Récupérez le plat associé au plat_id
+            $plat = Plat::find($plat_id);
 
-    /**
-     * Store a newly created resource in storage.
-     */
+            // Vérifiez si l'utilisateur actuel est le créateur du menu associé au plat
+            $user = auth()->guard('user-api')->user();
+            if (!$user || $plat->menu->user_id !== $user->id) {
+                return response()->json([
+                    "status" => false,
+                    "status_code" => 403,
+                    "message" => "Accès non autorisé. Vous n'êtes pas autorisé à voir les commandes de ce plat.",
+                ], 403);
+            }
+
+            // Récupérez les commandes du plat
+            $commandes = Commande::where('plat_id', $plat_id)->where('etatCommande', 'acceptee')->orderByDesc('created_at')->get();
+
+            return response()->json([
+                "status_code" => 200,
+                "message" => "Voici les commandes du plat:  {$plat->libelle}",
+                "data" => $commandes,
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                "status" => false,
+                "status_code" => 404,
+                "message" => "Désolé, ce plat n'existe pas.",
+            ], 404);
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue lors du listage des commandes.",
+                "error"   => $e->getMessage()
+            ], 500);
+        }
+    }
 
 
     // public function storeOne(CreateCommandeRequest $request, Commande $commande)
@@ -179,8 +237,8 @@ class CommandeController extends Controller
 
             $this->authorize('store', $commande);
 
-            $commandes = $request->input('commandes'); // Récupérer le tableau de commandes du JSON
-            $plusieursCommandes = []; // Initialiser un tableau pour stocker les commandes créées
+            $commandes = $request->input('commandes');
+            $plusieursCommandes = [];
 
             if (!empty($commandes) && $user) {
                 foreach ($commandes as $oneCommande) {
@@ -210,7 +268,7 @@ class CommandeController extends Controller
                     'status' => true,
                     'statut_code' => 201,
                     'message' => "Vos commandes ont été enregistrées avec succès",
-                    'data' => $plusieursCommandes // Utiliser le tableau contenant toutes les commandes créées
+                    'data' => $plusieursCommandes
                 ],  201);
             }
         } catch (Exception $e) {
@@ -222,6 +280,66 @@ class CommandeController extends Controller
             ],   500);
         }
     }
+
+    // public function store(CreateCommandeRequest $request, Commande $commande)
+    // {
+    //     try {
+    //         $user = auth()->guard('user-api')->user();
+    //         $this->authorize('store', $commande);
+
+    //         $commandes = $request->input('commandes');
+    //         $plusieursCommandes = [];
+
+    //         if (!empty($commandes) && $user) {
+
+    //             $commandeUnique = new Commande();
+
+    //             foreach ($commandes as $oneCommande) {
+    //                 $plat = Plat::find($oneCommande['plat_id']);
+
+    //                 if ($plat) {
+    //                     // $commandeUnique->plats()->create([
+    //                     //     'user_id' => $user->id,
+    //                     //     'plat_id' => $plat->id,
+    //                     //     'nomPlat' => $plat->libelle,
+    //                     //     'nombrePlats' => $oneCommande['nombrePlats'],
+    //                     //     'prixCommande' => $oneCommande['nombrePlats'] * $plat->prix,
+    //                     //     'numeroCommande' => uniqid(),
+    //                     //     'lieuLivraison' => $request->lieuLivraison,
+    //                     // ]);
+
+    //                     // $commande->user_id = $user->id;
+    //                     // $commande->plat_id = $plat->id;
+    //                     // $commande->nomPlat = $plat->libelle;
+    //                     // $commande->nombrePlats = $oneCommande['nombrePlats'];
+    //                     // $commande->prixCommande = $oneCommande['nombrePlats'] * $plat->prix;
+    //                     // $commande->numeroCommande = uniqid();
+    //                     // $commande->lieuLivraison = $request->lieuLivraison;
+
+    //                     $commandeUnique->save();
+
+    //                     // dd($commandeUnique);
+
+    //                     $plusieursCommandes[] = $commandeUnique;
+    //                 }
+    //             }
+
+    //             return response()->json([
+    //                 'status' => true,
+    //                 'statut_code' => 201,
+    //                 'message' => "Vos commandes ont été enregistrées avec succès",
+    //                 'data' => $plusieursCommandes
+    //             ],  201);
+    //         }
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'statut_code' => 500,
+    //             'error' => "Une erreur est survenue lors de l'ajout de la commande, veuillez vérifier vos informations.",
+    //             'exception' => $e->getMessage()
+    //         ],   500);
+    //     }
+    // }
 
 
 

@@ -16,7 +16,7 @@ class Commande extends Model
 
     public function plats()
     {
-        return $this->hasOne(Plat::class);
+        return $this->hasMany(Plat::class);
     }
 
     public function livraisons()
