@@ -20,11 +20,11 @@ class PlatController extends Controller
     public function indexPlatForRestaurant(Request $request)
     {
         try {
-            $user = $request->user();
+            $restaurant = $request->user();
             
-            if ($user) {
+            if ($restaurant) {
 
-                $menus = Menu::where('user_id', $user->id)->get();
+                $menus = Menu::where('user_id', $restaurant->id)->get();
                 
                 $plats = collect();
                 
@@ -36,7 +36,41 @@ class PlatController extends Controller
 
                 return response()->json([
                     "status code" => 200,
-                    "message" => "Voici tous les plats disponibles des menus de votre restaurant: $user->name. ",
+                    "message" => "Voici tous les plats disponibles des menus de votre restaurant: $restaurant->name. ",
+                    'plats' => $plats,
+                ],  200);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue lors du listage des plats.",
+                "error"   => $e->getMessage()
+            ],   500);
+        }
+    }
+
+    public function indexPlatByRestaurant(Request $request, $restaurant_id)
+    {
+        try {
+            $restaurant =  User::find($restaurant_id);
+            // dd($restaurant);
+            
+            if ($restaurant) {
+
+                $menus = Menu::where('user_id', $restaurant->id)->get();
+                
+                $plats = collect();
+                
+                foreach ($menus as $menu) {
+                    $menuPlats = $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get();
+                    // dd($menuPlats);
+                    $plats = $plats->concat($menuPlats);
+                }
+
+                return response()->json([
+                    "status code" => 200,
+                    "message" => "Voici tous les plats disponibles pour le restaurant: $restaurant->name. ",
                     'plats' => $plats,
                 ],  200);
             }

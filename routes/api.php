@@ -60,6 +60,7 @@ Route::get('/restaurant/list/', [UserController::class, 'getAllRestaurant']);
 Route::get('/restaurant/list/{categorie_id}', [UserController::class, 'getRestaurantByCategorie']);
 Route::get('/plat/list/{menu_id}', [PlatController::class, 'getPlatbyMenu']);
 
+Route::get('/plat/list/byrestaurant/{restaurant_id}', [PlatController::class, 'indexPlatByRestaurant']);
 
 
 
@@ -95,8 +96,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
     Route::get('/livreur/details/{id}', [LivreurController::class, 'getDetailsLivreur']);
     Route::post('/affecter/livraison/{livreur_id}/{commande_id}', [LivraisonController::class, 'affecterLivraison']);
 
-
-
+    
     // --------------------  Les routes liées à Catégorie 
     Route::get('/categorie/list', [CategorieController::class, 'index']);
     Route::post('/categorie/store', [CategorieController::class, 'store']);
@@ -134,7 +134,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
 
     // --------------------  Les routes liées au Plat 
 
-    Route::get('/plat/list/restaurant/', [PlatController::class, 'indexPlatForRestaurant']);
+    Route::get('/plat/list/restaurant', [PlatController::class, 'indexPlatForRestaurant']);
     Route::get('/plat/list/restaurant/{menu}', [PlatController::class, 'indexPlatbyMenu']);
     Route::post('/plat/store', [PlatController::class, 'store']);
     Route::put('/plat/update/{id}', [PlatController::class, 'update']);
@@ -145,12 +145,13 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
 
     // --------------------  Les routes liées à Commande pour le restaurant
 
-    Route::get('/commande/list/restaurant', [CommandeController::class, 'indexResto']);
+    Route::get('/commande/list/restaurant', [CommandeController::class, 'indexCommandeForRestaurant']);
     Route::put('/commande/refuser/{id}', [CommandeController::class, 'refuserCommande']);
     Route::put('/commande/accepter/{id}', [CommandeController::class, 'accepterCommande']);
     Route::get('/commande/accepted/list', [CommandeController::class, 'commandeAcceptedList']);
     Route::get('/commande/refused/list', [CommandeController::class, 'commandeRefusedList']);
     Route::get('/commande/plat/list/{plat_id}', [CommandeController::class, 'getCommandebyPlat']);
+    Route::get('/restaurant/commande/plat/list', [CommandeController::class, 'indexCommandeForRestaurant']);
     
     
     // --------------------  Les routes liées aux livreurs pour le restaurant
