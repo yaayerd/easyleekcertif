@@ -16,39 +16,43 @@ class PlatController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+
+    public function indexPlatForRestaurant(Request $request)
     {
         try {
-            $menu = Menu::find($request->menu_id);
-            // dd($menu);
+            $user = $request->user();
             
-            if ($menu) { // && $user->role_id == 2 && $menu->user_id == $user->id
-                $plats = $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get();
-                // dd($plats);
+            if ($user) {
+
+                $menus = Menu::where('user_id', $user->id)->get();
+                
+                $plats = collect();
+                
+                foreach ($menus as $menu) {
+                    $menuPlats = $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get();
+                    // dd($menuPlats);
+                    $plats = $plats->concat($menuPlats);
+                }
+
                 return response()->json([
                     "status code" => 200,
-                    "message" => "Voici les plats du menu:  {$menu->titre}",
+                    "message" => "Voici tous les plats disponibles des menus de votre restaurant: $user->name. ",
                     'plats' => $plats,
                 ],  200);
-            } 
-            elseif ($menu === null) {
-                return response()->json([
-                    "status" => false,
-                    "status_code" => 404,
-                    "message" => "Désolé, ce menu n'existe pas dans aucun restaurant.",
-                ],  404);
             }
         } catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
-                "message" => "Une erreur est survenue.",
+                "message" => "Une erreur est survenue lors du listage des plats.",
                 "error"   => $e->getMessage()
             ],   500);
         }
     }
 
-    public function indexForRestaurant(Request $request, Menu $menu)
+
+
+    public function indexPlatbyMenu(Request $request, Menu $menu)
     {
         try {
             $user = auth()->user();
@@ -58,8 +62,8 @@ class PlatController extends Controller
             // $user_id = Menu::find($request->user_id);
             // dd($menu);
 
-            if ( $user->role_id === 2 && $menu->user_id === auth()->user()->id) { 
-                
+            if ($user->role_id === 2 && $menu->user_id === auth()->user()->id) {
+
                 return response()->json([
                     "status_code" => 200,
                     "message" => "Voici les plats du menu:  {$menu->titre} du restaurant {$user->name}.",
@@ -90,7 +94,7 @@ class PlatController extends Controller
         }
     }
 
-    public function getPlatbyMenu ($menu_id)
+    public function getPlatbyMenu($menu_id)
     {
         try {
             $plats = Plat::where('menu_id', $menu_id)->where('is_archived', false)->orderByDesc('created_at')->get();
@@ -410,6 +414,4 @@ class PlatController extends Controller
             ],  500);
         }
     }
-
-    
 }

@@ -134,8 +134,8 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
 
     // --------------------  Les routes liées au Plat 
 
-    // Route::post('/plat/list/restaurant', [PlatController::class, 'indexRestaurant']);
-    Route::get('/plat/list/restaurant/{menu}', [PlatController::class, 'indexForRestaurant']);
+    Route::get('/plat/list/restaurant/', [PlatController::class, 'indexPlatForRestaurant']);
+    Route::get('/plat/list/restaurant/{menu}', [PlatController::class, 'indexPlatbyMenu']);
     Route::post('/plat/store', [PlatController::class, 'store']);
     Route::put('/plat/update/{id}', [PlatController::class, 'update']);
     Route::patch('/plat/archiver/{id}', [PlatController::class, 'archiver']);

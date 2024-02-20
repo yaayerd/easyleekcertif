@@ -316,7 +316,7 @@ class LivreurController extends Controller
         try {
             $livraison = Livraison::find($livraison);
             // $request->user() && auth()->user()->id
-            // dd($livraison->etatLivraison);
+            dd($livraison);
             if ($livraison->livreur->user_id === $request->user()->id) {
                 $livraison->etatLivraison = 'en_cours';
                 $livraison->save();

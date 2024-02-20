@@ -26,7 +26,7 @@ class PlatTest extends TestCase
                 'libelle' => 'Attiéké Aloco Poulet',
                 'prix' => 1000 ,
                 'descriptif' => 'Trop bon, trop doux, trop neix',
-                'menu_id' => 10 ,
+                'menu_id' => 1 ,
                 'image' => UploadedFile::fake()->image('attieke.jpg'),
 
             ];
@@ -60,16 +60,21 @@ class PlatTest extends TestCase
     
         public function testListPlat()
         {
-            $restaurant= User::factory()->create([
-                'name' => 'Hello Food',
-                // 'email' => 'hellofood@email.com',
-                'email' => $this->faker->unique()->safeEmail,
-                'password' => 'password123',
-                'phone' => '768345276',
-                'adresse' => "Fass",
-                'image' => UploadedFile::fake()->image('plat.jpg'),
-                'categorie_id' => 5,
-                'role_id' => 2
+            // $restaurant= User::factory()->create([
+            //     'name' => 'Hello Food',
+            //     // 'email' => 'hellofood@email.com',
+            //     'email' => $this->faker->unique()->safeEmail,
+            //     'password' => 'password123',
+            //     'phone' => '768345276',
+            //     'adresse' => "Fass",
+            //     'image' => UploadedFile::fake()->image('plat.jpg'),
+            //     'categorie_id' => 5,
+            //     'role_id' => 2
+            // ]);
+            
+            $restaurant = $this->post('/api/restaurant/login', [
+                'email' => "fooddelices@email.com",
+                'password' => "password123",
             ]);
 
             $menu = Menu::factory()->create([ 
