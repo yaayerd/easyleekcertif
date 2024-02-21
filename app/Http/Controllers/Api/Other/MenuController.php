@@ -36,9 +36,54 @@ class MenuController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
+    public function getMenuOfRestaurant(Request $request)
+    {
+        try {
+            $restaurant = $request->user();
+            
+            if ($restaurant) {
+
+                $menus = Menu::where('user_id', $restaurant->id)->get();
+            
+                return response()->json([
+                    "status code" => 200,
+                    "message" => "Voici les menus de votre restaurant: $restaurant->name. ",
+                    'plats' => $menus,
+                ],  200);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue lors du listage des menus.",
+                "error"   => $e->getMessage()
+            ],   500);
+        }
+    }
+    public function listMenubyRestaurant(Request $request, $restaurant_id)
+    {
+        try {
+            $restaurant = User::find($restaurant_id);
+
+                $menus = Menu::where('user_id', $restaurant->id)->get();
+            
+                return response()->json([
+                    "status code" => 200,
+                    "message" => "Voici les menus de ce restaurant: $restaurant->name. ",
+                    'plats' => $menus,
+                ],  200);
+            
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "status_code" => 500,
+                "message" => "Une erreur est survenue lors du listage des menus.",
+                "error"   => $e->getMessage()
+            ],   500);
+        }
+    }
+
     public function create()
     {
         //
@@ -93,13 +138,14 @@ class MenuController extends Controller
         try {
             $lemenu = Menu::find($id);
             // dd($lemenu);
-            if ($lemenu === null) {
-                return response()->json([
-                    'status' => false,
-                    'statut_code' => 404,
-                    'statut_message' => 'Ce Menu n\'existe pas',
-                ], 404);
-            } else {
+            if ($lemenu ) { //=== null
+            //     return response()->json([
+            //         'status' => false,
+            //         'statut_code' => 404,
+            //         'statut_message' => 'Ce Menu n\'existe pas',
+            //     ], 404);
+            // } else
+            //  {
 
                 return response()->json([
                     'status' => true,

@@ -26,7 +26,7 @@ class PlatTest extends TestCase
                 'libelle' => 'Attiéké Aloco Poulet',
                 'prix' => 1000 ,
                 'descriptif' => 'Trop bon, trop doux, trop neix',
-                'menu_id' => 1 ,
+                'menu_id' => 10 ,
                 'image' => UploadedFile::fake()->image('attieke.jpg'),
 
             ];
@@ -45,7 +45,7 @@ class PlatTest extends TestCase
                 'password' => "password123",
             ]);
     
-            $response = $this->get('/api/auth/plat/show/3');
+            $response = $this->get('/api/auth/plat/show/58');
     
             $response->assertStatus(200);
     
@@ -77,20 +77,20 @@ class PlatTest extends TestCase
                 'password' => "password123",
             ]);
 
-            $menu = Menu::factory()->create([ 
-                "titre" => "food vibes",
-                'user_id'=>$restaurant->id,
-            ]);
+            // $menu = Menu::factory()->create([ 
+            //     "titre" => "food vibes",
+            //     'user_id'=>$restaurant->id,
+            // ]);
 
-            $plat = Plat::factory()->create([
-                'libelle' => 'Aloco',
-                'prix' => 500 ,
-                'descriptif' => 'Trop bon doux, trop neix',
-                'menu_id' => $menu->id, 
-                'image' => UploadedFile::fake()->image('attieke.jpg'),
-            ]);
+            // $plat = Plat::factory()->create([
+            //     'libelle' => 'Thiooooou',
+            //     'prix' => 500 ,
+            //     'descriptif' => 'Trop bon doux, trop neix',
+            //     'menu_id' => $menu->id, 
+            //     'image' => UploadedFile::fake()->image('thiou.jpg'),
+            // ]);
             
-            $token = JWTAuth::fromUser($restaurant);
+            // $token = JWTAuth::fromUser($restaurant);
             // dd($token);
             // $response = $this->withHeader('Authorization', 'Bearer' . $token)
             //          ->get('/api/auth/plat/list/restaurant',[
@@ -113,7 +113,7 @@ class PlatTest extends TestCase
             ]);
             
             $platModif = [
-                'libelle' => 'Attiéké 007',
+                'libelle' => 'Attiéké ',
                 'prix' => 1000 ,
                 'descriptif' => 'Trop bon, trop doux, trop neix',
                 'menu_id' => 10 ,
@@ -121,7 +121,7 @@ class PlatTest extends TestCase
 
             ];
     
-            $response = $this->put('/api/auth/plat/update/2', $platModif);
+            $response = $this->put('/api/auth/plat/update/57', $platModif);
             // dd($response);
     
             $response->assertStatus(200);

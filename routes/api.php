@@ -61,7 +61,7 @@ Route::get('/restaurant/list/{categorie_id}', [UserController::class, 'getRestau
 Route::get('/plat/list/{menu_id}', [PlatController::class, 'getPlatbyMenu']);
 
 Route::get('/plat/list/byrestaurant/{restaurant_id}', [PlatController::class, 'indexPlatByRestaurant']);
-
+Route::get('/byrestaurant/menu/list/{restaurant_id}', [MenuController::class, 'listMenubyRestaurant']);
 
 
 // Les routes de l' AdminSystem**************************************************
@@ -126,6 +126,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
 
     // --------------------  Les routes liées au Menu 
 
+    Route::get('/restaurant/menu/list', [MenuController::class, 'getMenuOfRestaurant']);
     Route::get('/menu/list', [MenuController::class, 'index']);
     Route::post('/menu/store', [MenuController::class, 'store']);
     Route::put('/menu/update/{id}', [MenuController::class, 'update']);

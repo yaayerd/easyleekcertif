@@ -83,8 +83,7 @@ class CommandeController extends Controller
             ], 500);
         }
     }
-
-
+    
     public function indexCommandeForRestaurant(Request $request)
     {
         try {

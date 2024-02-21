@@ -37,7 +37,7 @@ class MenuTest extends TestCase
             'password' => "password123",
         ]);
 
-        $response = $this->get('/api/auth/menu/show/2');
+        $response = $this->get('/api/auth/menu/show/21');
 
         $response->assertStatus(200);
 
@@ -80,10 +80,11 @@ class MenuTest extends TestCase
         ]);
         
         $menu = [
-            'titre' => 'leek doux'
+            'titre' => 'doouuuux'
         ];
 
-        $response = $this->put('/api/auth/menu/update/1', $menu);
+        // dd($menu);
+        $response = $this->put('/api/auth/menu/update/10', $menu);
 
         $response->assertStatus(200);
     }
