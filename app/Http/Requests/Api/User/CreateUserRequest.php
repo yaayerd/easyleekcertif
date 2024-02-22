@@ -29,6 +29,7 @@ class CreateUserRequest extends FormRequest
             'phone' => ['required','regex:/^(70|75|76|77|78)[0-9]{7}$/'],
             'adresse' => 'required|string|max:70',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'description' => 'string',
             'password' => 'required|min:8',
         ];
     }
@@ -68,6 +69,8 @@ class CreateUserRequest extends FormRequest
 
             'password.required' => 'Le mot de passe est obligatoire.',
             'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',
+
+            'description.string' => 'La description du restaurant doit être une chaîne de caractères.',
         ];
     }
 }

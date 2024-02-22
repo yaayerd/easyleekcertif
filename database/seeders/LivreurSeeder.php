@@ -14,13 +14,16 @@ class LivreurSeeder extends Seeder
     public function run(): void
     {
         Livreur::factory()->create([
-            'user_id' => 8
+            'user_id' => 17
         ]);
         Livreur::factory()->create([
-            'user_id' => 9
+            'user_id' => 18
         ]);
         Livreur::factory()->create([
-            'user_id' => 10
+            'user_id' => 19
+        ]);
+        Livreur::factory()->create([
+            'user_id' => 20
         ]);
 
 

@@ -16,27 +16,39 @@ class CategorieSeeder extends Seeder
          // Creer ces catégories dans la base de données
 
         Categorie::factory()->create([
-            'type' => 'Ndeki',
+            'type' => 'Ndeki', 
+            'image' => 'chemin/vers/ndeki.jpg',
+
         ]);
 
         Categorie::factory()->create([
-            'type' => 'Cuisine Locale',
+            'type' => 'Cuisine Locale', 
+            'image' => 'chemin/vers/cuisinelocale.jpg',
+
         ]);
     
         Categorie::factory()->create([
-            'type' => 'Fast Food',
+            'type' => 'Fast Food', 
+            'image' => 'chemin/vers/fastfood.jpg',
+
         ]);
 
         Categorie::factory()->create([
-            'type' => 'Ndiogonal',
+            'type' => 'Ndiogonal', 
+            'image' => 'chemin/vers/ndiogonal.jpg',
+
         ]);
 
         Categorie::factory()->create([
-            'type' => 'Tangana',
+            'type' => 'Tangana', 
+            'image' => 'chemin/vers/tangana.jpg',
+
         ]);
 
         Categorie::factory()->create([
-            'type' => 'Dibiterie',
+            'type' => 'Dibiterie', 
+            'image' => 'chemin/vers/dibiterie.jpg',
+
         ]);
 
         

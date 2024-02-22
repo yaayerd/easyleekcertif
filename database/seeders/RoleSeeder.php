@@ -13,18 +13,30 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        // // Creer les roles dans la base de données
-
-                // Créer le rôle 'AdminSystem'
-                Role::factory()->create(['nom' => 'Role_AdminSystem']);
-
-                // Créer le rôle 'Restaurant'
-                Role::factory()->create(['nom' => 'Role_Restaurant']);
-        
-                // Créer le rôle 'Client'
-                Role::factory()->create(['nom' => 'Role_Client']);
-                
-                // Créer le rôle 'Livreur'
-                Role::factory()->create(['nom' => 'Role_Livreur']);
+        // Créer les rôles dans la base de données
+    
+        // Créer le rôle 'AdminSystem'
+        Role::factory()->create([
+            'nom' => 'Role_AdminSystem',
+            'description' => 'Rôle attribué aux administrateurs système avec des privilèges étendus sur l\'ensemble du système. Ces utilisateurs peuvent gérer les paramètres globaux et avoir un accès administratif complet.',
+        ]);
+    
+        // Créer le rôle 'Restaurant'
+        Role::factory()->create([
+            'nom' => 'Role_Restaurant',
+            'description' => 'Rôle destiné aux utilisateurs responsables de la gestion d\'un restaurant. Les utilisateurs avec ce rôle peuvent créer et modifier des menus ainsi que les plats, gérer les commandes et effectuer des tâches spécifiques liées au restaurant.',
+        ]);
+    
+        // Créer le rôle 'Client'
+        Role::factory()->create([
+            'nom' => 'Role_Client',
+            'description' => 'Rôle attribué aux clients de l\'application. Ces utilisateurs peuvent consulter les menus, passer des commandes et interagir avec l\'application en tant que clients.',
+        ]);
+    
+        // Créer le rôle 'Livreur'
+        Role::factory()->create([
+            'nom' => 'Role_Livreur',
+            'description' => 'Rôle destiné aux livreurs responsables de la livraison des commandes. Les utilisateurs avec ce rôle peuvent gérer les détails de livraison, confirmer les livraisons et interagir avec les clients pour les informations de livraison.',
+        ]);
     }
 }

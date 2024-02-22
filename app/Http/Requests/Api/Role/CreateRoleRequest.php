@@ -21,22 +21,27 @@ class CreateRoleRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
     public function rules()
     {
         return [
-            'nom' => 'required|max:50|unique:roles', // Assure que le nom est unique dans la table roles
+            'nom' => 'required|string|max:50|unique:roles',
+            'description' => 'required|string',
         ];
     }
 
     public function messages()
     {
         return [
-            'nom.required' => 'Le nom est obligatoire.',
+            'nom.required' => 'Le nom du rôle est requis.',
+            'nom.string' => 'Le nom du rôle doit être une chaîne de caractères.',
             'nom.max' => 'Le nom du rôle ne peut pas dépasser 50 caractères.',
-            'nom.unique' => 'Le nom du rôle doit être unique.',
+            'nom.unique' => 'Ce nom de rôle est déjà utilisé.',
+
+            'description.required' => 'La description du rôle est requise.',
+            'description.string' => 'La description du rôle doit être une chaîne de caractères.',
         ];
     }
-
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
