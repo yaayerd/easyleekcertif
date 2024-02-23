@@ -14,12 +14,15 @@ class Plat extends Model
         return $this->belongsTo(Menu::class);
     }
 
+    // public function commande()
+    // {
+    //     return $this->belongsTo(Commande::class);
+    // }
+
     public function commandes()
     {
         return $this->hasMany(Commande::class);
     }
-
-
 
     protected $fillable = [
         'libelle', 'descriptif', 'prix', 'menu_id', 'image', 'is_archived',

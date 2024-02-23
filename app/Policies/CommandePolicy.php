@@ -68,7 +68,7 @@ class CommandePolicy
 
         return $user->role_id === 2 && $user->id === $platcommander->menu->user_id
             ? Response::allow()
-            : Response::deny('Vous n\'avez pas les droits pour refuser une commande.');
+            : Response::deny('Vous n\'avez pas les droits pour refuser cette commande.');
     }
 
     /**
@@ -80,7 +80,16 @@ class CommandePolicy
         return $user->role_id === 2 && $user->id === $platcommander->menu->user_id
 
             ? Response::allow()
-            : Response::deny('Vous n\'avez pas les droits pour accepter une commande.');
+            : Response::deny('Vous n\'avez pas les droits pour accepter cette commande.');
+    }
+  
+    public function terminerCommande(User $user, Commande $commande): Response
+    {       
+        $platcommander= Plat::where('id',$commande->plat_id )->first();
+        return $user->role_id === 2 && $user->id === $platcommander->menu->user_id
+
+            ? Response::allow()
+            : Response::deny('Vous n\'avez pas les droits pour termniner cette commande.');
     }
 
     // public function commandeAccepted(User $user, Commande $commande): Response

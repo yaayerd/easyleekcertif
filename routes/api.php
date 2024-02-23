@@ -153,6 +153,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
     Route::get('/commande/refused/list', [CommandeController::class, 'commandeRefusedList']);
     Route::get('/commande/plat/list/{plat_id}', [CommandeController::class, 'getCommandebyPlat']);
     Route::get('/restaurant/commande/plat/list', [CommandeController::class, 'indexCommandeForRestaurant']);
+    Route::get('/restaurant/commande/show/{id}', [CommandeController::class, 'showCommandeForRestaurant']);
     
     
     // --------------------  Les routes liées aux livreurs pour le restaurant
@@ -181,7 +182,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'client']], 
     Route::get('/commande/list', [CommandeController::class, 'index']);
     Route::post('/commande/store', [CommandeController::class, 'store']);
     Route::put('/commande/update/{commande}', [CommandeController::class, 'updateCommande']);
-    Route::get('/commande/show/{id}', [CommandeController::class, 'show']);
+    Route::get('/commande/show/{id}', [CommandeController::class, 'showCommandeForClient']);
     Route::delete('/commande/annuler/{id}', [CommandeController::class, 'annulerCommande']);
 
     // --------------------  Les routes liées aux Avis 

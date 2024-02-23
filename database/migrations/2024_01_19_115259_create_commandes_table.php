@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('nomPlat');
             $table->integer('prixCommande');
             $table->string('lieuLivraison');
-            $table->enum('etatCommande',['acceptee', 'refusee'])->default('acceptee');
+            $table->enum('etatCommande',['acceptee', 'refusee', 'terminee'])->default('acceptee');
             $table->timestamps();
         });
     }

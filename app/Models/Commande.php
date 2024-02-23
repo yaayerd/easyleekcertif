@@ -9,14 +9,24 @@ class Commande extends Model
 {
     use HasFactory;
 
-    public function users()
+    // public function users()
+    // {
+    //     return $this->hasOne(User::class);
+    // }
+
+    public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function plats()
+    // public function plats()
+    // {
+    //     return $this->hasMany(Plat::class);
+    // }
+
+    public function plat()
     {
-        return $this->hasMany(Plat::class);
+        return $this->belongsTo(Plat::class, 'plat_id');
     }
 
     public function livraisons()

@@ -19,9 +19,6 @@ use App\Http\Requests\Api\Commande\UpdateCommandeRequest;
 class CommandeController extends Controller
 {
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         try {
@@ -83,7 +80,7 @@ class CommandeController extends Controller
             ], 500);
         }
     }
-    
+
     public function indexCommandeForRestaurant(Request $request)
     {
         try {
@@ -91,23 +88,31 @@ class CommandeController extends Controller
 
             if ($restaurant) {
                 $menus = Menu::where('user_id', $restaurant->id)->get();
-
                 $commandes = collect();
 
                 foreach ($menus as $menu) {
                     $plats = $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get();
 
                     foreach ($plats as $plat) {
-                        $platCommandes = $plat->commandes()->get();
-                        $commandes = $commandes->concat($platCommandes);
-                        // dd($commandes);
+                        $platCommandes = $plat->commandes()->with('user')->get();
+                        // dd($platCommandes);
+
+                        foreach ($platCommandes as $commande) {
+                            $client = $commande->user;
+                        }
+                        $commandesfinales = $commandes->concat($platCommandes);
+                        // dd($commandesfinales);
                     }
                 }
 
                 return response()->json([
                     "status code" => 200,
                     "message" => "Voici toutes les commandes pour les plats dans vos menus",
-                    'commandes' => $commandes,
+                    'commandes' => $commandesfinales,
+                    // 'Informations du client :',
+                    // 'Nom'=> $commande->client_nom = $client->name,
+                    // 'Telephone'=> $commande->client_telephone = $client->phone
+
                 ],  200);
             }
         } catch (Exception $e) {
@@ -119,7 +124,6 @@ class CommandeController extends Controller
             ],   500);
         }
     }
-
 
     public function store(CreateCommandeRequest $request, Commande $commande)
     {
@@ -172,10 +176,6 @@ class CommandeController extends Controller
         }
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function updateCommande(UpdateCommandeRequest $request, $id)
     {
 
@@ -226,9 +226,81 @@ class CommandeController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function showCommandeForClient(Request $request, $id)
+    {
+        try {
+            $user = $request->user();
+            $commande = Commande::find($id);
+
+            if ($commande === null) {
+                return response()->json([
+                    "status" => false,
+                    "statut_code" => 404,
+                    "message" => "Cette commande n'existe pas.",
+                ],  404);
+            }
+
+            if ($user && $commande) {
+                $this->authorize('viewCommande', $commande);
+
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'message' => "Voici les détails de votre commande",
+                    'data' => $commande
+                ],  200);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "statut_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
+            ],   500);
+        }
+    }
+
+    public function showCommandeForRestaurant(Request $request, $id)
+    {
+        try {
+            $restaurant = $request->user();
+            $commande = Commande::with(['plat.menu.user'])->find($id);
+
+            // dd( $commande);
+            if ($commande === null) {
+                return response()->json([
+                    "status" => false,
+                    "statut_code" => 404,
+                    "message" => "Cette commande n'existe pas.",
+                ],  404);
+            }
+
+            if ($restaurant && $commande) {
+
+                return response()->json([
+                    'status' => true,
+                    'statut_code' => 200,
+                    'message' => "Voici les détails de la commande que vous avez reçue",
+                    'data' => [
+                        'commande' => $commande,
+                        // 'client' => [
+                        //     'nom' => $commande->user->name,
+                        //     'telephone' => $commande->user->phone,
+                        // ],
+                    ],
+                ],  200);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "statut_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
+            ],   500);
+        }
+    }
+
+
     public function annulerCommande($id)
     {
 
@@ -340,6 +412,50 @@ class CommandeController extends Controller
                         'status' => true,
                         'statut_code' => 200,
                         'statut_message' => 'La commande est acceptée avec succès',
+                        'data' => $commande,
+                    ],  200);
+                }
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "statut_code" => 500,
+                "message" => "Une erreur est survenue.",
+                "error"   => $e->getMessage()
+            ],  500);
+        }
+    }
+   
+    public function terminerCommande(Request $request, $id)
+    {
+        try {
+            $commande = Commande::find($id);
+
+            // $this->authorize('terminerCommande', $commande);
+
+            if ($commande === null) {
+                return response()->json([
+                    "status" => false,
+                    "statut_code" => 404,
+                    "message" => "Cette commande n'existe pas.",
+                ],    404);
+            }
+
+            if ($commande->etatCommande === 'terminee') {
+                return response()->json([
+                    "status" => true,
+                    "statut_code" => 200,
+                    "message" => "Cette commande est déjà terminée.",
+                ],     200);
+            } elseif ($commande) {
+                if (isset($commande->etatCommande)) {
+
+                    $commande->update(['etatCommande' => 'terminee']);
+                    // dd($commande);
+                    return response()->json([
+                        'status' => true,
+                        'statut_code' => 200,
+                        'statut_message' => 'La commande est terminée avec succès',
                         'data' => $commande,
                     ],  200);
                 }
