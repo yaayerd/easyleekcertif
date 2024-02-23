@@ -149,7 +149,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
     Route::get('/commande/list/restaurant', [CommandeController::class, 'indexCommandeForRestaurant']);
     Route::put('/commande/refuser/{id}', [CommandeController::class, 'refuserCommande']);
     Route::put('/commande/accepter/{id}', [CommandeController::class, 'accepterCommande']);
-    Route::get('/commande/accepted/list', [CommandeController::class, 'commandeAcceptedList']);
+    Route::put('/commande/terminer/{id}', [CommandeController::class, 'accepterCommande']);
     Route::get('/commande/refused/list', [CommandeController::class, 'commandeRefusedList']);
     Route::get('/commande/plat/list/{plat_id}', [CommandeController::class, 'getCommandebyPlat']);
     Route::get('/restaurant/commande/plat/list', [CommandeController::class, 'indexCommandeForRestaurant']);

@@ -300,7 +300,6 @@ class CommandeController extends Controller
         }
     }
 
-
     public function annulerCommande($id)
     {
 
@@ -412,7 +411,7 @@ class CommandeController extends Controller
                         'status' => true,
                         'statut_code' => 200,
                         'statut_message' => 'La commande est acceptée avec succès',
-                        'data' => $commande,
+                        'commande' => $commande,
                     ],  200);
                 }
             }
@@ -431,7 +430,7 @@ class CommandeController extends Controller
         try {
             $commande = Commande::find($id);
 
-            // $this->authorize('terminerCommande', $commande);
+            $this->authorize('terminerCommande', $commande);
 
             if ($commande === null) {
                 return response()->json([
@@ -518,4 +517,6 @@ class CommandeController extends Controller
     //         ]);
     //     }
     // }
+
+     // Route::get('/commande/accepted/list', [CommandeController::class, 'commandeAcceptedList']);
 }
