@@ -320,15 +320,16 @@ class UserController extends Controller //implements Authenticatable
         $restaurant->email = $request->email;
         $restaurant->phone = $request->phone;
         $restaurant->adresse = $request->adresse;
+        $restaurant->description = $request->description;
         $restaurant->password = Hash::make($request->password);
         if ($request->file('image')) {
             $file = $request->file('image');
             $filename = date('YmdHi') . $file->getClientOriginalName();
             $file->move(public_path('images'), $filename);
-            $user['image'] = $filename;
+            $restaurant['image'] = $filename;
         }
 
-        $restaurant->notify(new RestaurantAjoutee($restaurant)); 
+        // $restaurant->notify(new RestaurantAjoutee($restaurant)); 
 
         $restaurant->save();
 

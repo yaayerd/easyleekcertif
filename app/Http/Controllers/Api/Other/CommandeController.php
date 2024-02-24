@@ -176,6 +176,40 @@ class CommandeController extends Controller
         }
     }
 
+    // try {
+    //         $donneePlanningValide = $request->validated();
+    //         // Recherche de plannings similaires
+    //         $existingPlanning = Planning::where('user_id', Auth::user()->id)
+    //             ->where('creneaux', json_encode($donneePlanningValide['creneaux']))
+    //             ->where('jour', $donneePlanningValide['jour'])
+    //             ->first();
+              
+    //         if ($existingPlanning && $existingPlanning->is_deleted == false) {
+    //             // Si un planning similaire existe déjà, retourner un message d'erreur
+    //             return response()->json(['error' => 'Un planning similaire existe déjà.'], 409);
+    //         }
+    
+    //         // Création d'un nouveau planning
+    //         $planning = new Planning();
+    //         $planning->user_id = Auth::user()->id;
+    //         $planning->creneaux = json_encode($donneePlanningValide['creneaux']);
+    
+    //         if ($planning->save()) {
+    //             return response()->json([
+    //                 "message" => "Le planning a été enregistré avec succès",
+    //                 "planning" => $planning
+    //             ], 201);
+    //         } else {
+    //             return response()->json([
+    //                 "message" => "Le planning n'a pas été enregistré"
+    //             ], 500);
+    //         }
+    //     } catch (\Throwable $th) {
+    //         return response()->json([
+    //             "messageErreur" => $th->getMessage(),
+    //         ]);
+    // }
+
     public function updateCommande(UpdateCommandeRequest $request, $id)
     {
 
