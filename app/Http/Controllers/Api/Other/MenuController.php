@@ -71,7 +71,7 @@ class MenuController extends Controller
                 return response()->json([
                     "status code" => 200,
                     "message" => "Voici les menus de ce restaurant: $restaurant->name. ",
-                    'plats' => $menus,
+                    'menus' => $menus,
                 ],  200);
             
         } catch (Exception $e) {
