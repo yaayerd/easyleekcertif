@@ -27,7 +27,7 @@ class CreatePlatRequest extends FormRequest
             'descriptif' => 'required|string',
             'menu_id' => 'required|int',
             // 'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'image' => 'required|image',
+            'image' => 'required|string',
         ];
     }
 

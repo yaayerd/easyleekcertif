@@ -26,7 +26,8 @@ class UpdatePlatRequest extends FormRequest
             'prix' => 'required|numeric|min:100',
             'descriptif' => 'required|string',
             'menu_id' => 'required|int',
-            'image' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
+            // 'image' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|string'
         ];
     }
     
@@ -48,9 +49,12 @@ class UpdatePlatRequest extends FormRequest
             'menu_id.required' => "L'association d'un menu au plat est obligatoire.",
             'menu_id.numeric' => 'Le menu lié à ce plat doit être un nombre.',
     
-            'image.image' => 'L\'image du plat doit être une image valide.',
-            'image.mimes' => 'L\'image du plat doit être un fichier de type jpeg, png ou jpg.',
-            'image.max' => 'L\'image du plat ne peut pas dépasser 2048 ko.',
+            // 'image.image' => 'L\'image du plat doit être une image valide.',
+            // 'image.mimes' => 'L\'image du plat doit être un fichier de type jpeg, png ou jpg.',
+            // 'image.max' => 'L\'image du plat ne peut pas dépasser 2048 ko.',
+
+            // 'image.required' => 'L\'image du plat est obligatoire.'   ,     
+            'image.string' => 'L\'image du plat doit être en chaine de caractères.'  
         ];
     }
 }

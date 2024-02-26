@@ -28,8 +28,9 @@ class CreateUserRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'phone' => ['required','regex:/^(70|75|76|77|78)[0-9]{7}$/'],
             'adresse' => 'required|string|max:70',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'description' => 'string',
+            // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|string',
+            'description' => 'nullable|string',
             'password' => 'required|min:8',
         ];
     }
@@ -63,9 +64,11 @@ class CreateUserRequest extends FormRequest
             'adresse.string' => 'L\'adresse doit être une chaîne de caractères.',
             'adresse.max' => 'L\'adresse ne peut pas dépasser 70 caractères.',
 
-            'image.image' => 'L\'image doit être une image valide.',
-            'image.mimes' => 'L\'image doit être un fichier de type jpeg, png ou jpg.',
-            'image.max' => 'L\'image ne peut pas dépasser 2048ko.',
+            'image.required' => "L'image est obligatoire.",
+            'image.string' => "L'image doit être une chaîne de caractères.",
+            // 'image.image' => 'L\'image doit être une image valide.',
+            // 'image.mimes' => 'L\'image doit être un fichier de type jpeg, png ou jpg.',
+            // 'image.max' => 'L\'image ne peut pas dépasser 2048ko.',
 
             'password.required' => 'Le mot de passe est obligatoire.',
             'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',

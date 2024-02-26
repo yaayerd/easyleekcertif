@@ -25,7 +25,7 @@ class CreateCategorieRequest extends FormRequest
     {
         return [
             'type' => 'required|max:50|unique:categories',
-            'image' => 'required|image',
+            'image' => 'required|string',
             ];
     }
 

@@ -176,13 +176,13 @@ class PlatController extends Controller
                 $plat->prix = $request->prix;
                 $plat->descriptif = $request->descriptif;
                 $plat->menu_id = $request->menu_id;
-                // $plat->image = $request->image;
-                if ($request->file('image')) {
-                    $file = $request->file('image');
-                    $filename = date('YmdHi') . $file->getClientOriginalName();
-                    $file->move(public_path('images'), $filename);
-                    $plat['image'] = $filename;
-                }
+                $plat->image = $request->image;
+                // if ($request->file('image')) {
+                //     $file = $request->file('image');
+                //     $filename = date('YmdHi') . $file->getClientOriginalName();
+                //     $file->move(public_path('images'), $filename);
+                //     $plat['image'] = $filename;
+                // }
 
                 // dd($plat);
 
@@ -368,12 +368,13 @@ class PlatController extends Controller
                     $plat->prix = $request->prix;
                     $plat->descriptif = $request->descriptif;
                     $plat->menu_id = $request->menu_id;
-                    if ($request->file('image')) {
-                        $file = $request->file('image');
-                        $filename = date('YmdHi') . $file->getClientOriginalName();
-                        $file->move(public_path('images'), $filename);
-                        $plat['image'] = $filename;
-                    }
+                    $plat->image = $request->image;
+                    // if ($request->file('image')) {
+                    //     $file = $request->file('image');
+                    //     $filename = date('YmdHi') . $file->getClientOriginalName();
+                    //     $file->move(public_path('images'), $filename);
+                    //     $plat['image'] = $filename;
+                    // }
 
                     $plat->update();
 

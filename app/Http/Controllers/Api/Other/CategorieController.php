@@ -53,12 +53,14 @@ class CategorieController extends Controller
             if ($user && $user->role_id == 1) {
                 $categorie = new Categorie();
                 $categorie->type = $request->type;
-                if ($request->file('image')) {
-                    $file = $request->file('image');
-                    $filename = date('YmdHi') . $file->getClientOriginalName();
-                    $file->move(public_path('images'), $filename);
-                    $categorie['image'] = $filename;
-                }
+                $categorie->image = $request->image;
+
+                // if ($request->file('image')) {
+                //     $file = $request->file('image');
+                //     $filename = date('YmdHi') . $file->getClientOriginalName();
+                //     $file->move(public_path('images'), $filename);
+                //     $categorie['image'] = $filename;
+                // }
                 // dd($categorie);
 
                 $categorie->save();
@@ -135,12 +137,13 @@ class CategorieController extends Controller
                 $this->authorize('update', $categorie);
                 // dd($request);
                 $categorie->type = $request->type;
-                if ($request->file('image')) {
-                    $file = $request->file('image');
-                    $filename = date('YmdHi') . $file->getClientOriginalName();
-                    $file->move(public_path('images'), $filename);
-                    $categorie['image'] = $filename;
-                }
+                $categorie->image = $request->image;
+                // if ($request->file('image')) {
+                //     $file = $request->file('image');
+                //     $filename = date('YmdHi') . $file->getClientOriginalName();
+                //     $file->move(public_path('images'), $filename);
+                //     $categorie['image'] = $filename;
+                // }
                 $categorie->update();
                 return response()->json([
                     'status' => true,

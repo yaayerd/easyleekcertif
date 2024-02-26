@@ -25,7 +25,7 @@ class UpdateCategorieRequest extends FormRequest
     {
         return [
             'type' => 'required|max:50|unique:categories',
-            'image' => 'sometimes|image',
+            'image' => 'nullable|string',
             ];
     }
 
@@ -48,7 +48,7 @@ class UpdateCategorieRequest extends FormRequest
             'type.unique' => 'Ce type de catégorie est déjà enrégistré, veuillez en choisir un autre.',
             // 'type.in' => 'La valeur sélectionnée pour le type de catégories n\'est pas valide. Veuillez choisir parmi les options disponibles : Ndeki, Cuisine Locale, Fast Food, Patisserie, Ndiogonal.',    
         
-            'image.required' => 'L\'image du plat est obligatoire.'   ,     
+            // 'image.required' => 'L\'image du plat est obligatoire.'   ,     
             'image.string' => 'L\'image du plat doit être en chaine de caractères.'  
         ];
     }

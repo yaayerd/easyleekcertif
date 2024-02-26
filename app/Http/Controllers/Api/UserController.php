@@ -322,14 +322,16 @@ class UserController extends Controller //implements Authenticatable
         $restaurant->adresse = $request->adresse;
         $restaurant->description = $request->description;
         $restaurant->password = Hash::make($request->password);
-        if ($request->file('image')) {
-            $file = $request->file('image');
-            $filename = date('YmdHi') . $file->getClientOriginalName();
-            $file->move(public_path('images'), $filename);
-            $restaurant['image'] = $filename;
-        }
+        $restaurant->image = $request->image;
+        
+        // if ($request->file('image')) {
+        //     $file = $request->file('image');
+        //     $filename = date('YmdHi') . $file->getClientOriginalName();
+        //     $file->move(public_path('images'), $filename);
+        //     $restaurant['image'] = $filename;
+        // }
 
-        // $restaurant->notify(new RestaurantAjoutee($restaurant)); 
+        $restaurant->notify(new RestaurantAjoutee($restaurant)); 
 
         $restaurant->save();
 
@@ -395,20 +397,22 @@ class UserController extends Controller //implements Authenticatable
         $restaurant->email = $request->email;
         $restaurant->phone = $request->phone;
         $restaurant->adresse = $request->adresse;
+        $restaurant->description = $request->description;
         // dd($restaurant);
-
+        
         // Mise à jour du mot de passe si fourni
         if ($request->filled('password')) {
             $restaurant->password = Hash::make($request->password);
         }
-
+        
         // Traitement de la nouvelle image si fournie
-        if ($request->file('image')) {
-            $file = $request->file('image');
-            $filename = date('YmdHi') . $file->getClientOriginalName();
-            $file->move(public_path('images'), $filename);
-            $restaurant->image = $filename;
-        }
+        $restaurant->image = $request->image;
+        // if ($request->file('image')) {
+        //     $file = $request->file('image');
+        //     $filename = date('YmdHi') . $file->getClientOriginalName();
+        //     $file->move(public_path('images'), $filename);
+        //     $restaurant->image = $filename;
+        // }
 
         // Enregistrement des modifications
         $restaurant->save();
