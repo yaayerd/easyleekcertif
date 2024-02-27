@@ -137,7 +137,7 @@ class CategorieController extends Controller
                 $this->authorize('update', $categorie);
                 // dd($request);
                 $categorie->type = $request->type;
-                $categorie->image = $request->image;
+                // $categorie->image = $request->image;
                 // if ($request->file('image')) {
                 //     $file = $request->file('image');
                 //     $filename = date('YmdHi') . $file->getClientOriginalName();
@@ -156,7 +156,7 @@ class CategorieController extends Controller
             return response()->json([
                 "status" => false,
                 "status_code" => 500,
-                "message" => "Une erreur est survenue.",
+                "message" => "Une erreur est survenue lors de la modification de la catégorie.",
                 "error"   => $e->getMessage()
             ],   500);
         }

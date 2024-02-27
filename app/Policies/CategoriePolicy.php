@@ -39,7 +39,7 @@ class CategoriePolicy
      */
     public function update(User $user, Categorie $categorie): Response
     {
-        return $user->role_id === 1 && $user->id === $categorie->user_id
+        return $user->role_id === 1 // && $user->id === $categorie->user_id
         ? Response::allow()
         : Response::deny('Vous n\'avez pas les droits pour modifier une categorie.');
 }
@@ -49,7 +49,7 @@ class CategoriePolicy
      */
     public function destroy(User $user, Categorie $categorie): Response
     {
-        return $user->role_id === 1 && $user->id === $categorie->user_id
+        return $user->role_id === 1 // && $user->id === $categorie->user_id
         ? Response::allow()
         : Response::deny('Vous n\'avez pas les droits pour supprimer une categorie.');
 }
