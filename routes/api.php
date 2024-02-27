@@ -88,14 +88,6 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
     Route::get('/restaurant/list/all', [UserController::class, 'listAllRestaurant']);
 
     Route::get('/message/list', [MessageController::class, 'ListMessage']);
-
-    // ------------------------------Livreur  ----------------------
-    Route::post('/livreur/register', [LivreurController::class, 'livreurRegister']);
-    Route::get('/list/livreurs/disponibles', [LivreurController::class, 'getLivreursDisponibles']);
-    Route::get('/list/livreurs/occupes', [LivreurController::class, 'getLivreursOccupes']);
-    Route::get('/livreur/details/{id}', [LivreurController::class, 'getDetailsLivreur']);
-    Route::post('/affecter/livraison/{livreur_id}/{commande_id}', [LivraisonController::class, 'affecterLivraison']);
-
     
     // --------------------  Les routes liées à Catégorie 
     Route::get('/categorie/list', [CategorieController::class, 'index']);
@@ -155,14 +147,6 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant'
     Route::get('/restaurant/commande/plat/list', [CommandeController::class, 'indexCommandeForRestaurant']);
     Route::get('/restaurant/commande/show/{id}', [CommandeController::class, 'showCommandeForRestaurant']);
     
-    
-    // --------------------  Les routes liées aux livreurs pour le restaurant
-    
-    Route::get('/list/livreurs/disponibles', [LivreurController::class, 'getLivreursDisponibles']);
-    Route::get('/list/livreurs/occupes', [LivreurController::class, 'getLivreursOccupes']);
-    Route::get('/livreur/details/{id}', [LivreurController::class, 'getDetailsLivreur']);
-    Route::post('/affecter/livraison/{livreur_id}/{commande_id}', [LivraisonController::class, 'affecterLivraison']);
-    
 });
 
 
@@ -192,24 +176,5 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'client']], 
     Route::put('/avis/update/{id}', [AvisController::class, 'update']);
     Route::get('/avis/show/{id}', [AvisController::class, 'show']);
     Route::delete('/avis/delete/{id}', [AvisController::class, 'destroy']);
-
-});
-
-// Les routes du Livreur ********************************************
-
-Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'livreur']], function () {
-    
-    Route::post('/livreur/update/occupe/{id}', [LivreurController::class, 'putStatutOccupe']);
-    Route::get('/list/livreurs/disponibles', [LivreurController::class, 'getLivreursDisponibles']);
-    Route::get('/list/livreurs/occupes', [LivreurController::class, 'getLivreursOccupes']);
-    Route::get('/livreur/details/{id}', [LivreurController::class, 'getDetailsLivreur']);
-    Route::post('/livreur/update/{livreur}', [LivreurController::class, 'livreurModifyProfile']);
-    
-    // --------------------  Les routes liées aux Livraisons
-    
-    Route::post('/livraison/update/accepter/{livraison}', [LivreurController::class, 'accepterLivraison']);
-    Route::post('/livraison/update/terminer/{livraison_id}', [LivreurController::class, 'terminerLivraison']);
-    Route::post('/livraison/update/refuser/{livraison_id}', [LivreurController::class, 'refuserLivraison']);
-    
 
 });

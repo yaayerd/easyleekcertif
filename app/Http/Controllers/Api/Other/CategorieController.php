@@ -137,7 +137,7 @@ class CategorieController extends Controller
                 $this->authorize('update', $categorie);
                 // dd($request);
                 $categorie->type = $request->type;
-                // $categorie->image = $request->image;
+                $categorie->image = $request->image;
                 // if ($request->file('image')) {
                 //     $file = $request->file('image');
                 //     $filename = date('YmdHi') . $file->getClientOriginalName();
