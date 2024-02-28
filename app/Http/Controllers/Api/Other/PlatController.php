@@ -21,13 +21,13 @@ class PlatController extends Controller
     {
         try {
             $restaurant = $request->user();
-            
+
             if ($restaurant) {
 
                 $menus = Menu::where('user_id', $restaurant->id)->get();
-                
+
                 $plats = collect();
-                
+
                 foreach ($menus as $menu) {
                     $menuPlats = $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get();
                     // dd($menuPlats);
@@ -55,13 +55,13 @@ class PlatController extends Controller
         try {
             $restaurant =  User::find($restaurant_id);
             // dd($restaurant);
-            
+
             if ($restaurant) {
 
                 $menus = Menu::where('user_id', $restaurant->id)->get();
-                
+
                 $plats = collect();
-                
+
                 foreach ($menus as $menu) {
                     $menuPlats = $menu->plats()->where('is_archived', false)->orderByDesc('created_at')->get();
                     // dd($menuPlats);
@@ -83,8 +83,6 @@ class PlatController extends Controller
             ],   500);
         }
     }
-
-
 
     public function indexPlatbyMenu(Request $request, Menu $menu)
     {
@@ -157,7 +155,7 @@ class PlatController extends Controller
             ],   500);
         }
     }
-  
+
     public function store(CreatePlatRequest $request, Plat $plat) // Plat $plat
     {
         try {
@@ -215,8 +213,8 @@ class PlatController extends Controller
     public function show(Request $request, $id)
     {
         try {
-            $user = $request->user();
-            if ($user && $user->role_id == 2) {
+            // $user = $request->user();
+            // if ($user && $user->role_id == 2) {
                 $plat = Plat::find($id);
                 // dd($plat);
                 if ($plat === null) {
@@ -235,7 +233,8 @@ class PlatController extends Controller
                     ],   200);
                 }
             }
-        } catch (Exception $e) {
+        // }
+         catch (Exception $e) {
             return response()->json([
                 "status" => false,
                 "status_code" => 500,

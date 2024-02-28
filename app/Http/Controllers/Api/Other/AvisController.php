@@ -130,7 +130,7 @@ class AvisController extends Controller
                 return response()->json([
                     'status' => false,
                     'statut_code' => 404,
-                    'statut_message' => 'Cette commande n\'existe pas',
+                    'statut_message' => 'Cette avis n\'existe pas',
                 ],  404);
             }
             if ($user) {
@@ -154,15 +154,6 @@ class AvisController extends Controller
         }
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      */
@@ -179,7 +170,7 @@ class AvisController extends Controller
                 return response()->json([
                     "status" => false,
                     "statut_code" => 404,
-                    "message" => "Cette commande n'existe pas.",
+                    "message" => "Cette avis n'existe pas.",
                 ],  404);
             }
             

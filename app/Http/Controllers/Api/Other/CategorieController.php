@@ -165,36 +165,36 @@ class CategorieController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
-    {
-        try {
-            $categorie = Categorie::find($id);
+    // public function destroy($id)
+    // {
+    //     try {
+    //         $categorie = Categorie::find($id);
 
-            if ($categorie === null) {
-                return response()->json([
-                    'status' => false,
-                    'statut_code' => 404,
-                    'statut_message' => 'Ce type de categorie n\'existe pas',
-                ],   404);
-            } else {
-                $this->authorize('store', $categorie);
+    //         if ($categorie === null) {
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'statut_code' => 404,
+    //                 'statut_message' => 'Ce type de categorie n\'existe pas',
+    //             ],   404);
+    //         } else {
+    //             $this->authorize('store', $categorie);
 
-                $categorie->delete();
+    //             $categorie->delete();
 
-                return response()->json([
-                    'status' => true,
-                    'statut_code' => 200,
-                    'statut_message' => 'Ce type de categorie a été supprimé avec succès',
-                    'data' => $categorie,
-                ],    200);
-            }
-        } catch (Exception $e) {
-            return response()->json([
-                "status" => false,
-                "status_code" => 500,
-                "message" => "Une erreur est survenue.",
-                "error"   => $e->getMessage()
-            ],    500);
-        }
-    }
+    //             return response()->json([
+    //                 'status' => true,
+    //                 'statut_code' => 200,
+    //                 'statut_message' => 'Ce type de categorie a été supprimé avec succès',
+    //                 'data' => $categorie,
+    //             ],    200);
+    //         }
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             "status" => false,
+    //             "status_code" => 500,
+    //             "message" => "Une erreur est survenue.",
+    //             "error"   => $e->getMessage()
+    //         ],    500);
+    //     }
+    // }
 }
