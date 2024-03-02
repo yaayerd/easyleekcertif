@@ -19,19 +19,9 @@ class Commande extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function plats()
-    // {
-    //     return $this->hasMany(Plat::class);
-    // }
-
     public function plat()
     {
         return $this->belongsTo(Plat::class, 'plat_id');
-    }
-
-    public function livraisons()
-    {
-        return $this->belongsTo(Livraison::class);
     }
 
     public function avis()

@@ -212,48 +212,48 @@ class UserSeeder extends Seeder
         ]);
 
 
-        // Créer utilisateur Livreur 1 (Homme)
-        User::create([
-            'is_activated' => 1,
-            'role_id' => 4,
-            'name' => 'Moussa Sarr',
-            'email' => 'moussa.sarr@livreur.com',
-            'phone' => 787654321,
-            'adresse' => 'Pikine Icotaf',
-            'password' => Hash::make('password123')
-        ]);
+        // // Créer utilisateur Livreur 1 (Homme)
+        // User::create([
+        //     'is_activated' => 1,
+        //     'role_id' => 4,
+        //     'name' => 'Moussa Sarr',
+        //     'email' => 'moussa.sarr@livreur.com',
+        //     'phone' => 787654321,
+        //     'adresse' => 'Pikine Icotaf',
+        //     'password' => Hash::make('password123')
+        // ]);
 
-        // Créer utilisateur Livreur 2 (Homme)
-        User::create([
-            'is_activated' => 1,
-            'role_id' => 4,
-            'name' => 'Samba Fall',
-            'email' => 'samba.fall@livreur.com',
-            'phone' => 787654322,
-            'adresse' => 'HLM 2',
-            'password' => Hash::make('password123')
-        ]);
+        // // Créer utilisateur Livreur 2 (Homme)
+        // User::create([
+        //     'is_activated' => 1,
+        //     'role_id' => 4,
+        //     'name' => 'Samba Fall',
+        //     'email' => 'samba.fall@livreur.com',
+        //     'phone' => 787654322,
+        //     'adresse' => 'HLM 2',
+        //     'password' => Hash::make('password123')
+        // ]);
 
-        // Créer utilisateur Livreur 3 (Homme)
-        User::create([
-            'is_activated' => 1,
-            'role_id' => 4,
-            'name' => 'Ibrahima Gueye',
-            'email' => 'ibrahima.gueye@livreur.com',
-            'phone' => 787654323,
-            'adresse' => 'Fass Colobane',
-            'password' => Hash::make('password123')
-        ]);
+        // // Créer utilisateur Livreur 3 (Homme)
+        // User::create([
+        //     'is_activated' => 1,
+        //     'role_id' => 4,
+        //     'name' => 'Ibrahima Gueye',
+        //     'email' => 'ibrahima.gueye@livreur.com',
+        //     'phone' => 787654323,
+        //     'adresse' => 'Fass Colobane',
+        //     'password' => Hash::make('password123')
+        // ]);
 
-        // Créer utilisateur Livreur 4 (Homme)
-        User::create([
-            'is_activated' => 1,
-            'role_id' => 4,
-            'name' => 'Cheikh Ndiaye',
-            'email' => 'cheikh.ndiaye@livreur.com',
-            'phone' => 787654324,
-            'adresse' => 'Fass Mbao',
-            'password' => Hash::make('password123')
-        ]);
+        // // Créer utilisateur Livreur 4 (Homme)
+        // User::create([
+        //     'is_activated' => 1,
+        //     'role_id' => 4,
+        //     'name' => 'Cheikh Ndiaye',
+        //     'email' => 'cheikh.ndiaye@livreur.com',
+        //     'phone' => 787654324,
+        //     'adresse' => 'Fass Mbao',
+        //     'password' => Hash::make('password123')
+        // ]);
     }
 }

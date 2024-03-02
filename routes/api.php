@@ -50,7 +50,7 @@ Route::post('/message/to/admin', [MessageController::class, 'messageToAdmin']);
 Route::get('/categorie/list', [CategorieController::class, 'index']);
 
 Route::get('/restaurant/list/', [UserController::class, 'getAllRestaurant']);
-Route::get('/restaurant/list/{categorie_id}', [UserController::class, 'getRestaurantByCategorie']);
+Route::get('/list/restaurant/{categorie_id}', [UserController::class, 'getRestaurantByCategorie']);
 Route::get('/restaurant/details/{id}', [UserController::class, 'getRestaurantDetails']);
 
 Route::get('/menu/list', [MenuController::class, 'index']);
@@ -171,7 +171,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'client']], 
 
     // --------------------  Les routes liées aux Avis 
     
-    Route::post('/client/avis/avisStore', [AvisController::class, 'avisStore']);
+    Route::post('/client/avis/avisStore/', [AvisController::class, 'avisStore']);
     Route::get('/client/avis/list', [AvisController::class, 'index']);
     Route::put('/client/avis/update/{id}', [AvisController::class, 'update']);
     Route::get('/client/avis/show/{id}', [AvisController::class, 'show']);

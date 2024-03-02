@@ -600,7 +600,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/plat/list/1",
+							"raw": "http://127.0.0.1:8000/api/plat/list/",
 							"protocol": "http",
 							"host": [
 								"127",

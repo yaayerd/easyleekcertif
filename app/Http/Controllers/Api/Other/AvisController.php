@@ -35,7 +35,7 @@ class AvisController extends Controller
                 return response()->json([
                     "status" => false,
                     "statut_code" => 404,
-                    "message" => "La commande n'existe pas."
+                    "message" => "La commande n'existe pas, donc pas d'avis."
                 ],  404);
             }
 

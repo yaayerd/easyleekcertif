@@ -34,9 +34,9 @@ class RoleSeeder extends Seeder
         ]);
     
         // Créer le rôle 'Livreur'
-        Role::factory()->create([
-            'nom' => 'Role_Livreur',
-            'description' => 'Rôle destiné aux livreurs responsables de la livraison des commandes. Les utilisateurs avec ce rôle peuvent gérer les détails de livraison, confirmer les livraisons et interagir avec les clients pour les informations de livraison.',
-        ]);
+        // Role::factory()->create([
+        //     'nom' => 'Role_Livreur',
+        //     'description' => 'Rôle destiné aux livreurs responsables de la livraison des commandes. Les utilisateurs avec ce rôle peuvent gérer les détails de livraison, confirmer les livraisons et interagir avec les clients pour les informations de livraison.',
+        // ]);
     }
 }

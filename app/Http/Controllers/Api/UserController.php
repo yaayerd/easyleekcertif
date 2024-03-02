@@ -651,7 +651,7 @@ class UserController extends Controller //implements Authenticatable
             return response()->json([
                 'status_code' => 200,
                 'status' => true,
-                'message' => "Voici la Liste des restaurants : ",
+                'message' => "Voici la Liste des restaurants de EasyLeek: ",
                 'data' => $restaurants,
             ], 200);
         }
@@ -662,7 +662,7 @@ class UserController extends Controller //implements Authenticatable
         $restaurants = User::where('role_id', 2)->where('categorie_id', $categorie_id)->get();
 
         // dd($restaurants);
-        if ($restaurants->isEmpty()) {
+        if ($restaurants === null) {
             return response()->json([
                 'status' => false,
                 'status_code' => 404,
