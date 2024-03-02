@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Your API Title",
-        "description": "Your API Description",
+        "title": "Easyleek API Documentation",
+        "description": "EasyLeek, une application de commande en ligne. Elle facilite la manière dont les Sénégalais découvrent, commandent et dégustent leurs plats préférés. En simplifiant le processus avec une interface intuitive, EasyLeek connecte les utilisateurs à une variété de restaurants locaux, offrant une expérience culinaire optimale.",
         "version": "1.0.0"
     },
     "security": [
@@ -66,7 +66,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -153,7 +153,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -228,7 +228,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -298,7 +298,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -343,7 +343,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -388,7 +388,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -443,7 +443,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -498,7 +498,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -543,7 +543,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -593,7 +593,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -655,7 +655,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -705,7 +705,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -755,7 +755,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -805,7 +805,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -867,7 +867,7 @@
                     }
                 },
                 "tags": [
-                    "Routes Libres d'accès"
+                    "Routes Libres d'accès : Tout utilisateur  peut accéder à ces routes"
                 ],
                 "parameters": [
                     {
@@ -926,7 +926,7 @@
                     }
                 },
                 "tags": [
-                    "Profil pour Restaurants"
+                    "Profil Restaurant: Gestion de profil des comptes restaurants"
                 ],
                 "parameters": [
                     {
@@ -992,7 +992,7 @@
                     }
                 },
                 "tags": [
-                    "Profil pour Restaurants"
+                    "Profil Restaurant: Gestion de profil des comptes restaurants"
                 ],
                 "parameters": [
                     {
@@ -1046,7 +1046,7 @@
                     }
                 },
                 "tags": [
-                    "Profil pour Restaurants"
+                    "Profil Restaurant: Gestion de profil des comptes restaurants"
                 ],
                 "parameters": [
                     {
@@ -1154,7 +1154,7 @@
                     }
                 },
                 "tags": [
-                    "Profil pour Restaurants"
+                    "Profil Restaurant: Gestion de profil des comptes restaurants"
                 ],
                 "parameters": [
                     {
@@ -1208,7 +1208,7 @@
                     }
                 },
                 "tags": [
-                    "Profil pour User"
+                    "Profil pour User: Gestion de profil des comptes utilisateurs"
                 ],
                 "parameters": [
                     {
@@ -1262,7 +1262,7 @@
                     }
                 },
                 "tags": [
-                    "Profil pour User"
+                    "Profil pour User: Gestion de profil des comptes utilisateurs"
                 ],
                 "parameters": [
                     {
@@ -1354,7 +1354,7 @@
                     }
                 },
                 "tags": [
-                    "Profil pour User"
+                    "Profil pour User: Gestion de profil des comptes utilisateurs"
                 ],
                 "parameters": [
                     {
