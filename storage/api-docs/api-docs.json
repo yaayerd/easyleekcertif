@@ -1082,8 +1082,7 @@
                                         "type": "string"
                                     },
                                     "image": {
-                                        "type": "string",
-                                        "format": "binary"
+                                        "type": "string"
                                     },
                                     "categorie_id": {
                                         "type": "string"
@@ -1100,8 +1099,7 @@
                                 "password": "password123",
                                 "adresse": "Yoffi Guedj",
                                 "image": {
-                                    "type": "string",
-                                    "format": "binary"
+                                    "type": "string"
                                 },
                                 "categorie_id": "5",
                                 "slogan": "Your Better Ndeki"
@@ -1439,8 +1437,7 @@
                                         "type": "string"
                                     },
                                     "image": {
-                                        "type": "string",
-                                        "format": "binary"
+                                        "type": "string"
                                     },
                                     "categorie_id": {
                                         "type": "string"
@@ -1457,8 +1454,7 @@
                                 "password": "password123",
                                 "adresse": "Yoff",
                                 "image": {
-                                    "type": "string",
-                                    "format": "binary"
+                                    "type": "string"
                                 },
                                 "categorie_id": "5",
                                 "slogan": "Your Better Ndeki"
@@ -2934,8 +2930,7 @@
                                         "type": "string"
                                     },
                                     "image": {
-                                        "type": "string",
-                                        "format": "binary"
+                                        "type": "string"
                                     }
                                 }
                             },
@@ -2945,8 +2940,7 @@
                                 "descriptif": "Du bon riz blanc fait avec  tomate diambbb, poisson, legumes,  sauce etc",
                                 "menu_id": "7",
                                 "image": {
-                                    "type": "string",
-                                    "format": "binary"
+                                    "type": "string"
                                 }
                             }
                         }
@@ -3183,8 +3177,7 @@
                                         "type": "string"
                                     },
                                     "image": {
-                                        "type": "string",
-                                        "format": "binary"
+                                        "type": "string"
                                     }
                                 }
                             },
@@ -3194,8 +3187,7 @@
                                 "descriptif": "UNNNNN bon thieb fait avec  tomate diambbb, poisson, legumes etc",
                                 "menu_id": "1",
                                 "image": {
-                                    "type": "string",
-                                    "format": "binary"
+                                    "type": "string"
                                 }
                             }
                         }
@@ -3329,8 +3321,7 @@
                                         "type": "string"
                                     },
                                     "image": {
-                                        "type": "string",
-                                        "format": "binary"
+                                        "type": "string"
                                     }
                                 }
                             },
@@ -3340,8 +3331,7 @@
                                 "is_archived": "",
                                 "menu_id": "1",
                                 "image": {
-                                    "type": "string",
-                                    "format": "binary"
+                                    "type": "string"
                                 }
                             }
                         }
@@ -3416,8 +3406,7 @@
                                         "type": "string"
                                     },
                                     "image": {
-                                        "type": "string",
-                                        "format": "binary"
+                                        "type": "string"
                                     }
                                 }
                             },
@@ -3427,8 +3416,7 @@
                                 "is_archived": "",
                                 "menu_id": "1",
                                 "image": {
-                                    "type": "string",
-                                    "format": "binary"
+                                    "type": "string"
                                 }
                             }
                         }
