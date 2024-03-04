@@ -32,12 +32,13 @@ class UserController extends Controller //implements Authenticatable
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->adresse = $request->adresse;
-        if ($request->file('image')) {
-            $file = $request->file('image');
-            $filename = date('YmdHi') . $file->getClientOriginalName();
-            $file->move(public_path('images'), $filename);
-            $user['image'] = $filename;
-        }
+        $user->image = $request->image;
+        // if ($request->file('image')) {
+        //     $file = $request->file('image');
+        //     $filename = date('YmdHi') . $file->getClientOriginalName();
+        //     $file->move(public_path('images'), $filename);
+        //     $user['image'] = $filename;
+        // }
         $user->password = Hash::make($request->password);
 
         $user->notify(new ClientInscrit($user));
