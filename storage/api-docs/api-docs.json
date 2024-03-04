@@ -1087,7 +1087,7 @@
                                     "categorie_id": {
                                         "type": "string"
                                     },
-                                    "slogan": {
+                                    "description": {
                                         "type": "string"
                                     }
                                 }
@@ -1442,7 +1442,7 @@
                                     "categorie_id": {
                                         "type": "string"
                                     },
-                                    "slogan": {
+                                    "description": {
                                         "type": "string"
                                     }
                                 }
