@@ -2356,7 +2356,7 @@
                                     "nom": {
                                         "type": "string"
                                     },
-                                    "image": {
+                                    "description": {
                                         "type": "string"
                                     }
                                 }
