@@ -2116,6 +2116,9 @@
                                 "properties": {
                                     "type": {
                                         "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string"
                                     }
                                 }
                             },
@@ -2278,6 +2281,9 @@
                                 "properties": {
                                     "type": {
                                         "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string"
                                     }
                                 }
                             },
@@ -2348,6 +2354,9 @@
                                 "type": "object",
                                 "properties": {
                                     "nom": {
+                                        "type": "string"
+                                    },
+                                    "image": {
                                         "type": "string"
                                     }
                                 }
@@ -2515,7 +2524,7 @@
                                 }
                             },
                             "example": {
-                                "nom": "Role_SYSTEMmmmmmmmmmE_Masteeeeer"
+                                "nom": "Role_SYSTEME_Masteeeeer"
                             }
                         }
                     }
