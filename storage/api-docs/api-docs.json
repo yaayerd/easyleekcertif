@@ -2520,6 +2520,9 @@
                                 "properties": {
                                     "nom": {
                                         "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
                                     }
                                 }
                             },
