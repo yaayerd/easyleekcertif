@@ -111,7 +111,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'adminSystem
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:user-api', 'restaurant']], function () {
 
-    // ------------------ Route pour le restaurant sur son profil du restaurant 
+    // ------------------ Route pour le restaurant sur son profil du restaurant  ok
 
     Route::get('/restaurant/me', [UserController::class, 'restaurantMe']);
     Route::post('/restaurant/modify/profile/{restaurant}', [UserController::class, 'restautantModifyProfile']);
