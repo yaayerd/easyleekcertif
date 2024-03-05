@@ -16,7 +16,7 @@ class PlatSeeder extends Seeder
         Plat::create([
             'is_archived' => false,
             'menu_id' => 1, 
-            'libelle' => 'Plat 1',
+            'libelle' => 'Thiebou dieune bou wekh',
             'prix' => 600,
             'image' => 'chemin/vers/plat1.jpg',
             'descriptif' => 'Description du plat 1',
@@ -25,7 +25,7 @@ class PlatSeeder extends Seeder
         Plat::create([
             'is_archived' => false,
             'menu_id' => 1, 
-            'libelle' => 'Plat 1 bis',
+            'libelle' => 'Thiebou dieune bou xonk',
             'prix' => 600,
             'image' => 'chemin/vers/plat1bis.jpg',
             'descriptif' => 'Description du plat 1 bis',
@@ -34,7 +34,7 @@ class PlatSeeder extends Seeder
          Plat::create([
             'is_archived' => false,
             'menu_id' => 2, 
-            'libelle' => 'Plat 2',
+            'libelle' => 'Thiou yapp',
             'prix' => 800,
             'image' => 'chemin/vers/plat2.jpg',
             'descriptif' => 'Description du plat 2',
@@ -43,7 +43,7 @@ class PlatSeeder extends Seeder
          Plat::create([
             'is_archived' => false,
             'menu_id' => 2, 
-            'libelle' => 'Plat 2 bis',
+            'libelle' => 'Yassa dieune',
             'prix' => 800,
             'image' => 'chemin/vers/plat2bis.jpg',
             'descriptif' => 'Description du plat 2 bis',
@@ -52,7 +52,7 @@ class PlatSeeder extends Seeder
         Plat::create([
             'is_archived' => false,
             'menu_id' => 3, 
-            'libelle' => 'Plat 3',
+            'libelle' => 'Vermisselles',
             'prix' => 900,
             'image' => 'chemin/vers/plat3.jpg',
             'descriptif' => 'Description du plat 3',
@@ -61,7 +61,7 @@ class PlatSeeder extends Seeder
         Plat::create([
             'is_archived' => false,
             'menu_id' => 3, 
-            'libelle' => 'Plat 3 bis',
+            'libelle' => 'Cous Cous',
             'prix' => 900,
             'image' => 'chemin/vers/plat3bis.jpg',
             'descriptif' => 'Description du plat 3 bis',
@@ -70,19 +70,55 @@ class PlatSeeder extends Seeder
         Plat::create([
             'is_archived' => false,
             'menu_id' => 4, 
-            'libelle' => 'Plat 4',
+            'libelle' => 'Mafé',
             'prix' => 1000,
             'image' => 'chemin/vers/plat4.jpg',
-            'descriptif' => 'Description du plat 4',
+            'descriptif' => 'Description du plat',
         ]);
 
         Plat::create([
             'is_archived' => false,
             'menu_id' => 4, 
-            'libelle' => 'Plat 4 bis',
+            'libelle' => 'Soupe Kandia',
             'prix' => 1000,
             'image' => 'chemin/vers/plat4bis.jpg',
-            'descriptif' => 'Description du plat 4 bis',
+            'descriptif' => 'Description du plat',
+        ]);
+
+        Plat::create([
+            'is_archived' => false,
+            'menu_id' => 5, 
+            'libelle' => 'Spaguetti',
+            'prix' => 400,
+            'image' => 'chemin/vers/plat4bis.jpg',
+            'descriptif' => 'Description du plat',
+        ]);
+
+        Plat::create([
+            'is_archived' => false,
+            'menu_id' => 5, 
+            'libelle' => 'Brochette',
+            'prix' => 400,
+            'image' => 'chemin/vers/plat4bis.jpg',
+            'descriptif' => 'Description du plat ',
+        ]);
+
+        Plat::create([
+            'is_archived' => false,
+            'menu_id' => 6, 
+            'libelle' => 'Brochette Plateau',
+            'prix' => 400,
+            'image' => 'chemin/vers/plat4bis.jpg',
+            'descriptif' => 'Description du plat ',
+        ]);
+
+        Plat::create([
+            'is_archived' => false,
+            'menu_id' => 6, 
+            'libelle' => 'Sauce Plateau',
+            'prix' => 400,
+            'image' => 'chemin/vers/plat4bis.jpg',
+            'descriptif' => 'Description du plat ',
         ]);
 
         

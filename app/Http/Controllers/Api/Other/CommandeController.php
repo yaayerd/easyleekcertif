@@ -31,7 +31,7 @@ class CommandeController extends Controller
                     'status' => true,
                     'statut_code' => 200,
                     'message' => "Voici les commandes passées par ce client connecté.",
-                    'data'  => $commandes,
+                    'commandes'  => $commandes,
                 ],  200);
             }
         } catch (Exception $e) {
@@ -63,7 +63,7 @@ class CommandeController extends Controller
             return response()->json([
                 "status_code" => 200,
                 "message" => "Voici les commandes du plat:  {$plat->libelle}",
-                "data" => $commandes,
+                "commandes" => $commandes,
             ], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json([
@@ -149,8 +149,8 @@ class CommandeController extends Controller
                         $commande->prixCommande = $oneCommande['nombrePlats'] * $plat->prix;
                         $commande->numeroCommande = uniqid();
                         $commande->lieuLivraison = $request->lieuLivraison;
-
-                        $user->notify(new CommandeEffectuee($commande));
+                        // dd($commande);
+                        // $user->notify(new CommandeEffectuee($commande));
 
                         $commande->save();
 
@@ -163,7 +163,7 @@ class CommandeController extends Controller
                     'status' => true,
                     'statut_code' => 201,
                     'message' => "Vos commandes ont été enregistrées avec succès",
-                    'data' => $plusieursCommandes
+                    'commandes' => $plusieursCommandes
                 ],  201);
             }
         } catch (Exception $e) {
@@ -183,17 +183,17 @@ class CommandeController extends Controller
     //             ->where('creneaux', json_encode($donneePlanningValide['creneaux']))
     //             ->where('jour', $donneePlanningValide['jour'])
     //             ->first();
-              
+
     //         if ($existingPlanning && $existingPlanning->is_deleted == false) {
     //             // Si un planning similaire existe déjà, retourner un message d'erreur
     //             return response()->json(['error' => 'Un planning similaire existe déjà.'], 409);
     //         }
-    
+
     //         // Création d'un nouveau planning
     //         $planning = new Planning();
     //         $planning->user_id = Auth::user()->id;
     //         $planning->creneaux = json_encode($donneePlanningValide['creneaux']);
-    
+
     //         if ($planning->save()) {
     //             return response()->json([
     //                 "message" => "Le planning a été enregistré avec succès",
@@ -247,7 +247,7 @@ class CommandeController extends Controller
                     'status' => true,
                     'statut_code' => 200,
                     'message' => "Votre commande à été modifiée avec succès",
-                    'data' => $commande
+                    'commande' => $commande
                 ],  200);
             }
         } catch (Exception $e) {
@@ -275,13 +275,13 @@ class CommandeController extends Controller
             }
 
             if ($user && $commande) {
-                $this->authorize('viewCommande', $commande);
+                $this->authorize('view', $commande);
 
                 return response()->json([
                     'status' => true,
                     'statut_code' => 200,
                     'message' => "Voici les détails de votre commande",
-                    'data' => $commande
+                    'commande' => $commande
                 ],  200);
             }
         } catch (Exception $e) {
@@ -401,7 +401,7 @@ class CommandeController extends Controller
                     'status' => true,
                     'statut_code' => 200,
                     'statut_message' => 'Le plat est refusee avec succès',
-                    'data' => $commande,
+                    'commande' => $commande,
                 ],   200);
             }
             // }
@@ -458,7 +458,7 @@ class CommandeController extends Controller
             ],  500);
         }
     }
-   
+
     public function terminerCommande(Request $request, $id)
     {
         try {
@@ -489,7 +489,7 @@ class CommandeController extends Controller
                         'status' => true,
                         'statut_code' => 200,
                         'statut_message' => 'La commande est terminée avec succès',
-                        'data' => $commande,
+                        'commande' => $commande,
                     ],  200);
                 }
             }
@@ -515,7 +515,7 @@ class CommandeController extends Controller
     //             'status' => true,
     //             'statut_code' => 200,
     //             'statut_message' => 'Liste des commandes acceptées récupérée avec succès',
-    //             'data' => $commandes,
+    //             'commande' => $commandes,
     //         ]);
     //     } catch (Exception $e) {
     //         return response()->json([
@@ -540,7 +540,7 @@ class CommandeController extends Controller
     //             'status' => true,
     //             'statut_code' => 200,
     //             'statut_message' => 'Liste des commandes refusées récupérée avec succès',
-    //             'data' => $commandes,
+    //             'commande' => $commandes,
     //         ]);
     //     } catch (Exception $e) {
     //         return response()->json([
@@ -552,5 +552,5 @@ class CommandeController extends Controller
     //     }
     // }
 
-     // Route::get('/commande/accepted/list', [CommandeController::class, 'commandeAcceptedList']);
+    // Route::get('/commande/accepted/list', [CommandeController::class, 'commandeAcceptedList']);
 }

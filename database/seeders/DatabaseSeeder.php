@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call(RoleSeeder::class);
-        // $this->call(CategorieSeeder::class);
-        // $this->call(UserSeeder::class);
-        // $this->call(MenuSeeder::class);
-        // $this->call(PlatSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(CategorieSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(MenuSeeder::class);
+        $this->call(PlatSeeder::class);
         // $this->call(CommandeSeeder::class);
         // // $this->call(AvisSeeder::class);
         // \App\Models\Avis::factory(3)->create();

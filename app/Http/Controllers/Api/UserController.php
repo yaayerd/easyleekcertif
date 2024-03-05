@@ -364,7 +364,7 @@ class UserController extends Controller //implements Authenticatable
 
         return response()->json([
             'status_code' => 200,
-            'status_message' => "Utilisateur connecté avec succès",
+            'status_message' => "Restaurant connecté avec succès",
             'restaurant' => $restaurant,
             'token' => $token,
             'token_type' => 'bearer',
