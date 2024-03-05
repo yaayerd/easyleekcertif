@@ -3690,7 +3690,37 @@
                         "name": "User-Agent",
                         "type": "string"
                     }
-                ]
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "commandes": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "plat_id": {
+                                                    "type": "integer"
+                                                },
+                                                "nombrePlats": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "required": ["plat_id", "nombrePlats"]
+                                        }
+                                    },
+                                    "lieuLivraison": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["commandes", "lieuLivraison"]
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/auth/commande/list": {
