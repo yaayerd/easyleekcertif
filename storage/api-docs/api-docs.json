@@ -3097,24 +3097,7 @@
                         "name": "User-Agent",
                         "type": "string"
                     }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "menu_id": {
-                                        "type": "integer"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "menu_id": 7
-                            }
-                        }
-                    }
-                }
+                ]
             }
         },
         "/api/auth/plat/update/{id}": {
