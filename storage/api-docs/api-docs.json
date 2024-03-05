@@ -3291,42 +3291,7 @@
                         "name": "User-Agent",
                         "type": "string"
                     }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "libelle": {
-                                        "type": "string"
-                                    },
-                                    "prix": {
-                                        "type": "string"
-                                    },
-                                    "is_archived": {
-                                        "type": "string"
-                                    },
-                                    "menu_id": {
-                                        "type": "string"
-                                    },
-                                    "image": {
-                                        "type": "string"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "libelle": "Thiebou dieun bou wex",
-                                "prix": "600",
-                                "is_archived": "",
-                                "menu_id": "1",
-                                "image": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
+                ]
             }
         },
         "/api/auth/plat/archiver/{id}": {
@@ -3376,42 +3341,7 @@
                         "name": "User-Agent",
                         "type": "string"
                     }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "libelle": {
-                                        "type": "string"
-                                    },
-                                    "prix": {
-                                        "type": "string"
-                                    },
-                                    "is_archived": {
-                                        "type": "string"
-                                    },
-                                    "menu_id": {
-                                        "type": "string"
-                                    },
-                                    "image": {
-                                        "type": "string"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "libelle": "Thiebou dieun bou wex",
-                                "prix": "600",
-                                "is_archived": "",
-                                "menu_id": "1",
-                                "image": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
+                ]
             }
         },
         "/api/auth/commande/list/restaurant": {
