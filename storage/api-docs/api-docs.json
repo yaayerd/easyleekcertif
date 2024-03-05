@@ -3697,30 +3697,21 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "commandes": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "object",
-                                            "properties": {
-                                                "plat_id": {
-                                                    "type": "integer"
-                                                },
-                                                "nombrePlats": {
-                                                    "type": "integer"
-                                                }
-                                            },
-                                            "required": ["plat_id", "nombrePlats"]
-                                        }
+                                    "plat_id": {
+                                        "type": "string"  
+                                    },
+                                    "nombrePlats" :{  
+                                       "type":"integer" 
                                     },
                                     "lieuLivraison": {
                                         "type": "string"
                                     }
-                                },
-                                "required": ["commandes", "lieuLivraison"]
+                                }
                             }
                         }
                     }
                 }
+                
             }
         },
         "/api/auth/commande/list": {
