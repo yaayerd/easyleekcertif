@@ -3756,24 +3756,7 @@
                         "name": "User-Agent",
                         "type": "string"
                     }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "plat_id": {
-                                        "type": "integer"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "plat_id": 12
-                            }
-                        }
-                    }
-                }
+                ]
             }
         },
         "/api/auth/commande/show/{id}": {
@@ -4077,24 +4060,7 @@
                         "name": "User-Agent",
                         "type": "string"
                     }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "commande_id": {
-                                        "type": "integer"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "commande_id": 5
-                            }
-                        }
-                    }
-                }
+                ]
             }
         },
         "/api/auth/client/avis/show/{id}": {
