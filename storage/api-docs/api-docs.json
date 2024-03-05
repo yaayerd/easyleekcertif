@@ -2600,7 +2600,7 @@
                 }
             }
         },
-        "/api/all/menu/list": {
+        "/api/auth/all/menu/list": {
             "get": {
                 "summary": "Lister Menu",
                 "description": "Le restaurant peut voir la liste de tous les menus",
@@ -2645,7 +2645,7 @@
                 ]
             }
         },
-        "/api/restaurant/menu/list": {
+        "/api/auth/restaurant/menu/list": {
             "get": {
                 "summary": "Lister MenuOfRestaurant",
                 "description": "Le restaurant peut voir la liste des menus qu'il a créé",
