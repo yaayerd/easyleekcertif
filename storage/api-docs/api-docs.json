@@ -400,11 +400,6 @@
                         "in": "header",
                         "name": "User-Agent",
                         "type": "string"
-                    },
-                    {
-                        "in": "header",
-                        "name": "",
-                        "type": "string"
                     }
                 ]
             }
