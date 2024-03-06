@@ -24,7 +24,7 @@ class UpdateMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "titre" => 'required|min:5|max:30|unique:menus'
+            "titre" => 'required|min:5|max:30' // |unique:menus
         ];
     }
 

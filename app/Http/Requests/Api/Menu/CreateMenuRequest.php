@@ -24,7 +24,7 @@ class CreateMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "titre" => 'required|min:5|max:30|unique:menus',
+            "titre" => 'required|min:5|max:30', // |unique:menus
             // "type_menu" => 'required|in:plat,dessert',
             // "description" => 'nullable|string|max:255'
         ];

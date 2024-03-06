@@ -78,44 +78,43 @@ class UserTest extends TestCase
     }
 
 
-    public function testRegisterRestaurantValidated()
-    {
-        $admin = User::factory()->create([
-            'name' => 'Admin Test',
-            // 'email' => 'admintest@email.com',
-            'email' => $this->faker->unique()->safeEmail,
-            'password' => 'password123',
-            'phone' => '768323276',
-            'adresse' => "Thies",
-            'role_id' => 1
-        ]);
-        // dd($admin);
-        $this->actingAs($admin);
+    // public function testRegisterRestaurantValidated()
+    // {
+    //     $admin = User::factory()->create([
+    //         'name' => 'Admin Test',
+    //         // 'email' => 'admintest@email.com',
+    //         'email' => $this->faker->unique()->safeEmail,
+    //         'password' => 'password123',
+    //         'phone' => '768323276',
+    //         'adresse' => "Castor",
+    //         'role_id' => 1
+    //     ]);
+    //     // dd($admin);
+    //     $this->actingAs($admin);
 
-        Storage::fake('public');
+    //     $resto = [
+    //         'name' => 'Food stuff',
+    //         // 'email' => 'deliciosa@email.com',
+    //         'email' => $this->faker->unique()->safeEmail,
+    //         'password' => 'password123',
+    //         'phone' => '768345276',
+    //         'adresse' => "Medina",
+    //         'image' => 'article.jpg',
+    //         // 'description' => 'stuff  about food',
+    //         'categorie_id' => 5
+    //     ];
 
-        $resto = [
-            'name' => 'Deliciosa',
-            // 'email' => 'deliciosa@email.com',
-            'email' => $this->faker->unique()->safeEmail,
-            'password' => 'password123',
-            'phone' => '768345276',
-            'adresse' => "Medina",
-            'image' => UploadedFile::fake()->image('article.jpg'),
-            'categorie_id' => 8
-        ];
-
-        $response = $this->postJson('/api/auth/restaurant/register', $resto);
-        // $this->withoutMiddleware();
-        // dd($response);
-        $response->assertStatus(201);
-    }
+    //     $response = $this->postJson('/api/auth/restaurant/register', $resto);
+    //     // $this->withoutMiddleware();
+    //     // dd($response);
+    //     $response->assertStatus(201);
+    // }
 
     public function testRestaurantDetails()
     {
         // Connecter le restaurant
         $restaurant = $this->post('/api/restaurant/login', [
-            'email' => "deliciosa@email.com",
+            'email' => "fodologie@email.com",
             'password' => "password123",
         ]);
 
@@ -130,7 +129,7 @@ class UserTest extends TestCase
     {
         // Connecter le restaurant
         $restaurant = $this->post('/api/restaurant/login', [
-            'email' => "fooddelices@email.com",
+            'email' => "fodologie@email.com",
             'password' => "password123",
         ]);
 

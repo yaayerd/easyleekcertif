@@ -18,7 +18,7 @@ class PlatTest extends TestCase
         {
             
             $restaurant = $this->post('/api/restaurant/login', [
-                'email' => "fooddelices@email.com",
+                'email' => "fodologie@email.com",
                 'password' => "password123",
             ]);
     
@@ -26,8 +26,8 @@ class PlatTest extends TestCase
                 'libelle' => 'Attiéké Aloco Poulet',
                 'prix' => 1000 ,
                 'descriptif' => 'Trop bon, trop doux, trop neix',
-                'menu_id' => 10 ,
-                'image' => UploadedFile::fake()->image('attieke.jpg'),
+                'menu_id' => 70 ,
+                'image' => 'attieke.jpg',
 
             ];
     
@@ -41,11 +41,11 @@ class PlatTest extends TestCase
         {
             
             $restaurant = $this->post('/api/restaurant/login', [
-                'email' => "fooddelices@email.com",
+                'email' => "fodologie@email.com",
                 'password' => "password123",
             ]);
     
-            $response = $this->get('/api/auth/plat/show/58');
+            $response = $this->get('/api/auth/plat/show/68');
     
             $response->assertStatus(200);
     
@@ -108,20 +108,19 @@ class PlatTest extends TestCase
         {
              // Connecter le user restaurant
              $restaurant = $this->post('/api/restaurant/login', [
-                'email' => "fooddelices@email.com",
+                'email' => "fodologie@email.com",
                 'password' => "password123",
             ]);
             
             $platModif = [
-                'libelle' => 'Attiéké ',
+                'libelle' => 'Mafeeee ',
                 'prix' => 1000 ,
                 'descriptif' => 'Trop bon, trop doux, trop neix',
-                'menu_id' => 10 ,
-                'image' => UploadedFile::fake()->image('att007.jpg'),
-
+                'menu_id' => 70 ,
+                'image' => 'MAFE.jpg',
             ];
     
-            $response = $this->put('/api/auth/plat/update/57', $platModif);
+            $response = $this->put('/api/auth/plat/update/71', $platModif);
             // dd($response);
     
             $response->assertStatus(200);

@@ -15,12 +15,13 @@ class MenuTest extends TestCase
     {
         
         $restaurant = $this->post('/api/restaurant/login', [
-            'email' => "fooddelices@email.com",
+            'email' => "fodologie@email.com",
             'password' => "password123",
         ]);
 
         $menu = [
-            'titre' => 'leeeek'
+            'titre' => 'niaaam',
+
         ];
 
         $response = $this->post('/api/auth/menu/store', $menu);
@@ -33,11 +34,11 @@ class MenuTest extends TestCase
     {
         // Connecter le user restaurant
         $restaurant = $this->post('/api/restaurant/login', [
-            'email' => "fooddelices@email.com",
+            'email' => "fodologie@email.com",
             'password' => "password123",
         ]);
 
-        $response = $this->get('/api/auth/menu/show/21');
+        $response = $this->get('/api/auth/menu/show/70');
 
         $response->assertStatus(200);
 
@@ -54,11 +55,11 @@ class MenuTest extends TestCase
     {
         // Connecter le user restaurant
         $restaurant = $this->post('/api/restaurant/login', [
-            'email' => "fooddelices@email.com",
+            'email' => "fodologie@email.com",
             'password' => "password123",
         ]);
 
-        $response = $this->get('/api/auth/menu/list');
+        $response = $this->get('/api/auth/all/menu/list');
 
         $response->assertStatus(200);
 
@@ -75,16 +76,16 @@ class MenuTest extends TestCase
     {
          // Connecter le user restaurant
          $restaurant = $this->post('/api/restaurant/login', [
-            'email' => "fooddelices@email.com",
+            'email' => "fodologie@email.com",
             'password' => "password123",
         ]);
         
         $menu = [
-            'titre' => 'doouuuux'
+            'titre' => 'mini & doouuuux'
         ];
 
         // dd($menu);
-        $response = $this->put('/api/auth/menu/update/10', $menu);
+        $response = $this->put('/api/auth/menu/update/71', $menu);
 
         $response->assertStatus(200);
     }
